@@ -1,5 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {IProduct} from "./product";
+import {ProductService} from "./product.service";
 
 @Component({
   selector: 'app-products',
@@ -22,22 +23,10 @@ export class ProductListComponent implements OnInit{
   }
 
   filteredProducts: IProduct[] = [];
-  products: IProduct[] = [
-    {
-    "productId": 1,
-      "productName": "Dell XP 56555",
-      "productPrice": 866.99,
-      "productAmount": 10,
-      "imageUrl": "assets/images/unnamed.png"
-    },
-    {
-      "productId": 2,
-      "productName": "Razer XP 69888",
-      "productPrice": 966.66,
-      "productAmount": 18,
-      "imageUrl": "assets/images/unnamed.png"
-    }
-  ];
+  products: IProduct[] = [];
+
+  constructor(private productService: ProductService) {
+  }
 
   performFilter(filterBy: string): IProduct[] {
     filterBy = filterBy.toLocaleLowerCase();
@@ -50,6 +39,8 @@ export class ProductListComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.listFilter = "Dell";
+    this.products = this.productService.getProducts();
+    this.filteredProducts = this.products;
+    this.listFilter = "";
   }
 }
