@@ -50,6 +50,6 @@ export class ProductListComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.listFilter = "Dell";
+    this.listFilter = "";
   }
 }
