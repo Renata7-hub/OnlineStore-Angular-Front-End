@@ -11,7 +11,7 @@ import {ProductService} from "./product.service";
 export class ProductListComponent implements OnInit{
   pageTitle = "Produktų sąrašas";
   showImage:boolean = true;
-
+  errorMessage: string = "";
   private _listFilter: string = '';
   get listFilter(): string {
     return this._listFilter;
@@ -31,7 +31,7 @@ export class ProductListComponent implements OnInit{
   performFilter(filterBy: string): IProduct[] {
     filterBy = filterBy.toLocaleLowerCase();
     return this.products.filter((product: IProduct) =>
-    product.productName.toLocaleLowerCase().includes(filterBy));
+    product.title.toLocaleLowerCase().includes(filterBy));
   }
 
   toggleImage(): void {
@@ -39,8 +39,13 @@ export class ProductListComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.products = this.productService.getProducts();
-    this.filteredProducts = this.products;
+    this.productService.getProducts().subscribe({
+      next: products => {
+        this.products = products;
+        this.filteredProducts = this.products;
+      },
+      error: err => this.errorMessage = err
+    });
     this.listFilter = "";
   }
 }

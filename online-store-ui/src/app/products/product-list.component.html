@@ -32,16 +32,11 @@
         </thead>
         <tbody *ngFor="let product of filteredProducts">
           <td>
-            <img *ngIf="showImage"
-              [src]="product.imageUrl"
-                  [title]="product.productName"
-                  [style.width.px]="100"
-                  [style.margin.px]="2" alt="a">
           </td>
-          <td>{{product.productName}}</td>
-          <td>{{product.productId}}</td>
-          <td>{{product.productPrice | currency: 'EUR' }}</td>
-          <td>{{product.productAmount}}</td>
+          <td>{{product.title}}</td>
+          <td>{{product.id}}</td>
+          <td>{{product.price | currency: 'EUR' }}</td>
+          <td>{{product.type}}</td>
         </tbody>
       </table>
     </div>
