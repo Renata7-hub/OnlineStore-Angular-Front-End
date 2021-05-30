@@ -30,25 +30,4 @@ export class ProductService {
     return throwError(errorMessage)
   }
 
-
-  // getProducts(): IProduct[] {
-  //   return [
-  //     {
-  //       "id": 1,
-  //       "title": "Dell XP 56555",
-  //       "description": "kompiuteris",
-  //       "price": 866.99,
-  //       "type": 1
-  //
-  //     },
-  //     {
-  //       "id": 2,
-  //       "title": "Razer XP 69888",
-  //       "description": "kompiuteris",
-  //       "price": 966.66,
-  //       "type": 1
-  //     }
-  //   ];
-  // }
-
 }
