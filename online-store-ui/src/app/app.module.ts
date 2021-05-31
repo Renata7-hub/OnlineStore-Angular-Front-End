@@ -9,13 +9,15 @@ import { ProductDetailComponent } from './products/product-detail.component';
 import {RouterModule} from "@angular/router";
 import {WelcomeComponent} from "./home/welcome.component";
 import {ProductDetailGuard} from "./products/product-detail.guard";
+import { CartComponent } from './cart/cart.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductListComponent,
     ProductDetailComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,
@@ -27,6 +29,9 @@ import {ProductDetailGuard} from "./products/product-detail.guard";
         path: 'products/:id',
         canActivate: [ProductDetailGuard],
         component: ProductDetailComponent
+      },
+      {
+        path: 'cart', component: CartComponent
       },
       { path: 'welcome', component: WelcomeComponent },
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
