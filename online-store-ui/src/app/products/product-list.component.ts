@@ -1,18 +1,20 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit} from "@angular/core";
+import { Subscription } from "rxjs";
 import {IProduct} from "./product";
 import {ProductService} from "./product.service";
 
 @Component({
-  selector: 'app-products',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
 })
 
-export class ProductListComponent implements OnInit{
+export class ProductListComponent implements OnInit, OnDestroy{
   pageTitle = "Produktų sąrašas";
   showImage:boolean = true;
   errorMessage: string = "";
   private _listFilter: string = '';
+  sub: Subscription | undefined;
+
   get listFilter(): string {
     return this._listFilter;
 }
@@ -47,5 +49,9 @@ export class ProductListComponent implements OnInit{
       error: err => this.errorMessage = err
     });
     this.listFilter = "";
+  }
+
+  ngOnDestroy() {
+    this.sub?.unsubscribe();
   }
 }
