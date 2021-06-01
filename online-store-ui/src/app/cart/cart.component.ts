@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService} from "./cart.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 // @ts-ignore
 //import Any = jasmine.Any;
@@ -15,7 +16,9 @@ export class CartComponent implements OnInit {
   carts: any;
   /*brews: Any = new Any;*/
 
-  constructor(private cartService: CartService) { }
+  constructor(private cartService: CartService,
+              private route: ActivatedRoute,
+              private router: Router,) { }
 
   ngOnInit(): void {
     this.cartService.getCart().subscribe(data => {
@@ -29,9 +32,13 @@ export class CartComponent implements OnInit {
     });*/
   }
 
-  substract(id : number) {
-    //console.log(this.carts.get(id));
+  substract(id : number): void {
+    console.log(this.carts.get(id));
     //console.log("tekstas");
+  }
+
+  onBack(): void {
+    this.router.navigate(['/products']);
   }
 
   add(){

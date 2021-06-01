@@ -1,17 +1,18 @@
-<ng-container *ngIf="carts; else none">
+<!--<ng-container *ngIf="carts; else none">-->
   <div class="card">
     <div class="card-header">
       {{pageTitle}}
     </div>
     <div class="card-body">
       <div class="table-responsive">
-        <table class="table">
+        <table class="table" *ngIf="carts.length">
           <thead>
           <tr>
             <th></th>
             <th>Pavadinimas</th>
             <th>Kiekis</th>
             <th>Kaina</th>
+            <th>Suma</th>
           </tr>
           </thead>
 
@@ -21,33 +22,37 @@
             <td></td>
             <td>
               <div class="quantity">
-                <button class="btn minus1" (click)="substract(cart.id)">-</button>
+<!--                <button class="btn minus1" (click)="substract(cart.id)">-</button>-->
                 <input class="quantity" id="id_form-0-quantity" min="0" name="form-0-quantity" value="{{ cart.quantity }}" type="number">
-                <button class="btn add1" (click)="add()">+</button>
+<!--                <button class="btn add1" (click)="add()">+</button>-->
               </div>
             </td>
             <td>{{cart.product.price}}</td>
+            <td>{{cart.product.price * cart.quantity}}</td>
           </tr>
           </tbody>
 
           <tfoot>
           <tr>
-            <td>Viso:</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>Viso suma:</td>
           </tr>
           </tfoot>
         </table>
+        <div class='card-footer'>
+          <button class='btn btn-outline-secondary'
+                  style='width:180px'
+                  (click)='onBack()'>
+            <i class='fa fa-chevron-left'></i> Tęsti apsipirkimą
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</ng-container>
+<!--</ng-container>-->
 
-<ng-template #none>
-  <div>There is no products in the cart</div>
-</ng-template>
+<!--<ng-template #none>-->
+<!--  <div>There is no products in the cart</div>-->
+<!--</ng-template>-->
 
 
 
