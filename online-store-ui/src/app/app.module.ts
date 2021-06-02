@@ -10,6 +10,9 @@ import {RouterModule} from "@angular/router";
 import {WelcomeComponent} from "./home/welcome.component";
 import {ProductDetailGuard} from "./products/product-detail.guard";
 import { CartComponent } from './cart/cart.component';
+import { OrdersComponent } from './orders/orders.component';
+import { OrderComponent } from './orders/order/order.component';
+import { OrderLinesComponent } from './orders/order/order-lines/order-lines.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +20,10 @@ import { CartComponent } from './cart/cart.component';
     ProductListComponent,
     ProductDetailComponent,
     WelcomeComponent,
-    CartComponent
+    CartComponent,
+    OrdersComponent,
+    OrderComponent,
+    OrderLinesComponent
   ],
   imports: [
     BrowserModule,
@@ -32,6 +38,16 @@ import { CartComponent } from './cart/cart.component';
       },
       {
         path: 'cart', component: CartComponent
+      },
+      {
+        path: 'orders', component: OrdersComponent
+      },
+      {
+        path: 'order', component: OrderComponent, children: [
+          {
+            path: 'lines', component: OrderLinesComponent
+          }
+        ]
       },
       { path: 'welcome', component: WelcomeComponent },
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
