@@ -13,25 +13,18 @@ import { CartService} from "./cart.service";
 export class CartComponent implements OnInit {
   pageTitle = "Krepšelis";
   carts: any;
-  /*brews: Any = new Any;*/
 
   constructor(private cartService: CartService) { }
 
   ngOnInit(): void {
     this.cartService.getCart().subscribe(data => {
       this.carts = data;
-      console.log(this.carts);
+      // console.log(this.carts);
     })
-
-/*    this.cartService.getBeer().subscribe(data => {
-      this.brews = data;
-      console.log(this.brews);
-    });*/
   }
 
   substract(id : number) {
-    //console.log(this.carts.get(id));
-    //console.log("tekstas");
+
   }
 
   add(){

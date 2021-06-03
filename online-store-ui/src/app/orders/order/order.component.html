@@ -1,0 +1,21 @@
+<ng-container *ngIf="order; else loading">
+  <div class='card'>
+    <div class='card-header'>
+      {{pageTitle + ': ' + order.id}}<!--ideti uzsakymo nr-->
+    </div>
+
+    <div class='card-body'>
+      <div class='col-md-4'><strong>Order date: </strong> {{order.orderDate}}</div>
+      <div class='col-md-4'><strong>User: </strong> {{order.userName}} {{order.userSurname}}</div>
+      <div class='col-md-4'><strong>Delivery address: </strong> {{order.deliveryAddress}}</div>
+    </div>
+
+  </div>
+
+</ng-container>
+
+<ng-template #loading>
+  <h1>Loading...</h1>
+</ng-template>
+
+<app-order-lines *ngIf="order" [order]="order"></app-order-lines>
