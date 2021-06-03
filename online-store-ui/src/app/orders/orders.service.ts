@@ -11,4 +11,13 @@ export class OrdersService {
   getOrders(){
     return this.http.get('http://localhost:8080/purchase/order')
   }
+
+  getOrder(id: string) {
+    return this.http.get('http://localhost:8080/purchase/order/'+id)
+  }
+
+  getOrderLines(id: string){
+    return this.http.get('http://localhost:8080/purchase/order/'+id+'/lines')
+  }
+
 }

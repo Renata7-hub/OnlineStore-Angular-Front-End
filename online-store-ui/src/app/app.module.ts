@@ -43,11 +43,7 @@ import { OrderLinesComponent } from './orders/order/order-lines/order-lines.comp
         path: 'orders', component: OrdersComponent
       },
       {
-        path: 'order', component: OrderComponent, children: [
-          {
-            path: 'lines', component: OrderLinesComponent
-          }
-        ]
+        path: 'order/:id', component: OrderComponent
       },
       { path: 'welcome', component: WelcomeComponent },
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },

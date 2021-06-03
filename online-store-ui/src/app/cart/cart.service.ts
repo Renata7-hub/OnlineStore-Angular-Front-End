@@ -15,7 +15,4 @@ export class CartService {
   getCart(){
     return this.http.get('http://localhost:8080/cart')
   }
-  getBeer(){
-    return this.http.get('http://localhost:8080/product/quantity/onDate?date=2021-05-31')
-  }
 }
