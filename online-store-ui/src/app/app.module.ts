@@ -4,32 +4,37 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import {ProductListComponent} from "./products/product-list.component";
 import {FormsModule} from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
 import { ProductDetailComponent } from './products/product-detail.component';
 import {RouterModule} from "@angular/router";
-import {WelcomeComponent} from "./home/welcome.component";
 import {ProductDetailGuard} from "./products/product-detail.guard";
 import { CartComponent } from './cart/cart.component';
 import { OrdersComponent } from './orders/orders.component';
 import { OrderComponent } from './orders/order/order.component';
 import { OrderLinesComponent } from './orders/order/order-lines/order-lines.component';
+import {WelcomeComponent} from "./home/welcome.component";
+import {LoginComponent} from "./login/login.component";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductListComponent,
     ProductDetailComponent,
+    LoginComponent,
     WelcomeComponent,
     CartComponent,
     OrdersComponent,
     OrderComponent,
     OrderLinesComponent
+
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
+      { path: 'login', component: LoginComponent },
+      { path: 'welcome', component: WelcomeComponent },
       {path: 'products', component: ProductListComponent},
       {
         path: 'products/:id',
@@ -45,7 +50,6 @@ import { OrderLinesComponent } from './orders/order/order-lines/order-lines.comp
       {
         path: 'order/:id', component: OrderComponent
       },
-      { path: 'welcome', component: WelcomeComponent },
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
       { path: '**', redirectTo: 'welcome', pathMatch: 'full' }
     ])
