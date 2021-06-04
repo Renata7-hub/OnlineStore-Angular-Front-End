@@ -12,7 +12,10 @@ import {ProductDetailGuard} from "./products/product-detail.guard";
 import { CartComponent } from './cart/cart.component';
 import { OrdersComponent } from './orders/orders.component';
 import { OrderComponent } from './orders/order/order.component';
-import { OrderLinesComponent } from './orders/order/order-lines/order-lines.component';
+import { OrderLinesComponent } from './orders/order-lines/order-lines.component';
+import { NewOrderComponent } from './orders/new-order/new-order.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import {CommonModule} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -23,9 +26,12 @@ import { OrderLinesComponent } from './orders/order/order-lines/order-lines.comp
     CartComponent,
     OrdersComponent,
     OrderComponent,
-    OrderLinesComponent
+    OrderLinesComponent,
+    NewOrderComponent
   ],
   imports: [
+    CommonModule,
+    ReactiveFormsModule,
     BrowserModule,
     HttpClientModule,
     FormsModule,
@@ -41,6 +47,9 @@ import { OrderLinesComponent } from './orders/order/order-lines/order-lines.comp
       },
       {
         path: 'orders', component: OrdersComponent
+      },
+      {
+        path: 'orders/new', component: NewOrderComponent
       },
       {
         path: 'order/:id', component: OrderComponent

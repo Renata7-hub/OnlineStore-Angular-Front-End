@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import { OrdersService } from "../../orders.service";
-import {CartService} from "../../../cart/cart.service";
+import { OrdersService } from "../orders.service";
+import {CartService} from "../../cart/cart.service";
 
 @Component({
   selector: 'app-order-lines',

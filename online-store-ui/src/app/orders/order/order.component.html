@@ -5,9 +5,42 @@
     </div>
 
     <div class='card-body'>
-      <div class='col-md-4'><strong>Order date: </strong> {{order.orderDate}}</div>
-      <div class='col-md-4'><strong>User: </strong> {{order.userName}} {{order.userSurname}}</div>
-      <div class='col-md-4'><strong>Delivery address: </strong> {{order.deliveryAddress}}</div>
+
+      <form [formGroup]="orderForm">
+        <fieldset>
+
+          <div class='col-md-4'>
+            <label> <strong>Order date: </strong></label>
+            <label *ngIf="isNewOrder"><input type="date" formControlName="orderDate"></label>
+            <label *ngIf="!isNewOrder">{{order.orderDate}}</label>
+          </div>
+
+          <div class='col-md-4'>
+            <label><strong>User name: </strong></label>
+            <label *ngIf="isNewOrder"><input formControlName="userName" placeholder="Enter name"></label>
+            <label *ngIf="!isNewOrder">{{order.userName}}</label>
+          </div>
+
+          <div class='col-md-4'>
+            <label><strong>User surname: </strong></label>
+            <label *ngIf="isNewOrder"><input formControlName="userSurname" placeholder="Enter surname"></label>
+            <label *ngIf="!isNewOrder">{{order.userSurname}}</label>
+          </div>
+
+          <div class='col-md-4'>
+            <label><strong>Delivery address: </strong></label>
+            <label *ngIf="isNewOrder"><input formControlName="deliveryAddress" placeholder="Enter delivery address"></label>
+            <label *ngIf="!isNewOrder">{{order.deliveryAddress}}</label>
+          </div>
+
+        </fieldset>
+        <button class='btn btn-outline-secondary'
+                style='width:80px'
+                (click)='onNext()'>
+          <i class='fa fa-chevron-left'></i> Next
+        </button>
+      </form>
+
     </div>
 
   </div>
