@@ -20,18 +20,21 @@ import {HttpClientModule} from "@angular/common/http";
     AppComponent,
     ProductListComponent,
     ProductDetailComponent,
+    LoginComponent,
     WelcomeComponent,
     CartComponent,
     OrdersComponent,
     OrderComponent,
-    OrderLinesComponent,
-    LoginComponent
+    OrderLinesComponent
+
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
+      { path: 'login', component: LoginComponent },
+      { path: 'welcome', component: WelcomeComponent },
       {path: 'products', component: ProductListComponent},
       {
         path: 'products/:id',
@@ -51,7 +54,6 @@ import {HttpClientModule} from "@angular/common/http";
           }
         ]
       },
-      { path: 'welcome', component: LoginComponent },
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
       { path: '**', redirectTo: 'welcome', pathMatch: 'full' }
     ])
