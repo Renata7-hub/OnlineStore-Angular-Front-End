@@ -44,11 +44,12 @@ export class OrderComponent implements OnInit {
 
 
   ngOnInit(): void {
-    console.log(this.isNewOrder);
+    //console.log(this.isNewOrder);
     const orderId= this.activatedRoute.snapshot.paramMap.get('id');
     // @ts-ignore
     this.ordersService.getOrder(orderId).subscribe(data => {
       this.order = data;
+      console.log(this.order)
     })
   }
 
