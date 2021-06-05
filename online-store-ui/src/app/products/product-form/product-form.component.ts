@@ -20,13 +20,13 @@ export class ProductFormComponent implements OnInit {
   }
 
   productTypes: productType[] = [
-    { id: "COMPUTER", title: "Computer" },
-    { id: "MONITOR", title: "Monitor" },
-    { id: "OTHER", title: "Other" }
+    { id: 1, title: "Computer" },
+    { id: 2, title: "Monitor" },
+    { id: 3, title: "Other" }
   ];
 
   onSubmit() {
-    this.productService.save(this.products).subscribe(result => this.gotoProductsList());
+    console.log(this.productService.save(this.products).subscribe(result => this.gotoProductsList()));
   }
 
   gotoProductsList() {

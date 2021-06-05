@@ -1,4 +1,4 @@
-import {Component, Injectable, Input} from "@angular/core";
+import {Injectable, Input} from "@angular/core";
 
 @Injectable()
 export abstract class Products {
