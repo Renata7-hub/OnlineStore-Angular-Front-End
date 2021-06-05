@@ -20,9 +20,9 @@ export class ProductFormComponent implements OnInit {
   }
 
   productTypes: productType[] = [
-    { id: 1, title: "Computer" },
-    { id: 2, title: "Monitor" },
-    { id: 3, title: "Other" }
+    { id: "COMPUTER", title: "Computer" },
+    { id: "MONITOR", title: "Monitor" },
+    { id: "OTHER", title: "Other" }
   ];
 
   onSubmit() {
