@@ -3,23 +3,32 @@ import {Injectable} from "@angular/core";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {Observable, throwError} from "rxjs";
 import {catchError, map, tap} from "rxjs/operators";
+import {Products} from "./products";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  private productUrl = "http://localhost:8080/product/get-all";
+  private getProductUrl = "http://localhost:8080/product/get-all";
+  private createProductUrl = "http://localhost:8080/product";
   constructor(private http: HttpClient) {
   }
 
-  getProducts(): Observable<IProduct[]> {
-    return this.http.get<IProduct[]>(this.productUrl).pipe(
+  public getProducts(): Observable<IProduct[]> {
+    return this.http.get<IProduct[]>(this.getProductUrl).pipe(
       tap(data => console.log("All", JSON.stringify(data))),
       catchError(ProductService.handleError)
     );
   }
 
-  getProduct(id: number): Observable<IProduct | undefined> {
+  public save(product: Products) {
+    return this.http.post<Products>(this.createProductUrl, product).pipe(
+      tap(data => console.log("All", JSON.stringify(data))),
+      catchError(ProductService.handleError)
+    );
+  }
+
+  public getProduct(id: number): Observable<IProduct | undefined> {
     return this.getProducts()
       .pipe(
         map((products: IProduct[]) => products.find(p => p.id === id))

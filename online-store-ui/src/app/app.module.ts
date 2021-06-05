@@ -14,6 +14,7 @@ import { OrderLinesComponent } from './orders/order/order-lines/order-lines.comp
 import {WelcomeComponent} from "./home/welcome.component";
 import {LoginComponent} from "./login/login.component";
 import {HttpClientModule} from "@angular/common/http";
+import { ProductFormComponent } from './products/product-form/product-form.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {HttpClientModule} from "@angular/common/http";
     CartComponent,
     OrdersComponent,
     OrderComponent,
-    OrderLinesComponent
+    OrderLinesComponent,
+    ProductFormComponent
 
   ],
   imports: [
@@ -33,8 +35,9 @@ import {HttpClientModule} from "@angular/common/http";
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: 'login', component: LoginComponent },
+      { path: '', component: LoginComponent },
       { path: 'welcome', component: WelcomeComponent },
+      {path: 'add-product', component: ProductFormComponent},
       {path: 'products', component: ProductListComponent},
       {
         path: 'products/:id',

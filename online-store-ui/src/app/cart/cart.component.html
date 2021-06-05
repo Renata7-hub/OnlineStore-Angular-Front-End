@@ -8,7 +8,6 @@
         <table class="table">
           <thead>
           <tr>
-            <th></th>
             <th>Pavadinimas</th>
             <th>Kiekis</th>
             <th>Kaina</th>
@@ -18,7 +17,6 @@
           <tbody>
           <tr *ngFor="let cart of carts">
             <td>{{cart.product.title}}</td>
-            <td></td>
             <td>
               <div class="quantity">
                 <button class="btn minus1" (click)="substract(cart.id)">-</button>
@@ -26,7 +24,7 @@
                 <button class="btn add1" (click)="add()">+</button>
               </div>
             </td>
-            <td>{{cart.product.price}}</td>
+            <td>{{cart.product.price | currency: "EUR"}}</td>
           </tr>
           </tbody>
 
