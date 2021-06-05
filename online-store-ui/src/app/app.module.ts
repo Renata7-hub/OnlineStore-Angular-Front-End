@@ -10,6 +10,7 @@ import { ProductDetailGuard } from "./products/product-detail.guard";
 import { CartComponent } from './cart/cart.component';
 import { OrdersComponent } from './orders/orders.component';
 import { OrderComponent } from './orders/order/order.component';
+import { ProductFormComponent } from './products/product-form/product-form.component';
 import { WelcomeComponent } from "./home/welcome.component";
 import { LoginComponent } from "./login/login.component";
 import { HttpClientModule } from "@angular/common/http";
@@ -29,6 +30,7 @@ import {CommonModule} from "@angular/common";
     OrdersComponent,
     OrderComponent,
     OrderLinesComponent,
+    ProductFormComponent,
     NewOrderComponent
   ],
   imports: [
@@ -38,8 +40,9 @@ import {CommonModule} from "@angular/common";
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: 'login', component: LoginComponent },
+      { path: '', component: LoginComponent },
       { path: 'welcome', component: WelcomeComponent },
+      {path: 'add-product', component: ProductFormComponent},
       {path: 'products', component: ProductListComponent},
       {
         path: 'products/:id',

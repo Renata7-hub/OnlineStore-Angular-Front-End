@@ -41,6 +41,16 @@
           <td>{{product.id}}</td>
           <td>{{product.price | currency: 'EUR' }}</td>
           <td>{{product.type}}</td>
+          <td>
+            <ul class="list-inline m-0">
+              <li class="list-inline-item">
+                <button class="btn btn-primary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Add one product to cart"><i class="fa fa-table"></i></button>
+              </li>
+              <li class="list-inline-item">
+                <button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete one product from cart"><i class="fa fa-trash"></i></button>
+              </li>
+            </ul>
+          </td>
         </tbody>
       </table>
     </div>
