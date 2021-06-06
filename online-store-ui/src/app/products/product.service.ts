@@ -22,6 +22,7 @@ export class ProductService {
   }
 
   public save(product: Products) {
+    console.log(product)
     return this.http.post<Products>(this.createProductUrl, product).pipe(
       tap(data => console.log("All", JSON.stringify(data))),
       catchError(ProductService.handleError)

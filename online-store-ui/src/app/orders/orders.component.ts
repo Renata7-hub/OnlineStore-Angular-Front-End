@@ -1,21 +1,42 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { OrdersService} from "./orders.service";
+import {IOrder} from "./interfaces/order-interface.model";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Subscription} from "rxjs";
 
 @Component({
-  selector: 'app-orders',
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.css']
 })
-export class OrdersComponent implements OnInit {
+export class OrdersComponent implements OnInit, OnDestroy {
   pageTitle = "Orders";
-  orders: any;
+  order: IOrder[] = [];
+  errorMessage = "Somethings Wrong"
+  sub: Subscription | undefined;
 
-  constructor(private ordersService: OrdersService) { }
+  constructor(private orderService: OrdersService,
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit(): void {
-    this.ordersService.getOrders().subscribe(data => {
-      this.orders = data;
-    })
+    this.orderService.getOrders().subscribe({
+      next: orders => {
+        this.order = orders;
+      },
+      error: err => this.errorMessage = err
+    });
+
+  }
+
+  // getOrder(id: number): void {
+  //   this.orderService.getOrder(id).subscribe({
+  //     next: order => this.order = order,
+  //     error: err => this.errorMessage = err
+  //   });
+  // }
+
+  ngOnDestroy() {
+    this.sub?.unsubscribe();
   }
 
 }

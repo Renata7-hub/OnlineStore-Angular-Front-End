@@ -1,30 +1,46 @@
-import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {Observable} from "rxjs";
+import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
 import {OrdersService} from "../orders.service";
-import {OrderLinesComponent} from "./order-lines/order-lines.component";
+import {FormBuilder, Validators} from "@angular/forms";
+import {Order} from "../interfaces/order.model";
+import {IProduct} from "../../products/product";
+import {IOrder} from "../interfaces/order-interface.model";
+
 
 
 @Component({
-  selector: 'app-order',
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.css']
 })
 export class OrderComponent implements OnInit {
   pageTitle = "Order"
-  order: any
+  errorMessage = ""
+  order: IOrder | undefined;
 
   constructor(
     private ordersService: OrdersService,
-    private  activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
+
   ngOnInit(): void {
-    const orderId= this.activatedRoute.snapshot.paramMap.get('id');
-    // @ts-ignore
-    this.ordersService.getOrder(orderId).subscribe(data => {
-      this.order = data;
-    })
+    const param = this.route.snapshot.paramMap.get('id');
+    if (param) {
+      const id = +param;
+      this.getOrder(id);
+    }
   }
 
+  getOrder(id: number): void {
+    this.ordersService.getOrder(id).subscribe({
+      next: orders => this.order = orders,
+      error: err => this.errorMessage = err
+    });
+  }
+
+  onBack(): void {
+    this.router.navigate(['/orders']);
+  }
 }

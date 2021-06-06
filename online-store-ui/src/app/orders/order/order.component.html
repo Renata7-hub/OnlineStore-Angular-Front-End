@@ -1,21 +1,33 @@
-<ng-container *ngIf="order; else loading">
   <div class='card'>
     <div class='card-header'>
-      {{pageTitle + ': ' + order.id}}<!--ideti uzsakymo nr-->
+      {{pageTitle + ': ' + order?.id}}
     </div>
-
-    <div class='card-body'>
-      <div class='col-md-4'><strong>Order date: </strong> {{order.orderDate}}</div>
-      <div class='col-md-4'><strong>User: </strong> {{order.userName}} {{order.userSurname}}</div>
-      <div class='col-md-4'><strong>Delivery address: </strong> {{order.deliveryAddress}}</div>
+    <div class='card-body'
+           *ngIf="order">
+        <div class='row'>
+          <div class='col-md-8'>
+            <div class='row'>
+              <div class='col-md-4'>Date:</div>
+              <div class='col-md-8'>{{order.orderDate}}</div>
+            </div>
+            <div class='row'>
+              <div class='col-md-4'>Name:</div>
+              <div class='col-md-8'>{{order.userName}}</div>
+            </div>
+            <div class='row'>
+              <div class='col-md-4'>Surname:</div>
+              <div class='col-md-8'>{{order.userSurname}}</div>
+            </div>
+            <div class='row'>
+              <div class='col-md-4'>Delivery address:</div>
+              <div class='col-md-8'>{{order.deliveryAddress}}</div>
+            </div>
+        <button class='btn btn-outline-secondary'
+                style='width:80px'
+                (click)='onBack()'>
+          <i class='fa fa-chevron-left'></i> Back
+        </button>
+          </div>
+        </div>
     </div>
-
   </div>
-
-</ng-container>
-
-<ng-template #loading>
-  <h1>Loading...</h1>
-</ng-template>
-
-<app-order-lines *ngIf="order" [order]="order"></app-order-lines>
