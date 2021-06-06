@@ -27,7 +27,6 @@
           <th>Pavadinimas</th>
           <th>ID</th>
           <th>Kaina</th>
-          <th>Kiekis</th>
         </tr>
         </thead>
         <tbody *ngFor="let product of filteredProducts">
@@ -48,7 +47,7 @@
                         type="button"
                         data-toggle="tooltip"
                         data-placement="top"
-                        title="Add one product to cart"><i class="fa fa-table"></i></button>
+                        title="Add one product to cart" (click)="addToCartProduct(product)"><i class="fa fa-table"></i></button>
               </li>
               <li class="list-inline-item">
                 <button class="btn btn-danger btn-sm rounded-0"

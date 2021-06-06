@@ -26,7 +26,7 @@
             <td>{{cart.product.title}}</td>
             <td>
               <div class="quantity">
-                <button class="btn minus1" (click)="substract(cart.id)">-</button>
+                <button class="btn minus1" (click)="substract(cart.product.id)">-</button>
                 <input class="quantity" id="id_form-0-quantity" min="0" name="form-0-quantity" value="{{ cart.quantity }}" type="number">
                 <button class="btn add1" (click)="add()">+</button>
               </div>
@@ -37,7 +37,7 @@
                         type="button"
                         data-toggle="tooltip"
                         data-placement="top"
-                        title="Delete one product from cart" (click)="onDelete(cart.id)"><i class="fa fa-trash"></i></button></td>
+                        title="Delete one product from cart" (click)="onDelete(cart.product.id)"><i class="fa fa-trash"></i></button></td>
           </tr>
           </tbody>
 

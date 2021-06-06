@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import { CartService } from "./cart.service";
 import { Router } from "@angular/router";
 import { NewOrderComponent } from "../orders/new-order/new-order.component";
+import {Cart} from "./cart";
 
 // @ts-ignore
 //import Any = jasmine.Any;
@@ -14,7 +15,7 @@ import { NewOrderComponent } from "../orders/new-order/new-order.component";
 })
 export class CartComponent implements OnInit {
   pageTitle = "Krepšelis";
-  carts: any;
+  carts: Cart[] = [] ;
   @Input() isNewOrder: boolean = false;
   totalPrice = 0;
 
