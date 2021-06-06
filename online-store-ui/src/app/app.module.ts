@@ -18,6 +18,7 @@ import { OrderLinesComponent } from './orders/order-lines/order-lines.component'
 import { NewOrderComponent } from './orders/new-order/new-order.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import {CommonModule} from "@angular/common";
+import { StorageComponent } from './storage/storage.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import {CommonModule} from "@angular/common";
     OrderComponent,
     OrderLinesComponent,
     ProductFormComponent,
-    NewOrderComponent
+    NewOrderComponent,
+    StorageComponent
   ],
   imports: [
     CommonModule,
@@ -61,6 +63,9 @@ import {CommonModule} from "@angular/common";
       },
       {
         path: 'orders/new', component: NewOrderComponent
+      },
+      {
+        path: 'storage', component: StorageComponent
       },
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
       { path: '**', redirectTo: 'welcome', pathMatch: 'full' }
