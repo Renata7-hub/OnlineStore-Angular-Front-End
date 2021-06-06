@@ -11,7 +11,7 @@ import {IOrder} from "../interfaces/order-interface.model";
 })
 export class OrderLinesComponent implements OnInit {
   pageTitle = "Order items"
-  order: IOrder | undefined
+  @Input() order: IOrder | undefined
   orderLines: any
   errorMessage = 'Something is wrong'
 
@@ -20,6 +20,10 @@ export class OrderLinesComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
+    // @ts-ignore
+    this.orderService.getOrderLines(this.order.id).subscribe(data => {
+      this.orderLines = data;
+    })
   }
 
 
