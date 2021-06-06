@@ -44,10 +44,18 @@
           <td>
             <ul class="list-inline m-0">
               <li class="list-inline-item">
-                <button class="btn btn-primary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Add one product to cart"><i class="fa fa-table"></i></button>
+                <button class="btn btn-primary btn-sm rounded-0"
+                        type="button"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Add one product to cart"><i class="fa fa-table"></i></button>
               </li>
               <li class="list-inline-item">
-                <button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete one product from cart"><i class="fa fa-trash"></i></button>
+                <button class="btn btn-danger btn-sm rounded-0"
+                        type="button"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Delete one product from cart" (click)="onDelete(product.id)"><i class="fa fa-trash"></i></button>
               </li>
             </ul>
           </td>

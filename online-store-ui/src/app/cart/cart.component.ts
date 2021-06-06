@@ -15,17 +15,33 @@ import { NewOrderComponent } from "../orders/new-order/new-order.component";
 export class CartComponent implements OnInit {
   pageTitle = "Krepšelis";
   carts: any;
+  totalPrice = 0;
 
   constructor(
     private cartService: CartService,
     private router: Router
-    ) { }
+    ) {
+
+  }
 
   ngOnInit(): void {
     this.cartService.getCart().subscribe(data => {
       this.carts = data;
-      // console.log(this.carts);
-    })
+    });
+     this.cartService.getTotalPrice().subscribe(data => {
+       this.totalPrice = data;
+     });
+  }
+
+  onDelete(id: number): void {
+    // this.filteredProducts = this.filteredProducts.filter(product => product.id !== id);
+    // this.productService.deleteProductById(id)
+    //   .subscribe({
+    //     next: message => {
+    //       message = "Delete succesfull"
+    //     },
+    //     error: err => this.errorMessage = err
+    //   });
   }
 
   substract(id : number) {
