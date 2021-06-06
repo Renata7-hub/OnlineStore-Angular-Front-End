@@ -5,6 +5,7 @@ import {Observable, throwError} from "rxjs";
 import {catchError, map, tap} from "rxjs/operators";
 import {IOrder} from "./interfaces/order-interface.model";
 import {IProduct} from "../products/product";
+import {Products} from "../products/products";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ import {IProduct} from "../products/product";
 export class OrdersService {
 
   private getOrdersUrl = "http://localhost:8080/purchase/order";
-  private createProductUrl = "http://localhost:8080/product";
+  private createOrderUrl = "http://localhost:8080/purchase/order";
   constructor(private http: HttpClient) {
   }
 
@@ -31,19 +32,13 @@ export class OrdersService {
       );
   }
 
-  //   postOrder(order: Order){
-  //     const headers = { 'content-type': 'application/json'}
-  //     const body=JSON.stringify({
-  //       "userName": "Jolita",
-  //       "userSurname": "Gedminaitė",
-  //       "deliveryAddress": "Kaunas",
-  //       "orderDate": "2021-06-05"
-  //     });
-  //
-  //     console.log(order)
-  //     console.log(body)
-  //   return this.http.post<any>('http://localhost:8080/purchase/order', body, {'headers':headers});
-  // }
+  public save(order: Order) {
+    console.log(order)
+    return this.http.post<Order>(this.createOrderUrl, order).pipe(
+      tap(data => console.log("All", JSON.stringify(data))),
+      catchError(OrdersService.handleError)
+    );
+  }
 
 
   private static handleError(err: HttpErrorResponse) {

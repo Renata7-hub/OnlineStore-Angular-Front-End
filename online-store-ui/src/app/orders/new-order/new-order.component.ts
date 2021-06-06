@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { OrdersService} from "../orders.service";
-import {Observable, of} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Order} from "../interfaces/order.model";
 
@@ -10,22 +9,22 @@ import {Order} from "../interfaces/order.model";
 })
 export class NewOrderComponent implements OnInit {
 
-  initialsDetails$: any = of ({})
   order: Order;
 
-  constructor(
-    private ordersService: OrdersService,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private orderService: OrdersService) {
     this.order = new class extends Order {};
   }
 
-  ngOnInit(): void {
-    //this.ordersService.postOrder()
+  onSubmit() {
+    console.log(this.orderService.save(this.order).subscribe(result => this.gotoOrdersList()));
   }
 
-  // onCreate(order: any){
-  //   this.ordersService.postOrder(order)
-  // }
+  gotoOrdersList() {
+    this.router.navigate(['/orders']);
+  }
+
+  ngOnInit(): void {
+  }
 }
