@@ -21,7 +21,7 @@
           <tr *ngFor="let orderLine of orderLines">
             <td></td>
             <td>{{orderLine.product.title}}</td>
-            <td>{{ orderLine.quantity }}</td>
+            <td>{{orderLine.quantity}}</td>
             <td>{{orderLine.product.price}}</td>
             <td>{{orderLine.product.price * orderLine.quantity}}</td>
           </tr>
@@ -30,10 +30,6 @@
           <tfoot>
           <tr>
             <td>Total Cost:</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
           </tr>
           </tfoot>
         </table>

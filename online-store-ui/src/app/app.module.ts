@@ -56,10 +56,11 @@ import {CommonModule} from "@angular/common";
         path: 'orders', component: OrdersComponent
       },
       {
-        path: 'orders/new', component: NewOrderComponent
+        path: 'order/:id',
+        component: OrderComponent
       },
       {
-        path: 'order/:id', component: OrderComponent
+        path: 'orders/new', component: NewOrderComponent
       },
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
       { path: '**', redirectTo: 'welcome', pathMatch: 'full' }

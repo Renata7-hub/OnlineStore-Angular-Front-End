@@ -1,4 +1,4 @@
-<ng-container *ngIf="orders; else none">
+<!--<ng-container *ngIf="orders">-->
   <div class="card">
     <div class="card-header">
       {{pageTitle}}
@@ -16,19 +16,18 @@
           </thead>
 
           <tbody>
-          <tr *ngFor="let order of orders">
-            <td>{{order.orderDate}}</td>
+          <tr *ngFor="let orders of order">
+            <td>{{orders.orderDate}}</td>
             <td></td>
             <td></td>
-            <!--<td><a class="nav-link" routerLink="/order">Peržiūrėti</a></td>-->
-            <td><a class="nav-link" routerLink="/order/{{order.id}}">Peržiūrėti</a></td>
+            <td><a class="nav-link" [routerLink]="['/order', orders.id]">Peržiūrėti</a></td>
           </tr>
           </tbody>
         </table>
       </div>
     </div>
   </div>
-</ng-container>
+<!--</ng-container>-->
 
 <ng-template #none>
   <div>There is no orders yet</div>

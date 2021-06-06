@@ -1,69 +1,49 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Order} from "./interfaces/order.model";
-import {throwError} from "rxjs";
-import {catchError, tap} from "rxjs/operators";
+import {Observable, throwError} from "rxjs";
+import {catchError, map, tap} from "rxjs/operators";
+import {IOrder} from "./interfaces/order-interface.model";
+import {IProduct} from "../products/product";
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrdersService {
 
-  constructor(private http: HttpClient) { }
-
-  getOrders(){
-    return this.http.get('http://localhost:8080/purchase/order')
+  private getOrdersUrl = "http://localhost:8080/purchase/order";
+  private createProductUrl = "http://localhost:8080/product";
+  constructor(private http: HttpClient) {
   }
 
-  getOrder(id: string) {
-    return this.http.get('http://localhost:8080/purchase/order/'+id)
-  }
-
-  getOrderLines(id: string){
-    return this.http.get('http://localhost:8080/purchase/order/'+id+'/lines')
-  }
-
-/*  postOrder(order: Order){
-    console.log(order)
-    return this.http.post<any>('http://localhost:8080/purchase/order', JSON.stringify(order)).pipe(
+  public getOrders(): Observable<IOrder[]> {
+    return this.http.get<IOrder[]>(this.getOrdersUrl).pipe(
       tap(data => console.log("All", JSON.stringify(data))),
       catchError(OrdersService.handleError)
     );
-  }*/
-    postOrder(order: Order){
-      const headers = { 'content-type': 'application/json'}
-      const body=JSON.stringify({
-        "userName": "Jolita",
-        "userSurname": "Gedminaitė",
-        "deliveryAddress": "Kaunas",
-        "orderDate": "2021-06-05"
-      });
-
-      console.log(order)
-      console.log(body)
-    return this.http.post<any>('http://localhost:8080/purchase/order', body, {'headers':headers});
   }
 
-/*  postOrder(order: any){
 
-    const headers = { 'content-type': 'application/json'}
-    const body=JSON.stringify({
-      "userName": "Jolita",
-      "userSurname": "Gedminaitė",
-      "deliveryAddress": "Kaunas",
-      "orderDate": "2021-06-05"
-    });
-    console.log(JSON.stringify(order))
-    console.log(body)
-    return this.http.post('http://localhost:8080/purchase/order/', body, {'headers':headers})
+  public getOrder(id: number): Observable<IOrder | undefined> {
+    return this.getOrders()
+      .pipe(
+        map((orders: IOrder[]) => orders.find(p => p.id === id))
+      );
+  }
 
-    this.http.get('http://localhost:8080/purchase/order').subscribe(data => {
-      order = data;
-      console.log(order);
-    })
-
-  }*/
-
+  //   postOrder(order: Order){
+  //     const headers = { 'content-type': 'application/json'}
+  //     const body=JSON.stringify({
+  //       "userName": "Jolita",
+  //       "userSurname": "Gedminaitė",
+  //       "deliveryAddress": "Kaunas",
+  //       "orderDate": "2021-06-05"
+  //     });
+  //
+  //     console.log(order)
+  //     console.log(body)
+  //   return this.http.post<any>('http://localhost:8080/purchase/order', body, {'headers':headers});
+  // }
 
 
   private static handleError(err: HttpErrorResponse) {

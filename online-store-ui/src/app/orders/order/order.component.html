@@ -1,54 +1,38 @@
-<ng-container *ngIf="order; else loading">
   <div class='card'>
     <div class='card-header'>
-      {{pageTitle + ': ' + order.id}}<!--ideti uzsakymo nr-->
+      {{pageTitle + ': ' + order?.id}}
     </div>
-
-    <div class='card-body'>
-
-      <form [formGroup]="orderForm">
-        <fieldset>
-
-          <div class='col-md-4'>
-            <label> <strong>Order date: </strong></label>
-            <label *ngIf="isNewOrder"><input type="date" formControlName="orderDate"></label>
-            <label *ngIf="!isNewOrder">{{order.orderDate}}</label>
-          </div>
-
-          <div class='col-md-4'>
-            <label><strong>User name: </strong></label>
-            <label *ngIf="isNewOrder"><input formControlName="userName" placeholder="Enter name"></label>
-            <label *ngIf="!isNewOrder">{{order.userName}}</label>
-          </div>
-
-          <div class='col-md-4'>
-            <label><strong>User surname: </strong></label>
-            <label *ngIf="isNewOrder"><input formControlName="userSurname" placeholder="Enter surname"></label>
-            <label *ngIf="!isNewOrder">{{order.userSurname}}</label>
-          </div>
-
-          <div class='col-md-4'>
-            <label><strong>Delivery address: </strong></label>
-            <label *ngIf="isNewOrder"><input formControlName="deliveryAddress" placeholder="Enter delivery address"></label>
-            <label *ngIf="!isNewOrder">{{order.deliveryAddress}}</label>
-          </div>
-
-        </fieldset>
+    <div class='card-body'
+           *ngIf="order">
+        <div class='row'>
+          <div class='col-md-8'>
+            <div class='row'>
+              <div class='col-md-4'>Date:</div>
+              <div class='col-md-8'>{{order.orderDate}}</div>
+            </div>
+            <div class='row'>
+              <div class='col-md-4'>Name:</div>
+              <div class='col-md-8'>{{order.userName}}</div>
+            </div>
+            <div class='row'>
+              <div class='col-md-4'>Surname:</div>
+              <div class='col-md-8'>{{order.userSurname}}</div>
+            </div>
+            <div class='row'>
+              <div class='col-md-4'>Delivery address:</div>
+              <div class='col-md-8'>{{order.deliveryAddress}}</div>
+            </div>
         <button class='btn btn-outline-secondary'
                 style='width:80px'
-                (click)='onNext()'>
+                (click)='onBack()'>
           <i class='fa fa-chevron-left'></i> Next
         </button>
-      </form>
 
     </div>
 
   </div>
 
-</ng-container>
+    </div>
+    </div>
 
-<ng-template #loading>
-  <h1>Loading...</h1>
-</ng-template>
-
-<app-order-lines *ngIf="order" [order]="order"></app-order-lines>
+<app-order-lines></app-order-lines>
