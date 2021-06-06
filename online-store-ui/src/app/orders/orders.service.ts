@@ -19,7 +19,7 @@ export class OrdersService {
 
   public getOrders(): Observable<IOrder[]> {
     return this.http.get<IOrder[]>(this.getOrdersUrl).pipe(
-      tap(data => console.log("All", JSON.stringify(data))),
+      tap(/*data => console.log("All", JSON.stringify(data))*/),
       catchError(OrdersService.handleError)
     );
   }
@@ -33,13 +33,22 @@ export class OrdersService {
   }
 
   public save(order: Order) {
-    console.log(order)
-    return this.http.post<Order>(this.createOrderUrl, order).pipe(
-      tap(data => console.log("All", JSON.stringify(data))),
+    return this.http.post<any>(this.createOrderUrl, order).pipe(
+      tap(/*data => console.log("All", JSON.stringify(data))*/),
       catchError(OrdersService.handleError)
     );
   }
 
+  getOrderLines(id: string){
+    return this.http.get('http://localhost:8080/purchase/order/'+id+'/lines')
+  }
+
+  public createOrderLinesFromCart(orderId: number) {
+    return this.http.post<any>("http://localhost:8080/purchase/order/lines/moveFromCart?purchase_order_id="+orderId, "{purchase_order_id: orderId}").pipe(
+      tap(/*data => console.log("All", JSON.stringify(data))*/),
+      catchError(OrdersService.handleError)
+    );
+  }
 
   private static handleError(err: HttpErrorResponse) {
     let errorMessage: string;

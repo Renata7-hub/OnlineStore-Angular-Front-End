@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { CartService } from "./cart.service";
 import { Router } from "@angular/router";
 import { NewOrderComponent } from "../orders/new-order/new-order.component";
@@ -15,6 +15,7 @@ import { NewOrderComponent } from "../orders/new-order/new-order.component";
 export class CartComponent implements OnInit {
   pageTitle = "Krepšelis";
   carts: any;
+  @Input() isNewOrder: boolean = false;
 
   constructor(
     private cartService: CartService,

@@ -9,7 +9,7 @@ import {Order} from "../interfaces/order.model";
 })
 export class NewOrderComponent implements OnInit {
 
-  order: Order;
+  order: any;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -18,11 +18,14 @@ export class NewOrderComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.orderService.save(this.order).subscribe(result => this.gotoOrdersList()));
+    this.orderService.save(this.order).subscribe(result => this.createOrderLines(result.id))}
+
+  createOrderLines(createdOrderId: number){
+    this.orderService.createOrderLinesFromCart(createdOrderId).subscribe(result => this.gotoOrdersList(createdOrderId));
   }
 
-  gotoOrdersList() {
-    this.router.navigate(['/orders']);
+  gotoOrdersList(id: number) {
+    this.router.navigate(['/order/'+id]);
   }
 
   ngOnInit(): void {
