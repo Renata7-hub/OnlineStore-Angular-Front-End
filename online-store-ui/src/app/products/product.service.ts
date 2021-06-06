@@ -11,6 +11,7 @@ import {Products} from "./products";
 export class ProductService {
   private getProductUrl = "http://localhost:8080/product/get-all";
   private createProductUrl = "http://localhost:8080/product";
+  private deleteProductUrl = "http://localhost:8080/product/delete/";
   constructor(private http: HttpClient) {
   }
 
@@ -34,6 +35,10 @@ export class ProductService {
       .pipe(
         map((products: IProduct[]) => products.find(p => p.id === id))
       );
+  }
+
+  public deleteProductById(id: number) {
+    return this.http.delete(this.deleteProductUrl + id)
   }
 
   private static handleError(err: HttpErrorResponse) {
