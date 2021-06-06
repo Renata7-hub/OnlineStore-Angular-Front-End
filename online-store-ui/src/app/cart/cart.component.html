@@ -16,6 +16,8 @@
             <th>Pavadinimas</th>
             <th>Kiekis</th>
             <th>Kaina</th>
+            <th>Prekių suma</th>
+            <th></th>
           </tr>
           </thead>
 
@@ -30,6 +32,12 @@
               </div>
             </td>
             <td>{{cart.product.price | currency: "EUR"}}</td>
+            <td>{{cart.product.price * cart.quantity | currency: "EUR"}}</td>
+            <td><button class="btn btn-danger btn-sm rounded-0"
+                        type="button"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Delete one product from cart" (click)="onDelete(cart.id)"><i class="fa fa-trash"></i></button></td>
           </tr>
           </tbody>
 
@@ -38,8 +46,7 @@
             <td>Viso:</td>
             <td></td>
             <td></td>
-            <td></td>
-            <td></td>
+            <td>{{totalPrice | currency: "EUR"}}</td>
           </tr>
           </tfoot>
         </table>

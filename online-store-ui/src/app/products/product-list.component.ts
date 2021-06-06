@@ -40,6 +40,17 @@ export class ProductListComponent implements OnInit, OnDestroy{
     this.showImage = !this.showImage;
   }
 
+  onDelete(id: number): void {
+    this.filteredProducts = this.filteredProducts.filter(product => product.id !== id);
+    this.productService.deleteProductById(id)
+      .subscribe({
+        next: message => {
+          message = "Delete succesfull"
+        },
+        error: err => this.errorMessage = err
+      });
+  }
+
   ngOnInit(): void {
     this.productService.getProducts().subscribe({
       next: products => {
