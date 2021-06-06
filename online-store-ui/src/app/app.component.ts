@@ -6,12 +6,13 @@ import { Component } from '@angular/core';
   <nav class="navbar navbar-expand navbar-light bg-light">
     <a class="navbar-brand">{{title}}</a>
     <ul class="nav nav-pills">
-      <li><a class="nav-link" routerLink="/welcome">Home</a></li>
-      <li><a class="nav-link" routerLink="/products">Product List</a></li>
-      <li><a class="nav-link" routerLink="/cart">Cart</a></li>
-      <li><a class="nav-link" routerLink="/orders">Orders</a></li>
-      <li><a class="nav-link" routerLink="">Login</a></li>
-      <li><a class="nav-link" routerLink="/add-product">Add product</a></li>
+      <li><a class="nav-link" routerLink="/welcome">HOME</a></li>
+      <li><a class="nav-link" routerLink="/products">PRODUCT LIST</a></li>
+      <li><a class="nav-link" routerLink="/cart">CART</a></li>
+      <li><a class="nav-link" routerLink="/orders">ORDERS</a></li>
+      <li><a class="nav-link" routerLink="">LOGIN</a></li>
+      <li><a class="nav-link" routerLink="/add-product">ADD PRODUCT</a></li>
+      <li><a class="nav-link" routerLink="/storage">STORAGE</a></li>
     </ul>
   </nav>
   <div class="container">
