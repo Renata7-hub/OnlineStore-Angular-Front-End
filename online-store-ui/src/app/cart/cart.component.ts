@@ -18,6 +18,7 @@ export class CartComponent implements OnInit {
   carts: Cart[] = [] ;
   @Input() isNewOrder: boolean = false;
   totalPrice = 0;
+  errorMessage = "";
 
   constructor(
     private cartService: CartService,
@@ -33,22 +34,23 @@ export class CartComponent implements OnInit {
      });
   }
 
-  onDelete(id: number): void {
-    // this.filteredProducts = this.filteredProducts.filter(product => product.id !== id);
-    // this.productService.deleteProductById(id)
-    //   .subscribe({
-    //     next: message => {
-    //       message = "Delete succesfull"
-    //     },
-    //     error: err => this.errorMessage = err
-    //   });
+  onDelete(id: number) {
+    console.log(id);
+    this.carts = this.carts.filter(item => item.id !== id);
+    this.cartService.deleteCartEntryById(id)
+      .subscribe({
+        next: message => {
+          message = "Delete succesfull"
+        },
+        error: err => this.errorMessage = err
+      });
   }
 
-  substract(id : number) {
+  onSubtract(id: number) {
 
   }
 
-  add(){
+  onAdd(id: number){
 
   }
 

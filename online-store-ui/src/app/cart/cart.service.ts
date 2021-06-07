@@ -14,11 +14,12 @@ export class CartService {
   private getAllProductsUrl = 'http://localhost:8080/cart';
   private getTotalPriceUrl = 'http://localhost:8080/cart/getTotalPrice';
   private addToCartUrl = 'http://localhost:8080/cart';
+  private removeFromCartProductUrl = 'http://localhost:8080/cart/delete/';
 
   constructor(private http: HttpClient) { }
 
-  postCart(){
-    /*return this.http.post()*/
+  public deleteCartEntryById(id: number) {
+    return this.http.delete(this.removeFromCartProductUrl + id)
   }
 
   getCart(): Observable<Cart[]> {
@@ -36,6 +37,7 @@ export class CartService {
         tap(data => console.log("All", JSON.stringify(data)))
       );
   }
+
 
   getTotalPrice(): Observable<number> {
     return this.http.get<number>(this.getTotalPriceUrl);
