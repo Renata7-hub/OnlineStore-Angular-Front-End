@@ -3,8 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import {Observable} from "rxjs";
 import {Cart} from "./cart";
 import {IProduct} from "../products/product";
-import {catchError, tap} from "rxjs/operators";
-import {Products} from "../products/products";
+import {tap} from "rxjs/operators";
 import {CartModelToCart} from "./cart.model-to-cart";
 
 @Injectable({
