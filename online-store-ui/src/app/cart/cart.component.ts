@@ -19,11 +19,14 @@ export class CartComponent implements OnInit {
   @Input() isNewOrder: boolean = false;
   totalPrice = 0;
   errorMessage = "";
+  quantity = 0;
 
   constructor(
     private cartService: CartService,
     private router: Router
     ) {}
+
+
 
   ngOnInit(): void {
     this.cartService.getCart().subscribe(data => {
@@ -33,6 +36,8 @@ export class CartComponent implements OnInit {
        this.totalPrice = data;
      });
   }
+
+
 
   onDelete(id: number) {
     console.log(id);
