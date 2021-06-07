@@ -3,6 +3,8 @@ import {ProductService} from "../products/product.service";
 import {IProduct} from "../products/product";
 import {DatePipe} from "@angular/common";
 import {StorageService} from "./storage.service";
+import {Storage} from "./storage";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-storage',
@@ -15,37 +17,34 @@ export class StorageComponent implements OnInit {
   errorMessage: string = "";
   products!: IProduct[];
   storages: any;
+  //storageDTO!: Storage;
   date = new Date();
 
   constructor(private productService: ProductService,
               private storageService: StorageService,
+              private router: Router,
               private datePipe: DatePipe) {
     // @ts-ignore
     this.date = this.datePipe.transform(this.date, 'yyyy-MM-dd');
   }
 
   ngOnInit(): void {
-    this.productService.getProducts().subscribe({
-      next: products => {
-        this.products = products;
-      },
-      error: err => this.errorMessage = err
-    });
-    console.log(this.date)
-
     this.storageService.getAllProductQuantityOnDate(this.date).subscribe(data => {
       this.storages = data;
-      console.log(this.storages)
     })
-
   }
 
-  substract(product_id: number){
+  updateStorage(product_id: number, quantiy: number){
+     var storageDTO: Storage = new Storage();
+     storageDTO.productId = product_id;
+     storageDTO.quantity = quantiy;
+     storageDTO.date = this.date;
 
+    this.storageService.postProductQuantity(storageDTO).subscribe(result => this.ngOnInit())
   }
 
-  add(product_id: number){
-
+  getQuantityByProductIdOnDate(product_id: number){
+    this.storageService.getQuantityByProductIdOnDate(this.date, product_id).subscribe(result => console.log(result))
   }
 
 }
