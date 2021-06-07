@@ -2,6 +2,8 @@ import {Component, OnDestroy, OnInit} from "@angular/core";
 import { Subscription } from "rxjs";
 import {IProduct} from "./product";
 import {ProductService} from "./product.service";
+import {Products} from "./products";
+import {CartService} from "../cart/cart.service";
 
 @Component({
   templateUrl: './product-list.component.html',
@@ -27,7 +29,9 @@ export class ProductListComponent implements OnInit, OnDestroy{
   filteredProducts: IProduct[] = [];
   products: IProduct[] = [];
 
-  constructor(private productService: ProductService) {
+  constructor(private productService: ProductService,
+              private cartService: CartService
+  ) {
   }
 
   performFilter(filterBy: string): IProduct[] {
@@ -49,6 +53,14 @@ export class ProductListComponent implements OnInit, OnDestroy{
         },
         error: err => this.errorMessage = err
       });
+  }
+
+  addToCartProduct(product: Products): void {
+    this.cartService.addProductToCart(product).subscribe({
+      next: message => {
+      },
+      error: err => this.errorMessage = err
+    });
   }
 
   ngOnInit(): void {
