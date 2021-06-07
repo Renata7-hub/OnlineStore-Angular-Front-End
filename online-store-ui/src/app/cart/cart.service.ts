@@ -14,6 +14,8 @@ export class CartService {
   private getTotalPriceUrl = 'http://localhost:8080/cart/getTotalPrice';
   private addToCartUrl = 'http://localhost:8080/cart';
   private removeFromCartProductUrl = 'http://localhost:8080/cart/delete/';
+  private addQuantityToProductInCartUrl = 'http://localhost:8080/cart/add-quantity';
+  private subtractQuantityToProductInCartUrl = 'http://localhost:8080/cart/subtract-quantity';
 
   constructor(private http: HttpClient) { }
 
@@ -25,6 +27,14 @@ export class CartService {
     return this.http.get<Cart[]>(this.getAllProductsUrl).pipe(
       tap(data => console.log("All", JSON.stringify(data)))
     );
+  }
+
+  addQuantityToProduct(cart: Cart) {
+    return this.http.post<Cart>(this.addQuantityToProductInCartUrl, cart);
+  }
+
+  subtractQuantityToProduct(cart: Cart) {
+    return this.http.post<Cart>(this.subtractQuantityToProductInCartUrl, cart);
   }
 
   addProductToCart(product: IProduct) {

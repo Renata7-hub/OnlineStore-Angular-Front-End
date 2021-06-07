@@ -51,12 +51,22 @@ export class CartComponent implements OnInit {
       });
   }
 
-  onSubtract(id: number) {
-
+  onSubtract(cart: Cart) {
+    this.cartService.subtractQuantityToProduct(cart)
+      .subscribe({
+        next: message => {
+        },
+        error: err => this.errorMessage = err
+      });
   }
 
-  onAdd(id: number){
-
+  onAdd(cart: Cart){
+    this.cartService.addQuantityToProduct(cart)
+      .subscribe({
+        next: message => {
+        },
+        error: err => this.errorMessage = err
+      });
   }
 
   createOrder(){

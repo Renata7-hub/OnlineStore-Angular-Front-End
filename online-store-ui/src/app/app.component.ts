@@ -10,7 +10,6 @@ import { Component } from '@angular/core';
       <li><a class="nav-link" routerLink="/products">PRODUCT LIST</a></li>
       <li><a class="nav-link" routerLink="/cart">CART</a></li>
       <li><a class="nav-link" routerLink="/orders">ORDERS</a></li>
-      <li><a class="nav-link" routerLink="">LOGIN</a></li>
       <li><a class="nav-link" routerLink="/add-product">ADD PRODUCT</a></li>
       <li><a class="nav-link" routerLink="/storage">STORAGE</a></li>
     </ul>
