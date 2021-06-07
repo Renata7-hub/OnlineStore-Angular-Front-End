@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {IProduct} from "./product";
 import {ProductService} from "./product.service";
+import {Products} from "./products";
+import {CartService} from "../cart/cart.service";
 
 @Component({
   templateUrl: './product-detail.component.html',
@@ -10,11 +12,12 @@ import {ProductService} from "./product.service";
 export class ProductDetailComponent implements OnInit {
   pageTitle = 'Product Detail';
   errorMessage = '';
-  product: IProduct | undefined;
+  product: any;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private productService: ProductService) {
+              private productService: ProductService,
+              private cartService: CartService) {
   }
 
   ngOnInit(): void {
@@ -32,11 +35,15 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
-  onBack(): void {
-    this.router.navigate(['/products']);
+  addToCartProduct(product: Products): void {
+    this.cartService.addProductToCart(product).subscribe({
+      next: message => {
+      },
+      error: err => this.errorMessage = err
+    });
   }
 
-  onAddToCart(): void {
-
+  onBack(): void {
+    this.router.navigate(['/products']);
   }
 }
