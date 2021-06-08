@@ -11,7 +11,7 @@ import {CartService} from "../cart/cart.service";
 })
 
 export class ProductListComponent implements OnInit, OnDestroy{
-  pageTitle = "Produktų sąrašas";
+  pageTitle = "Product list";
   showImage:boolean = true;
   errorMessage: string = "";
   private _listFilter: string = '';

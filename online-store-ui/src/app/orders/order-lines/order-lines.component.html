@@ -22,14 +22,18 @@
             <td></td>
             <td>{{orderLine.product.title}}</td>
             <td>{{orderLine.quantity}}</td>
-            <td>{{orderLine.product.price}}</td>
-            <td>{{orderLine.product.price * orderLine.quantity}}</td>
+            <td>{{orderLine.product.price | currency: "EUR"}}</td>
+            <td>{{orderLine.product.price * orderLine.quantity | currency: "EUR"}}</td>
           </tr>
           </tbody>
 
           <tfoot>
           <tr>
             <td>Total Cost:</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{orderTotalCost | currency: "EUR"}}</td>
           </tr>
           </tfoot>
         </table>

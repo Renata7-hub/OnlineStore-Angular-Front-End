@@ -2,46 +2,47 @@
   <div class="card-body">
     <form (ngSubmit)="onSubmit()" #userForm="ngForm">
       <div class="form-group">
-        <label for="title">Produkto pavadinimas</label>
+        <label for="title">Product title</label>
         <input type="text" [(ngModel)]="products.title"
                class="form-control"
                id="title"
                name="title"
-               placeholder="Produkto pavadinimas"
+               placeholder="Enter title"
                required #title="ngModel">
       </div>
       <div class="form-group">
-        <label for="price">Kaina</label>
+        <label for="price">Price</label>
         <input type="number" [(ngModel)]="products.price"
                class="form-control"
                id="price"
                name="price"
-               placeholder="Produkto kaina"
+               placeholder="Enter price"
                required #description="ngModel">
       </div>
       <div class="form-group">
-        <label for="type">Produkto tipas</label>
+        <label for="type">Product type</label>
         <select name="type" [(ngModel)]="products.type"
                class="form-control"
                id="type"
+                placeholder="Select type"
                 required #type="ngModel">
           <option *ngFor="let types of productTypes" [ngValue]="types.id">{{types.title}}</option>
         </select>
       </div>
       <div class="form-group">
-        <label for="description">Aprašymas</label>
+        <label for="description">Description</label>
         <input type="text" [(ngModel)]="products.description"
                class="form-control"
                id="description"
                name="description"
-               placeholder="Produkto aprašymas"
+               placeholder="Enter description"
                required #description="ngModel">
       </div>
       <div>
         <br>
       </div>
       <button type="submit" [disabled]="!userForm.form.valid"
-              class="btn btn-info">Submit</button>
+              class="btn btn-info">Save</button>
     </form>
   </div>
 </div>
