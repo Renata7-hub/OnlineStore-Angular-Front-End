@@ -37,6 +37,13 @@ export class CartService {
       );
   }
 
+  // addQuantityToProduct(cart: Cart) {
+  //   return this.http.post<Cart>(this.addQuantityToProductInCartUrl, cart);
+  // }
+  //
+  // subtractQuantityToProduct(cart: Cart) {
+  //   return this.http.post<Cart>(this.subtractQuantityToProductInCartUrl, cart);
+  // }
 
   getTotalPrice(): Observable<number> {
     return this.http.get<number>(this.getTotalPriceUrl);
