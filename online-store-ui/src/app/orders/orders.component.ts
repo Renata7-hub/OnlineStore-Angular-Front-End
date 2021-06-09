@@ -13,17 +13,24 @@ export class OrdersComponent implements OnInit, OnDestroy {
   order: IOrder[] = [];
   errorMessage = "Somethings Wrong"
   sub: Subscription | undefined;
+  orderTotals: any;
 
   constructor(private orderService: OrdersService,
               private route: ActivatedRoute,
               private router: Router) { }
 
   ngOnInit(): void {
-    this.orderService.getOrders().subscribe({
+/*    this.orderService.getOrders().subscribe({
       next: orders => {
         this.order = orders;
       },
       error: err => this.errorMessage = err
+    });*/
+
+    // @ts-ignore
+    this.orderService.getOrdersTotalCost().subscribe(data => {
+      this.orderTotals = data;
+      console.log(this.orderTotals)
     });
 
   }

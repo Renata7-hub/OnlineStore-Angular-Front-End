@@ -10,10 +10,11 @@ import {IOrder} from "../interfaces/order-interface.model";
   styleUrls: ['./order-lines.component.css']
 })
 export class OrderLinesComponent implements OnInit {
-  pageTitle = "Order items"
-  @Input() order: IOrder | undefined
-  orderLines: any
-  errorMessage = 'Something is wrong'
+  pageTitle = "Order items";
+  @Input() order!: IOrder;
+  orderLines: any;
+  orderTotalCost = 0;
+  errorMessage = 'Something is wrong';
 
   constructor(private orderService: OrdersService,
               private route: ActivatedRoute,
@@ -23,7 +24,12 @@ export class OrderLinesComponent implements OnInit {
     // @ts-ignore
     this.orderService.getOrderLines(this.order.id).subscribe(data => {
       this.orderLines = data;
-    })
+    });
+
+    // @ts-ignore
+    this.orderService.getOrderTotalCost(this.order.id).subscribe(data => {
+      this.orderTotalCost = data;
+    });
   }
 
 

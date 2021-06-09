@@ -14,7 +14,7 @@ import {Cart} from "./cart";
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-  pageTitle = "Krepšelis";
+  pageTitle = "Cart";
   carts: Cart[] = [] ;
   @Input() isNewOrder: boolean = false;
   totalPrice = 0;

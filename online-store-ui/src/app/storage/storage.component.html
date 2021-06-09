@@ -1,9 +1,16 @@
-
 <ng-container *ngIf="storages; else none">
   <div class="card">
 
     <div class="card-header">
       {{pageTitle}}
+      <label for="storageDate">on </label>
+      <input type="date" [(ngModel)]="date"
+             (focusout)="getAllProductQuantityOnDate()"
+             class="form-control"
+             id="storageDate"
+             name="storageDate"
+             placeholder="Date"
+             required #storageDate="ngModel">
     </div>
 
     <div class="card-body">

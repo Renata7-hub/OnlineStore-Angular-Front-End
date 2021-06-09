@@ -8,19 +8,19 @@
         <table class="table">
           <thead>
           <tr>
-            <th>Data</th>
-            <th>Numeris</th>
-            <th>Viso suma</th>
+            <th>Date</th>
+            <th>ID</th>
+            <th>Total</th>
             <th></th>
           </tr>
           </thead>
 
           <tbody>
-          <tr *ngFor="let orders of order">
-            <td>{{orders.orderDate}}</td>
-            <td></td>
-            <td></td>
-            <td><a class="nav-link" [routerLink]="['/order', orders.id]">Peržiūrėti</a></td>
+          <tr *ngFor="let orderTotal of orderTotals">
+            <td>{{orderTotal.purchaseOrder.orderDate}}</td>
+            <td>{{orderTotal.purchaseOrder.id}}</td>
+            <td>{{orderTotal.totalCost | currency: "EUR"}} </td>
+            <td><a class="nav-link" [routerLink]="['/order', orderTotal.purchaseOrder.id]">Details</a></td>
           </tr>
           </tbody>
         </table>

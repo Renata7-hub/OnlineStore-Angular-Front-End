@@ -43,6 +43,14 @@ export class OrdersService {
     return this.http.get('http://localhost:8080/purchase/order/'+id+'/lines')
   }
 
+  getOrdersTotalCost(){
+    return this.http.get('http://localhost:8080/purchase/order/totals')
+  }
+
+  getOrderTotalCost(id: number): Observable<number> {
+    return this.http.get<number>('http://localhost:8080/purchase/order/'+id+'/total');
+  }
+
   public createOrderLinesFromCart(orderId: number) {
     return this.http.post<any>("http://localhost:8080/purchase/order/lines/moveFromCart?purchase_order_id="+orderId, "{purchase_order_id: orderId}").pipe(
       tap(/*data => console.log("All", JSON.stringify(data))*/),

@@ -29,10 +29,15 @@ export class StorageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getAllProductQuantityOnDate();
+  }
+
+  getAllProductQuantityOnDate()
+  {
     this.storageService.getAllProductQuantityOnDate(this.date).subscribe(data => {
       this.storages = data;
     })
-  }
+}
 
   updateStorage(product_id: number, quantiy: number){
      var storageDTO: Storage = new Storage();
