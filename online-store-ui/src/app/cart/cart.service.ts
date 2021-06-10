@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {Observable} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {Cart} from "./cart";
 import {IProduct} from "../products/product";
-import {catchError, tap} from "rxjs/operators";
+import { tap} from "rxjs/operators";
 import {CartModelToCart} from "./cart.model-to-cart";
-import {Storage} from "../storage/storage";
+import {CartComponent} from "./cart.component";
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +17,7 @@ export class CartService {
   private removeFromCartProductUrl = 'http://localhost:8080/cart/delete/';
   private addQuantityToProductInCartUrl = 'http://localhost:8080/cart/add-quantity/';
   private subtractQuantityToProductInCartUrl = 'http://localhost:8080/cart/subtract-quantity/';
+  private totalPrice = 0;
 
   constructor(private http: HttpClient) { }
 
@@ -40,10 +41,15 @@ export class CartService {
       );
   }
 
-  public postProductQuantity(id: number){
-    return this.http.post("http://localhost:8080/product/quantity/", id).pipe(
-      tap(/*data => console.log("All", JSON.stringify(data))*/)
-    );
+  updateProductOnAdd(selectedProduct: Cart): void {
+    selectedProduct.quantity += 1;
+  }
+
+  updateProductOnSubtract(selectedProduct: Cart): void {
+    if (selectedProduct.quantity <= 0) {
+      return;
+    }
+    selectedProduct.quantity -= 1;
   }
 
   addQuantityToProduct(cart: Cart) {

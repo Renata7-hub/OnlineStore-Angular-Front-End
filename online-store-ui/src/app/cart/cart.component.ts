@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { NewOrderComponent } from "../orders/new-order/new-order.component";
 import {Cart} from "./cart";
 import {Storage} from "../storage/storage";
+import {ProductService} from "../products/product.service";
 
 // @ts-ignore
 //import Any = jasmine.Any;
@@ -24,7 +25,8 @@ export class CartComponent implements OnInit {
 
   constructor(
     private cartService: CartService,
-    private router: Router
+    private router: Router,
+    private productService: ProductService
     ) {}
 
   ngOnInit(): void {
@@ -34,13 +36,6 @@ export class CartComponent implements OnInit {
      this.cartService.getTotalPrice().subscribe(data => {
        this.totalPrice = data;
      });
-  }
-
-  updateCart(product_id: number, quantiy: number){
-    var cartDTO: Cart = new Cart();
-    cartDTO.id = product_id;
-    cartDTO.quantity = quantiy;
-    this.cartService.postProductQuantity(cartDTO.id).subscribe(result => this.ngOnInit())
   }
 
   onDelete(id: number) {
@@ -56,6 +51,7 @@ export class CartComponent implements OnInit {
   }
 
   onSubtract(cart: Cart) {
+    this.cartService.updateProductOnSubtract(cart)
     this.cartService.subtractQuantityToProduct(cart)
       .subscribe({
         next: message => {
@@ -65,6 +61,8 @@ export class CartComponent implements OnInit {
   }
 
   onAdd(cart: Cart){
+    this.cartService.updateProductOnAdd(cart)
+    this.totalPrice += cart.product.price;
     this.cartService.addQuantityToProduct(cart)
       .subscribe({
         next: message => {
