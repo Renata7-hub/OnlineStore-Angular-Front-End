@@ -19,6 +19,13 @@ import { NewOrderComponent } from './orders/new-order/new-order.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import {CommonModule} from "@angular/common";
 import { StorageComponent } from './storage/storage.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {AppRoutingModule} from "./app-routing.module";
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatButtonModule} from "@angular/material/button";
+import {MyModalComponent} from "./material-module/my-modal/my-modal.component";
 
 @NgModule({
   declarations: [
@@ -33,7 +40,9 @@ import { StorageComponent } from './storage/storage.component';
     OrderLinesComponent,
     ProductFormComponent,
     NewOrderComponent,
-    StorageComponent
+    StorageComponent,
+    MyModalComponent
+
   ],
   imports: [
     CommonModule,
@@ -41,6 +50,13 @@ import { StorageComponent } from './storage/storage.component';
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
     RouterModule.forRoot([
       { path: '', component: LoginComponent },
       { path: 'welcome', component: WelcomeComponent },
@@ -69,7 +85,8 @@ import { StorageComponent } from './storage/storage.component';
       },
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
       { path: '**', redirectTo: 'welcome', pathMatch: 'full' }
-    ])
+    ]),
+    BrowserAnimationsModule
   ],
   bootstrap: [AppComponent]
 })

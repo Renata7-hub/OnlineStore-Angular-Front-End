@@ -3,6 +3,8 @@ import { CartService } from "./cart.service";
 import { Router } from "@angular/router";
 import { NewOrderComponent } from "../orders/new-order/new-order.component";
 import {Cart} from "./cart";
+import {Storage} from "../storage/storage";
+import {ProductService} from "../products/product.service";
 
 // @ts-ignore
 //import Any = jasmine.Any;
@@ -23,10 +25,9 @@ export class CartComponent implements OnInit {
 
   constructor(
     private cartService: CartService,
-    private router: Router
+    private router: Router,
+    private productService: ProductService
     ) {}
-
-
 
   ngOnInit(): void {
     this.cartService.getCart().subscribe(data => {
@@ -37,12 +38,11 @@ export class CartComponent implements OnInit {
      });
   }
 
-
-
-  onDelete(id: number) {
-    console.log(id);
-    this.carts = this.carts.filter(item => item.id !== id);
-    this.cartService.deleteCartEntryById(id)
+  onDelete(cart: Cart) {
+    console.log(cart.id);
+    this.carts = this.carts.filter(item => item.id !== cart.id);
+    this.totalPrice -= cart.quantity * cart.product.price;
+    this.cartService.deleteCartEntryById(cart.id)
       .subscribe({
         next: message => {
           message = "Delete succesfull"
@@ -51,16 +51,47 @@ export class CartComponent implements OnInit {
       });
   }
 
-  onSubtract(id: number) {
-
+  onSubtract(cart: Cart) {
+    this.cartService.updateProductOnSubtract(cart)
+    this.onSubtractUpdateTotalPrice(cart);
+    this.cartService.subtractQuantityToProduct(cart)
+      .subscribe({
+        next: message => {
+        },
+        error: err => this.errorMessage = err
+      });
   }
 
-  onAdd(id: number){
+  onAdd(cart: Cart){
+    this.cartService.updateProductOnAdd(cart)
+    this.onAddUpdateTotalPrice(cart);
+    this.cartService.addQuantityToProduct(cart)
+      .subscribe({
+        next: message => {
+        },
+        error: err => this.errorMessage = err
+      });
+  }
 
+  onAddUpdateTotalPrice(cart:Cart): void {
+    if (cart.quantity == 0) {
+      return;
+    }
+      this.totalPrice += cart.product.price;
+  }
+
+  onSubtractUpdateTotalPrice(cart:Cart): void {
+    if (cart.quantity == 0) {
+      this.totalPrice -= cart.product.price;
+      if (cart.quantity == 0) {
+        return;
+      }
+    }
+    this.totalPrice -= cart.product.price;
   }
 
   createOrder(){
-    this.router.navigate(['orders/new'])
+    this.router.navigate(['orders/new']);
   }
 
 

@@ -1,9 +1,10 @@
 import {IProduct} from "./product";
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {Observable, throwError} from "rxjs";
+import {Observable, Subject, throwError} from "rxjs";
 import {catchError, map, tap} from "rxjs/operators";
 import {Products} from "./products";
+import {Cart} from "../cart/cart";
 
 @Injectable({
   providedIn: 'root'
