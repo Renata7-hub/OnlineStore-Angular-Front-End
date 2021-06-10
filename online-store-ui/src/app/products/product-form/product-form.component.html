@@ -2,25 +2,25 @@
   <div class="card-body">
     <form (ngSubmit)="onSubmit()" #userForm="ngForm">
       <div class="form-group">
-        <label for="title">Produkto pavadinimas</label>
+        <label for="title">Name</label>
         <input type="text" [(ngModel)]="products.title"
                class="form-control"
                id="title"
                name="title"
-               placeholder="Produkto pavadinimas"
+               placeholder="Name"
                required #title="ngModel">
       </div>
       <div class="form-group">
-        <label for="price">Kaina</label>
+        <label for="price">Price</label>
         <input type="number" [(ngModel)]="products.price"
                class="form-control"
                id="price"
                name="price"
-               placeholder="Produkto kaina"
+               placeholder="Price"
                required #description="ngModel">
       </div>
       <div class="form-group">
-        <label for="type">Produkto tipas</label>
+        <label for="type">Product type</label>
         <select name="type" [(ngModel)]="products.type"
                class="form-control"
                id="type"
@@ -29,12 +29,12 @@
         </select>
       </div>
       <div class="form-group">
-        <label for="description">Aprašymas</label>
+        <label for="description">Description</label>
         <input type="text" [(ngModel)]="products.description"
                class="form-control"
                id="description"
                name="description"
-               placeholder="Produkto aprašymas"
+               placeholder="Description"
                required #description="ngModel">
       </div>
       <div>
