@@ -5,6 +5,7 @@ import { NewOrderComponent } from "../orders/new-order/new-order.component";
 import {Cart} from "./cart";
 import {Storage} from "../storage/storage";
 import {ProductService} from "../products/product.service";
+import {MbscFormOptions, mobiscroll} from "@mobiscroll/angular";
 
 // @ts-ignore
 //import Any = jasmine.Any;
@@ -39,6 +40,7 @@ export class CartComponent implements OnInit {
   }
 
   onDelete(cart: Cart) {
+    this.showRemovedFromCart();
     console.log(cart.id);
     this.carts = this.carts.filter(item => item.id !== cart.id);
     this.totalPrice -= cart.quantity * cart.product.price;
@@ -88,6 +90,16 @@ export class CartComponent implements OnInit {
       }
     }
     this.totalPrice -= cart.product.price;
+  }
+  formSettings: MbscFormOptions = {
+    theme: 'ios',
+    themeVariant: 'light'
+  };
+
+  showRemovedFromCart() {
+    mobiscroll.toast({
+      message: 'Product removed from cart!'
+    });
   }
 
   createOrder(){

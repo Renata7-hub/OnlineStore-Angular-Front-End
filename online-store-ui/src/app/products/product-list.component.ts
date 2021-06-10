@@ -1,9 +1,10 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import { Subscription } from "rxjs";
 import {IProduct} from "./product";
 import {ProductService} from "./product.service";
 import {Products} from "./products";
 import {CartService} from "../cart/cart.service";
+import {MbscFormOptions, mobiscroll} from "@mobiscroll/angular";
 
 @Component({
   templateUrl: './product-list.component.html',
@@ -26,6 +27,23 @@ export class ProductListComponent implements OnInit, OnDestroy{
     this.filteredProducts = this.performFilter(value);
   }
 
+  formSettings: MbscFormOptions = {
+    theme: 'ios',
+    themeVariant: 'light'
+  };
+
+  showAddedToCart() {
+    mobiscroll.toast({
+      message: 'Product added to cart!'
+    });
+  }
+
+  showRemovedFromProductList() {
+    mobiscroll.toast({
+      message: 'Product removed from list!'
+    });
+  }
+
   filteredProducts: IProduct[] = [];
   products: IProduct[] = [];
 
@@ -33,6 +51,7 @@ export class ProductListComponent implements OnInit, OnDestroy{
               private cartService: CartService
   ) {
   }
+
 
   performFilter(filterBy: string): IProduct[] {
     filterBy = filterBy.toLocaleLowerCase();
@@ -45,6 +64,7 @@ export class ProductListComponent implements OnInit, OnDestroy{
   }
 
   onDelete(id: number): void {
+    this.showRemovedFromProductList();
     this.filteredProducts = this.filteredProducts.filter(product => product.id !== id);
     this.productService.deleteProductById(id)
       .subscribe({
@@ -56,6 +76,7 @@ export class ProductListComponent implements OnInit, OnDestroy{
   }
 
   addToCartProduct(product: Products): void {
+    this.showAddedToCart();
     this.cartService.addProductToCart(product).subscribe({
       next: message => {
       },
@@ -77,4 +98,5 @@ export class ProductListComponent implements OnInit, OnDestroy{
   ngOnDestroy() {
     this.sub?.unsubscribe();
   }
+
 }
