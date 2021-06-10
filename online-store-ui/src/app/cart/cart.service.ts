@@ -3,8 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import {Observable} from "rxjs";
 import {Cart} from "./cart";
 import {IProduct} from "../products/product";
-import {tap} from "rxjs/operators";
+import {catchError, tap} from "rxjs/operators";
 import {CartModelToCart} from "./cart.model-to-cart";
+import {Storage} from "../storage/storage";
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,12 @@ export class CartService {
       return this.http.post<CartModelToCart>(this.addToCartUrl, newProduct).pipe(
         tap(data => console.log("All", JSON.stringify(data)))
       );
+  }
+
+  public postProductQuantity(id: number){
+    return this.http.post("http://localhost:8080/product/quantity/", id).pipe(
+      tap(/*data => console.log("All", JSON.stringify(data))*/)
+    );
   }
 
   addQuantityToProduct(cart: Cart) {

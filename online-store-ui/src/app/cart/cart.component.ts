@@ -3,6 +3,7 @@ import { CartService } from "./cart.service";
 import { Router } from "@angular/router";
 import { NewOrderComponent } from "../orders/new-order/new-order.component";
 import {Cart} from "./cart";
+import {Storage} from "../storage/storage";
 
 // @ts-ignore
 //import Any = jasmine.Any;
@@ -27,13 +28,19 @@ export class CartComponent implements OnInit {
     ) {}
 
   ngOnInit(): void {
-
     this.cartService.getCart().subscribe(data => {
       this.carts = data;
     });
      this.cartService.getTotalPrice().subscribe(data => {
        this.totalPrice = data;
      });
+  }
+
+  updateCart(product_id: number, quantiy: number){
+    var cartDTO: Cart = new Cart();
+    cartDTO.id = product_id;
+    cartDTO.quantity = quantiy;
+    this.cartService.postProductQuantity(cartDTO.id).subscribe(result => this.ngOnInit())
   }
 
   onDelete(id: number) {
