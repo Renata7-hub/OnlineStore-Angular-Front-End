@@ -1,3 +1,4 @@
+import { MbscModule } from '@mobiscroll/angular';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -13,7 +14,7 @@ import { OrderComponent } from './orders/order/order.component';
 import { ProductFormComponent } from './products/product-form/product-form.component';
 import { WelcomeComponent } from "./home/welcome.component";
 import { LoginComponent } from "./login/login.component";
-import { HttpClientModule } from "@angular/common/http";
+import {HttpClientJsonpModule, HttpClientModule} from "@angular/common/http";
 import { OrderLinesComponent } from './orders/order-lines/order-lines.component';
 import { NewOrderComponent } from './orders/new-order/new-order.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -25,7 +26,6 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
-import {MyModalComponent} from "./material-module/my-modal/my-modal.component";
 
 @NgModule({
   declarations: [
@@ -40,11 +40,11 @@ import {MyModalComponent} from "./material-module/my-modal/my-modal.component";
     OrderLinesComponent,
     ProductFormComponent,
     NewOrderComponent,
-    StorageComponent,
-    MyModalComponent
+    StorageComponent
 
   ],
   imports: [
+    MbscModule,
     CommonModule,
     ReactiveFormsModule,
     BrowserModule,
@@ -57,6 +57,7 @@ import {MyModalComponent} from "./material-module/my-modal/my-modal.component";
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MbscModule,
     RouterModule.forRoot([
       { path: '', component: LoginComponent },
       { path: 'welcome', component: WelcomeComponent },
@@ -86,7 +87,9 @@ import {MyModalComponent} from "./material-module/my-modal/my-modal.component";
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
       { path: '**', redirectTo: 'welcome', pathMatch: 'full' }
     ]),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule,
+    HttpClientJsonpModule
   ],
   bootstrap: [AppComponent]
 })

@@ -17,7 +17,6 @@ export class CartService {
   private removeFromCartProductUrl = 'http://localhost:8080/cart/delete/';
   private addQuantityToProductInCartUrl = 'http://localhost:8080/cart/add-quantity/';
   private subtractQuantityToProductInCartUrl = 'http://localhost:8080/cart/subtract-quantity/';
-  private totalPrice = 0;
 
   constructor(private http: HttpClient) { }
 
