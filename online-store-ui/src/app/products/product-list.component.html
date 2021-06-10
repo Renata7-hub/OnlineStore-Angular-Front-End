@@ -27,11 +27,17 @@
           <th>Title</th>
           <th>ID</th>
           <th>Price</th>
+          <th></th>
         </tr>
         </thead>
         <tbody *ngFor="let product of filteredProducts">
-          <td>
-          </td>
+        <td>
+          <img *ngIf='showImage'
+               [attr.src]='product.imageUrl'
+               [title]='product.title'
+               [style.width.px]='120'
+               [style.margin.px]='3'>
+        </td>
           <td>
             <a [routerLink]="['/products', product.id]">
             {{product.title}}
@@ -39,6 +45,7 @@
           </td>
           <td>{{product.id}}</td>
           <td>{{product.price | currency: 'EUR' }}</td>
+          <td></td>
           <td>
             <ul class="list-inline m-0">
               <li class="list-inline-item">
