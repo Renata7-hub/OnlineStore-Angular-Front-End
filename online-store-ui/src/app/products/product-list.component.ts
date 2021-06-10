@@ -4,6 +4,7 @@ import {IProduct} from "./product";
 import {ProductService} from "./product.service";
 import {Products} from "./products";
 import {CartService} from "../cart/cart.service";
+import {StorageService} from "../storage/storage.service";
 
 @Component({
   templateUrl: './product-list.component.html',
@@ -30,7 +31,8 @@ export class ProductListComponent implements OnInit, OnDestroy{
   products: IProduct[] = [];
 
   constructor(private productService: ProductService,
-              private cartService: CartService
+              private cartService: CartService,
+              private storageService: StorageService
   ) {
   }
 

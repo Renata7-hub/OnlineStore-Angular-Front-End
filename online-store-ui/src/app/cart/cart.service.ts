@@ -3,9 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import {Observable, Subject} from "rxjs";
 import {Cart} from "./cart";
 import {IProduct} from "../products/product";
-import { tap} from "rxjs/operators";
+import {map, tap} from "rxjs/operators";
 import {CartModelToCart} from "./cart.model-to-cart";
 import {CartComponent} from "./cart.component";
+import {Storage} from "../storage/storage";
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,13 @@ export class CartService {
     return this.http.get<Cart[]>(this.getAllProductsUrl).pipe(
       tap(data => console.log("All", JSON.stringify(data)))
     );
+  }
+
+  public getCartById(id: number): Observable<Cart | undefined> {
+    return this.getCart()
+      .pipe(
+        map((carts: Cart[]) => carts.find(p => p.id === id))
+      );
   }
 
   addProductToCart(product: IProduct) {

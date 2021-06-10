@@ -1,14 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { CartService } from "./cart.service";
 import { Router } from "@angular/router";
-import { NewOrderComponent } from "../orders/new-order/new-order.component";
 import {Cart} from "./cart";
-import {Storage} from "../storage/storage";
-import {ProductService} from "../products/product.service";
-
-// @ts-ignore
-//import Any = jasmine.Any;
-
+import {StorageService} from "../storage/storage.service";
+import {IStorage} from "../storage/storage.interface";
 
 @Component({
   selector: 'app-cart',
@@ -18,6 +13,7 @@ import {ProductService} from "../products/product.service";
 export class CartComponent implements OnInit {
   pageTitle = "Cart";
   carts: Cart[] = [] ;
+  storage: IStorage[] = [];
   @Input() isNewOrder: boolean = false;
   totalPrice = 0;
   errorMessage = "";
@@ -26,7 +22,7 @@ export class CartComponent implements OnInit {
   constructor(
     private cartService: CartService,
     private router: Router,
-    private productService: ProductService
+    private storageService: StorageService
     ) {}
 
   ngOnInit(): void {
@@ -36,6 +32,9 @@ export class CartComponent implements OnInit {
      this.cartService.getTotalPrice().subscribe(data => {
        this.totalPrice = data;
      });
+    this.storageService.getProductsInStorage().subscribe(data => {
+      this.storage = data;
+    });
   }
 
   onDelete(cart: Cart) {
@@ -68,7 +67,7 @@ export class CartComponent implements OnInit {
     this.cartService.addQuantityToProduct(cart)
       .subscribe({
         next: message => {
-        },
+            },
         error: err => this.errorMessage = err
       });
   }
@@ -81,14 +80,14 @@ export class CartComponent implements OnInit {
   }
 
   onSubtractUpdateTotalPrice(cart:Cart): void {
-    if (cart.quantity == 0) {
-      this.totalPrice -= cart.product.price;
-      if (cart.quantity == 0) {
-        return;
-      }
-    }
-    this.totalPrice -= cart.product.price;
+      this.cartService.getTotalPrice().subscribe(data => {
+        this.totalPrice = data;
+      });
   }
+
+  // onAddCheckIfProductInStorage(cart:Cart, storage:IStorage): void {
+  //   if (cart.quantity => storage.quantity)
+  // }
 
   createOrder(){
     this.router.navigate(['orders/new']);

@@ -1,15 +1,32 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {catchError, tap} from "rxjs/operators";
-import {throwError} from "rxjs";
+import {catchError, map, tap} from "rxjs/operators";
+import {Observable, throwError} from "rxjs";
 import {Storage} from "./storage";
+import {IStorage} from "./storage.interface";
 
 @Injectable({
   providedIn: 'root'
 })
 export class StorageService {
 
+  private getAllProductsInStorageUrl = 'http://localhost:8080/product/quantity'
+
   constructor(private http: HttpClient) { }
+
+  public getProductsInStorage(): Observable<IStorage[]> {
+    return this.http.get<IStorage[]>(this.getAllProductsInStorageUrl).pipe(
+      tap(data => console.log("All", JSON.stringify(data))),
+      catchError(StorageService.handleError)
+    );
+  }
+
+  public getProductsInStorageById(id: number): Observable<IStorage | undefined> {
+    return this.getProductsInStorage()
+      .pipe(
+        map((storages: IStorage[]) => storages.find(p => p.id === id))
+      );
+  }
 
   public getAllProductQuantityOnDate(date: Date){
     return this.http.get("http://localhost:8080/product/get-all/quantity?date="+date.toString()).pipe(
@@ -26,7 +43,6 @@ export class StorageService {
   }
 
   public postProductQuantity(storage: Storage){
-    console.log("test", storage)
     return this.http.post("http://localhost:8080/product/quantity", storage).pipe(
       tap(/*data => console.log("All", JSON.stringify(data))*/),
       catchError(StorageService.handleError)

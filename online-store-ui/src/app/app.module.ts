@@ -25,7 +25,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
-import {MyModalComponent} from "./material-module/my-modal/my-modal.component";
+import {AlertComponent} from "./shared/alert.component";
 
 @NgModule({
   declarations: [
@@ -41,7 +41,7 @@ import {MyModalComponent} from "./material-module/my-modal/my-modal.component";
     ProductFormComponent,
     NewOrderComponent,
     StorageComponent,
-    MyModalComponent
+    AlertComponent
 
   ],
   imports: [
