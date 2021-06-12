@@ -25,10 +25,16 @@
           <tr *ngFor="let cart of carts">
             <td>{{cart.product.title}}</td>
             <td>
-              <div class="quantity">
-                <button class="btn minus1" (click)="onSubtract(cart)">-</button>
-                <input class="quantity" id="id_form-0-quantity" min="0" name="form-0-quantity"  value="{{ cart.quantity }}" type="number">
+              <div class="quantity" >
+                <div >
+                <button class="btn minus1" (click)="onSubtract(cart)" *ngIf="cart.quantity != 0">-</button>
+                </div>
+                <div >
+                <input class="quantity" id="id_form-0-quantity" min="0" name="form-0-quantity"   value="{{ cart.quantity }}" type="number">
+                </div>
+                <div>
                 <button class="btn add1" (click)="onAdd(cart)">+</button>
+                </div>
               </div>
             </td>
             <td>{{cart.product.price | currency: "EUR"}}</td>

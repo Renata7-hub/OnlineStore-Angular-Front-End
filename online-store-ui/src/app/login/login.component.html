@@ -16,6 +16,6 @@
           && !password.valid">Password is required</div>
   </div>
   <div>
-    <button [disabled]="loading">Login</button>
+    <button [disabled]="loading" (click)="onChange()">Login</button>
   </div>
 </form>
