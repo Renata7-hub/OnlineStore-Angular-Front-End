@@ -31,7 +31,7 @@
           <th></th>
         </tr>
         </thead>
-        <tbody *ngFor="let product of filteredProducts">
+        <tbody *ngFor="let product of filteredProducts | paginate: {itemsPerPage: 10, currentPage: p}">
         <td>
           <img *ngIf='showImage'
                [attr.src]='product.imageUrl'
@@ -67,7 +67,8 @@
           </td>
         </tbody>
       </table>
-    </div>
 
+    </div>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
   </div>
 </div>

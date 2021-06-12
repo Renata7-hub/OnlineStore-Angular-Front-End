@@ -26,6 +26,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
+import {NgxPaginationModule} from "ngx-pagination";
 
 @NgModule({
   declarations: [
@@ -58,8 +59,10 @@ import {MatButtonModule} from "@angular/material/button";
     MatInputModule,
     MatButtonModule,
     MbscModule,
+    NgxPaginationModule,
     RouterModule.forRoot([
-      { path: '', component: LoginComponent },
+      { path: '', pathMatch: 'full', redirectTo: 'login' },
+      { path: 'login', component: LoginComponent },
       { path: 'welcome', component: WelcomeComponent },
       {path: 'add-product', component: ProductFormComponent},
       {path: 'products', component: ProductListComponent},

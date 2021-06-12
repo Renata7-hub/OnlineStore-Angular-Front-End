@@ -17,6 +17,7 @@ export class ProductListComponent implements OnInit, OnDestroy{
   errorMessage: string = "";
   private _listFilter: string = '';
   sub: Subscription | undefined;
+  p: number = 1;
 
   get listFilter(): string {
     return this._listFilter;
@@ -44,6 +45,8 @@ export class ProductListComponent implements OnInit, OnDestroy{
     });
   }
 
+
+
   filteredProducts: IProduct[] = [];
   products: IProduct[] = [];
 
@@ -52,6 +55,10 @@ export class ProductListComponent implements OnInit, OnDestroy{
   ) {
   }
 
+  // onChangePage(pageOfItems: Array<any>) {
+  //   // update current page of items
+  //   this.pageOfItems = pageOfItems;
+  // }
 
   performFilter(filterBy: string): IProduct[] {
     filterBy = filterBy.toLocaleLowerCase();
