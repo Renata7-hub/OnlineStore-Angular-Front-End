@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import { mobiscroll, MbscFormOptions } from '@mobiscroll/angular';
-import {LoginService} from "./login/login.service";
 
 @Component({
   selector: 'app-root',
   template:`
+    <style>.flexWrap { display: flex; }</style>
   <nav class="navbar navbar-expand navbar-light bg-light" >
     <a class="navbar-brand">{{title}}</a>
     <ul class="nav nav-pills">
@@ -19,22 +18,15 @@ import {LoginService} from "./login/login.service";
   <div class="container">
     <router-outlet></router-outlet>
   </div>
+
   `
 })
 export class AppComponent implements OnInit {
   title = 'Digital sales outlet';
 
-  isLogged!: boolean;
-
-    constructor(private loginService:LoginService) {
+    constructor() {
   }
 
   ngOnInit(): void {
-    this.loginService.currentIsLogged.subscribe(isLogged =>
-    this.isLogged = isLogged)
-    }
-
-    onChange(): void {
-      this.loginService.changeStatusOfLogin();
     }
 }

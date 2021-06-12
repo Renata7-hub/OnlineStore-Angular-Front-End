@@ -28,6 +28,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {NgxPaginationModule} from "ngx-pagination";
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,6 +61,7 @@ import {NgxPaginationModule} from "ngx-pagination";
     MatButtonModule,
     MbscModule,
     NgxPaginationModule,
+    HttpClientJsonpModule,
     RouterModule.forRoot([
       { path: '', pathMatch: 'full', redirectTo: 'login' },
       { path: 'login', component: LoginComponent },
