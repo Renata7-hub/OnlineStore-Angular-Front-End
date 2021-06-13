@@ -1,35 +1,33 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {LoginService} from "./login.service";
 
 
 @Component({
   selector: 'app-login',
-  templateUrl: 'login.component.html'
+  templateUrl: 'login.component.html',
+  styleUrls: ['./login.component.css']
 })
 
 export class LoginComponent implements OnInit {
+
   model: any = {};
   loading: any;
-  isLogged: boolean | undefined;
+  isLogged: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient,
-    private loginService: LoginService
+    private http: HttpClient
   ) { }
 
   ngOnInit() {
-    this.loginService.currentIsLogged.subscribe(isLogged =>
-      this.isLogged = isLogged)
     sessionStorage.setItem('token', '');
   }
 
   onChange(): void {
-    this.loginService.changeStatusOfLogin();
+    this.isLogged = !this.isLogged;
   }
 
   login() {

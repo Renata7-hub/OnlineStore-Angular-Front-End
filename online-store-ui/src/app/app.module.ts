@@ -27,6 +27,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {NgxPaginationModule} from "ngx-pagination";
+import {RegisterComponent} from "./register/register.component";
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import {NgxPaginationModule} from "ngx-pagination";
     OrderLinesComponent,
     ProductFormComponent,
     NewOrderComponent,
-    StorageComponent
+    StorageComponent,
+    RegisterComponent
 
   ],
   imports: [
@@ -89,6 +91,7 @@ import {NgxPaginationModule} from "ngx-pagination";
       {
         path: 'storage', component: StorageComponent
       },
+      {path: 'register', component: RegisterComponent},
       { path: '', redirectTo: 'welcome', pathMatch: 'full' },
       { path: '**', redirectTo: 'welcome', pathMatch: 'full' }
     ]),
