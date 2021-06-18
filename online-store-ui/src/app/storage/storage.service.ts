@@ -9,26 +9,26 @@ import {Storage} from "./storage";
 })
 export class StorageService {
 
+  private getQuantityByDateUrl = "http://localhost:8080/product/get-all/quantity";
+  private getQuantityByIdAndDateUrl = "http://localhost:8080/product/{id}/quantity";
+  private getProductQuantityUrl = "http://localhost:8080/product/quantity";
+
   constructor(private http: HttpClient) { }
 
   public getAllProductQuantityOnDate(date: Date){
-    return this.http.get("http://localhost:8080/product/get-all/quantity?date="+date.toString()).pipe(
-      tap(/*data => console.log("All", JSON.stringify(data))*/),
-      catchError(StorageService.handleError)
-    );
+    return this.http.get(this.getQuantityByDateUrl + "?date="+date.toString())
   }
 
   public getQuantityByProductIdOnDate(date: Date, id: number){
-    return this.http.get("http://localhost:8080/product/{id}/quantity?date="+date+"&productId="+id).pipe(
-      tap(/*data => console.log("All", JSON.stringify(data))*/),
+    return this.http.get(this.getQuantityByIdAndDateUrl + "?date="+date+"&productId="+id).pipe(
+      tap(data => console.log("All", JSON.stringify(data))),
       catchError(StorageService.handleError)
     );
   }
 
   public postProductQuantity(storage: Storage){
-    console.log("test", storage)
-    return this.http.post("http://localhost:8080/product/quantity", storage).pipe(
-      tap(/*data => console.log("All", JSON.stringify(data))*/),
+    return this.http.post(this.getProductQuantityUrl, storage).pipe(
+      tap(data => console.log("All", JSON.stringify(data))),
       catchError(StorageService.handleError)
     );
   }
