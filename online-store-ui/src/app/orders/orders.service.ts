@@ -14,6 +14,8 @@ export class OrdersService {
 
   private getOrdersUrl = "http://localhost:8080/purchase/order";
   private createOrderUrl = "http://localhost:8080/purchase/order";
+  private cartOrderLineUrl = 'http://localhost:8080/purchase/order/';
+  private cartTotalCostUrl = 'http://localhost:8080/purchase/order/totals';
   constructor(private http: HttpClient) {
   }
 
@@ -40,11 +42,11 @@ export class OrdersService {
   }
 
   getOrderLines(id: string){
-    return this.http.get('http://localhost:8080/purchase/order/'+id+'/lines')
+    return this.http.get(this.cartOrderLineUrl + id + '/lines');
   }
 
   getOrdersTotalCost(){
-    return this.http.get('http://localhost:8080/purchase/order/totals')
+    return this.http.get(this.cartTotalCostUrl);
   }
 
   getOrderTotalCost(id: number): Observable<number> {
