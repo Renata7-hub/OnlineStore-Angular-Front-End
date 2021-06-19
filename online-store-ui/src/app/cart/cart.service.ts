@@ -53,25 +53,15 @@ export class CartService {
   }
 
   addQuantityToProduct(cart: Cart) {
-    var updateCart = {
-      id: cart.id,
-      product: cart.product,
-      quantity: 1
-    };
-    console.log(updateCart);
-    return this.http.put<Cart>(this.changeProductQuantityInCartUrl, updateCart).pipe(
+    console.log(cart);
+    return this.http.put<Cart>(this.changeProductQuantityInCartUrl, cart).pipe(
       tap(data => console.log("All", JSON.stringify(data)))
     );
   }
 
   subtractQuantityToProduct(cart: Cart) {
-    var updateCart = {
-      id: cart.id,
-      product: cart.product,
-      quantity: -1
-    };
-    console.log(updateCart);
-    return this.http.put<Cart>(this.changeProductQuantityInCartUrl, updateCart).pipe(
+    console.log(cart);
+    return this.http.put<Cart>(this.changeProductQuantityInCartUrl, cart).pipe(
       tap(data => console.log("All", JSON.stringify(data)))
     );
   }
