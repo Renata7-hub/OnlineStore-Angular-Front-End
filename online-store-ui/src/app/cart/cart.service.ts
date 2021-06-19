@@ -14,9 +14,10 @@ export class CartService {
   private getAllProductsUrl = 'http://localhost:8080/cart';
   private getTotalPriceUrl = 'http://localhost:8080/cart/getTotalPrice';
   private addToCartUrl = 'http://localhost:8080/cart';
-  private removeFromCartProductUrl = 'http://localhost:8080/cart/delete/';
+  private removeFromCartProductUrl = 'http://localhost:8080/cart/';
   private addQuantityToProductInCartUrl = 'http://localhost:8080/cart/add-quantity/';
   private subtractQuantityToProductInCartUrl = 'http://localhost:8080/cart/subtract-quantity/';
+  private changeProductQuantityInCartUrl = 'http://localhost:8080/cart';
 
   constructor(private http: HttpClient) { }
 
@@ -52,11 +53,27 @@ export class CartService {
   }
 
   addQuantityToProduct(cart: Cart) {
-    return this.http.post<Cart>(this.addQuantityToProductInCartUrl, cart);
+    var updateCart = {
+      id: cart.id,
+      product: cart.product,
+      quantity: 1
+    };
+    console.log(updateCart);
+    return this.http.put<Cart>(this.changeProductQuantityInCartUrl, updateCart).pipe(
+      tap(data => console.log("All", JSON.stringify(data)))
+    );
   }
 
   subtractQuantityToProduct(cart: Cart) {
-    return this.http.post<Cart>(this.subtractQuantityToProductInCartUrl, cart);
+    var updateCart = {
+      id: cart.id,
+      product: cart.product,
+      quantity: -1
+    };
+    console.log(updateCart);
+    return this.http.put<Cart>(this.changeProductQuantityInCartUrl, updateCart).pipe(
+      tap(data => console.log("All", JSON.stringify(data)))
+    );
   }
 
   getTotalPrice(): Observable<number> {
