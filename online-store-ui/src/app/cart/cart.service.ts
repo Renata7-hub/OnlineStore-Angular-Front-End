@@ -5,7 +5,6 @@ import {Cart} from "./cart";
 import {IProduct} from "../products/product";
 import { tap} from "rxjs/operators";
 import {CartModelToCart} from "./cart.model-to-cart";
-import {CartComponent} from "./cart.component";
 
 @Injectable({
   providedIn: 'root'
