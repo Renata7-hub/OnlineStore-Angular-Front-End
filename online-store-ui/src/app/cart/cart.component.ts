@@ -53,7 +53,14 @@ export class CartComponent implements OnInit {
       });
   }
 
-  onSubtract(cart: Cart) {
+  onSubtract(cart: Cart){
+    cart.quantity = cart.quantity - 1;
+    console.log(cart);
+    this.cartService.updateCart(cart).subscribe(result => cart = result);
+  }
+
+
+/*  onSubtract(cart: Cart) {
     this.cartService.updateProductOnSubtract(cart)
     this.onSubtractUpdateTotalPrice(cart);
     this.cartService.subtractQuantityToProduct(cart)
@@ -62,17 +69,17 @@ export class CartComponent implements OnInit {
         },
         error: err => this.errorMessage = err
       });
-  }
+  }*/
 
   onAdd(cart: Cart){
-    this.cartService.updateProductOnAdd(cart)
+/*    this.cartService.updateProductOnAdd(cart)
     this.onAddUpdateTotalPrice(cart);
     this.cartService.addQuantityToProduct(cart)
       .subscribe({
         next: message => {
         },
         error: err => this.errorMessage = err
-      });
+      });*/
   }
 
   onAddUpdateTotalPrice(cart:Cart): void {

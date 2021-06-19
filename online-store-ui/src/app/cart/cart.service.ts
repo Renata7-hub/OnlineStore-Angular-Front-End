@@ -51,12 +51,18 @@ export class CartService {
     selectedProduct.quantity -= 1;
   }
 
-  addQuantityToProduct(cart: Cart) {
-    return this.http.post<Cart>(this.addQuantityToProductInCartUrl, cart);
-  }
+  /* addQuantityToProduct(cart: Cart) {
+     return this.http.post<Cart>(this.addQuantityToProductInCartUrl, cart);
+   }
+   subtractQuantityToProduct(cart: Cart) {
+     return this.http.post<Cart>(this.subtractQuantityToProductInCartUrl, cart);
+   }*/
 
-  subtractQuantityToProduct(cart: Cart) {
-    return this.http.post<Cart>(this.subtractQuantityToProductInCartUrl, cart);
+  updateCart(cart: Cart):Observable<Cart>{
+    return this.http.put<Cart>("http://localhost:8080/cart/"+cart.id, {
+      "productId": 1,
+        "quantity": 7
+    });
   }
 
   getTotalPrice(): Observable<number> {
