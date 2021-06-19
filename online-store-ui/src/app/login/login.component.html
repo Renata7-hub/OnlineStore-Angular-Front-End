@@ -1,28 +1,50 @@
-<div class="container">
-<form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="main-wrapper" fxLayout="row" fxLayoutAlign="center center">
+    <mat-card class="box">
+      <mat-card-header>
+        <mat-card-title>Sign In</mat-card-title>
+      </mat-card-header>
+      <mat-card class="box">
+<form class="example-form" name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+  <mat-card-content>
+  <mat-form-field class="example-full-width">
   <div [ngClass]="{ 'has-error': f.submitted && !username.valid }">
-    <label for="username">Username</label>
-    <input type="text"
+    <input matInput placeholder="Username"
+      type="text"
            name="username" [(ngModel)]="model.username"
            #username="ngModel" required />
     <span>
     <div *ngIf="f.submitted
-          && !username.valid">Username is required</div>
+          && !username.valid"></div>
       </span>
   </div>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
   <div [ngClass]="{ 'has-error': f.submitted && !password.valid }">
-    <label for="password">Password</label>
-    <input type="password"
+    <input matInput placeholder="Password"
+           type="password"
            name="password" [(ngModel)]="model.password"
            #password="ngModel" required />
     <span>
     <div *ngIf="f.submitted
-          && !password.valid">Password is required</div>
+          && !password.valid"></div>
       </span>
   </div>
-  <div>
-    <button [disabled]="loading" (click)="onChange()">Login</button>
-  </div>
+  </mat-form-field>
+  </mat-card-content>
+
+          <div>
+              <button mat-stroked-button color="blue" class="btn-block" [disabled]="loading" (click)="onChange()">Login</button>
+          </div>
+        </form>
+      </mat-card>
 <!--    Not registered ?<a routerLink="/register">Register</a>-->
-</form>
-</div>
+
+<!--</div>-->

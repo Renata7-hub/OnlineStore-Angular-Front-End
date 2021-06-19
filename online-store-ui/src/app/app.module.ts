@@ -1,5 +1,5 @@
 import { MbscModule } from '@mobiscroll/angular';
-import { NgModule } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
@@ -28,6 +28,8 @@ import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {NgxPaginationModule} from "ngx-pagination";
 import {RegisterComponent} from "./register/register.component";
+import {AngularMaterialModule} from "./shared/angular-material.module";
+import {FlexLayoutModule} from "@angular/flex-layout";
 
 
 @NgModule({
@@ -64,10 +66,12 @@ import {RegisterComponent} from "./register/register.component";
     MbscModule,
     NgxPaginationModule,
     HttpClientJsonpModule,
+    AngularMaterialModule,
     RouterModule.forRoot([
-      { path: '', pathMatch: 'full', redirectTo: 'login' },
-      { path: 'login', component: LoginComponent },
-      { path: 'welcome', component: WelcomeComponent },
+      {path: '', pathMatch: 'full', redirectTo: 'login'},
+      {path: 'login', component: LoginComponent},
+      {path: 'register', component: RegisterComponent},
+      {path: 'welcome', component: WelcomeComponent},
       {path: 'add-product', component: ProductFormComponent},
       {path: 'products', component: ProductListComponent},
       {
@@ -91,14 +95,15 @@ import {RegisterComponent} from "./register/register.component";
       {
         path: 'storage', component: StorageComponent
       },
-      {path: 'register', component: RegisterComponent},
-      { path: '', redirectTo: 'welcome', pathMatch: 'full' },
-      { path: '**', redirectTo: 'welcome', pathMatch: 'full' }
+      {path: '', redirectTo: 'welcome', pathMatch: 'full'},
+      {path: '**', redirectTo: 'welcome', pathMatch: 'full'}
     ]),
     BrowserAnimationsModule,
     HttpClientModule,
-    HttpClientJsonpModule
+    HttpClientJsonpModule,
+    FlexLayoutModule
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

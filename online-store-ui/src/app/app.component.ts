@@ -1,19 +1,17 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-root',
   template:`
-    <style>.flexWrap { display: flex; }</style>
-  <nav class="navbar navbar-expand navbar-light bg-light" >
+  <nav class="navbar navbar-expand navbar-light bg-light" *ngIf="!isUserLoggedIn">
     <a class="navbar-brand">{{title}}</a>
-    <ul class="nav nav-pills">
-      <li><a class="nav-link" routerLink="/welcome">HOME</a></li>
-      <li><a class="nav-link" routerLink="/products">PRODUCT LIST</a></li>
-      <li><a class="nav-link" routerLink="/cart">CART</a></li>
-      <li><a class="nav-link" routerLink="/orders">ORDERS</a></li>
-      <li><a class="nav-link" routerLink="/add-product">ADD PRODUCT</a></li>
-      <li><a class="nav-link" routerLink="/storage">STORAGE</a></li>
-    </ul>
+      <a class="nav-link" routerLink="/welcome">HOME</a>
+      <a class="nav-link" routerLink="/products">PRODUCT LIST</a>
+      <a class="nav-link" routerLink="/cart">CART</a>
+      <a class="nav-link" routerLink="/orders">ORDERS</a>
+      <a class="nav-link" routerLink="/add-product">ADD PRODUCT</a>
+      <a class="nav-link" routerLink="/storage">STORAGE</a>
+      <a class="nav-link" style="text-align: right" routerLink="/#" >LOGOUT</a>
   </nav>
   <div class="container">
     <router-outlet></router-outlet>
@@ -23,7 +21,7 @@ import {Component, OnInit} from '@angular/core';
 })
 export class AppComponent implements OnInit {
   title = 'Digital sales outlet';
-  isLogged: boolean = true;
+  @Input() public isUserLoggedIn: boolean | undefined;
 
     constructor() {
   }
