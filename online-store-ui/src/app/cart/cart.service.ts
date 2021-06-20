@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {Observable, Subject} from "rxjs";
+import {Observable} from "rxjs";
 import {Cart} from "./cart";
 import {IProduct} from "../products/product";
 import { tap} from "rxjs/operators";
@@ -14,8 +14,6 @@ export class CartService {
   private getTotalPriceUrl = 'http://localhost:8080/cart/getTotalPrice';
   private addToCartUrl = 'http://localhost:8080/cart';
   private removeFromCartProductUrl = 'http://localhost:8080/cart/';
-  private addQuantityToProductInCartUrl = 'http://localhost:8080/cart/add-quantity/';
-  private subtractQuantityToProductInCartUrl = 'http://localhost:8080/cart/subtract-quantity/';
   private changeProductQuantityInCartUrl = 'http://localhost:8080/cart';
 
   constructor(private http: HttpClient) { }
@@ -35,6 +33,7 @@ export class CartService {
       productId: product.id,
       quantity: 1
     }
+    // window.location.reload();
       return this.http.post<CartModelToCart>(this.addToCartUrl, newProduct).pipe(
         tap(data => console.log("All", JSON.stringify(data)))
       );

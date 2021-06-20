@@ -1,13 +1,15 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CartService} from "./cart/cart.service";
 import {Cart} from "./cart/cart";
-import {Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {LoginService} from "./login/login.service";
+import {IProduct} from "./products/product";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-root',
   template:`
-  <nav class="navbar navbar-expand navbar-light bg-light">
+  <nav class="navbar navbar-expand navbar-light bg-light" >
 <!--   *ngIf="isLogged"    -->
 
     <a class="navbar-brand">{{title}}</a>
@@ -31,6 +33,8 @@ export class AppComponent implements OnInit, OnDestroy {
   isLogged: boolean | undefined;
   subscription!: Subscription;
 
+
+
   constructor(private cartService: CartService,
               private loginService: LoginService) {
   }
@@ -42,6 +46,13 @@ export class AppComponent implements OnInit, OnDestroy {
     });
     // this.subscription = this.loginService.currentMessage.subscribe(message => this.isLogged = message)
   }
+
+  // public getProduct(quantity: number): Observable<Cart | undefined> {
+  //   return this.cartService.getCart()
+  //     .pipe(
+  //       map((cart: Cart[]) => this.carts.find(p => p.quantity === quantity))
+  //     );
+  // }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

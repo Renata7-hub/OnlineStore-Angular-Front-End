@@ -6,6 +6,7 @@ import {catchError, map, tap} from "rxjs/operators";
 import {IOrder} from "./interfaces/order-interface.model";
 import {IProduct} from "../products/product";
 import {Products} from "../products/products";
+import {DatePipe} from "@angular/common";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,8 @@ export class OrdersService {
   private createOrderUrl = "http://localhost:8080/purchase/order";
   private cartOrderLineUrl = 'http://localhost:8080/purchase/order/';
   private cartTotalCostUrl = 'http://localhost:8080/purchase/order/totals';
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              public datePipe: DatePipe) {
   }
 
   public getOrders(): Observable<IOrder[]> {
@@ -36,7 +38,7 @@ export class OrdersService {
 
   public save(order: Order) {
     return this.http.post<any>(this.createOrderUrl, order).pipe(
-      tap(/*data => console.log("All", JSON.stringify(data))*/),
+      tap(data => console.log("All", JSON.stringify(data))),
       catchError(OrdersService.handleError)
     );
   }
