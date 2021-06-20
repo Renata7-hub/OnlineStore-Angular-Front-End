@@ -1,6 +1,6 @@
-import {Component} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
-import {HttpClient} from "@angular/common/http";
+import {Component, Inject} from "@angular/core";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {RegisterInterface} from "./register.interface";
 
 
 @Component({
@@ -12,11 +12,11 @@ import {HttpClient} from "@angular/common/http";
 export class RegisterComponent {
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router
-  ) { }
+    public dialogRef: MatDialogRef<RegisterComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: RegisterInterface) {}
 
-  onSave() {
-    this.router.navigate(['/login']);
+  onNoClick(): void {
+    this.dialogRef.close();
   }
+
 }

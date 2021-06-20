@@ -4,7 +4,7 @@ import {IProduct} from "./product";
 import {ProductService} from "./product.service";
 import {Products} from "./products";
 import {CartService} from "../cart/cart.service";
-import {mobiscroll} from "@mobiscroll/angular";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 @Component({
@@ -29,24 +29,24 @@ export class ProductListComponent implements OnInit, OnDestroy{
     this.filteredProducts = this.performFilter(value);
   }
 
-  showAddedToCart() {
-    mobiscroll.toast({
-      message: 'Product added to cart!'
-    });
-  }
-
-  showRemovedFromProductList() {
-    mobiscroll.toast({
-      message: 'Product removed from list!'
-    });
-  }
-
   filteredProducts: IProduct[] = [];
   products: IProduct[] = [];
 
   constructor(private productService: ProductService,
-              private cartService: CartService
+              private cartService: CartService,
+              private _snackBar: MatSnackBar
   ) {
+  }
+  openSnackBarOnAdd() {
+    this._snackBar.open('Product added to cart', 'Dismiss', {
+      panelClass: ["custom-style"]
+    });
+  }
+
+  openSnackBarOnDelete() {
+    this._snackBar.open('Product removed from product list', 'Dismiss', {
+      panelClass: ["custom-style"]
+    });
   }
 
   performFilter(filterBy: string): IProduct[] {
@@ -60,7 +60,7 @@ export class ProductListComponent implements OnInit, OnDestroy{
   }
 
   onDelete(id: number): void {
-    this.showRemovedFromProductList();
+    this.openSnackBarOnDelete();
     this.filteredProducts = this.filteredProducts.filter(product => product.id !== id);
     this.productService.deleteProductById(id)
       .subscribe({
@@ -72,12 +72,13 @@ export class ProductListComponent implements OnInit, OnDestroy{
   }
 
   addToCartProduct(product: Products): void {
-    this.showAddedToCart();
+    this.openSnackBarOnAdd();
     this.cartService.addProductToCart(product).subscribe({
       next: message => {
       },
       error: err => this.errorMessage = err
     });
+
   }
 
   ngOnInit(): void {

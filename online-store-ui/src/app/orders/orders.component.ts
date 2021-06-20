@@ -20,27 +20,13 @@ export class OrdersComponent implements OnInit, OnDestroy {
               private router: Router) { }
 
   ngOnInit(): void {
-/*    this.orderService.getOrders().subscribe({
-      next: orders => {
-        this.order = orders;
-      },
-      error: err => this.errorMessage = err
-    });*/
 
-    // @ts-ignore
     this.orderService.getOrdersTotalCost().subscribe(data => {
       this.orderTotals = data;
       console.log(this.orderTotals)
     });
 
   }
-
-  // getOrder(id: number): void {
-  //   this.orderService.getOrder(id).subscribe({
-  //     next: order => this.order = order,
-  //     error: err => this.errorMessage = err
-  //   });
-  // }
 
   ngOnDestroy() {
     this.sub?.unsubscribe();

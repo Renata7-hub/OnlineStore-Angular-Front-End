@@ -11,7 +11,7 @@ export class LoginService {
 
   constructor() { }
 
-  changeMessage() {
+  changeLoginStatus() {
     this.isLoggedSource.next(true);
   }
 

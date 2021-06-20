@@ -28,3 +28,8 @@ thead {
 .closebtn:hover {
   color: black;
 }
+
+.custom-style{
+  background-color: white;
+  color:black;
+}
