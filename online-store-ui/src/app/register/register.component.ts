@@ -1,6 +1,7 @@
-import {Component} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
-import {HttpClient} from "@angular/common/http";
+import {Component, Inject} from "@angular/core";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {RegisterInterface} from "./register.interface";
+import {LoginService} from "../login/login.service";
 
 
 @Component({
@@ -11,12 +12,16 @@ import {HttpClient} from "@angular/common/http";
 
 export class RegisterComponent {
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router
-  ) { }
+  nothing: any;
 
-  onSave() {
-    this.router.navigate(['/login']);
+  constructor(
+    public dialogRef: MatDialogRef<RegisterComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: RegisterInterface,
+    private loginService: LoginService) {}
+
+  onNoClick(newUser: RegisterInterface): void {
+    this.loginService.register(newUser).subscribe(result => this.nothing);
+    this.dialogRef.close();
   }
+
 }

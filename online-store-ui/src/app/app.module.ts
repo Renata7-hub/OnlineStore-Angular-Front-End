@@ -32,6 +32,7 @@ import {AngularMaterialModule} from "./shared/angular-material.module";
 import {FlexLayoutModule} from "@angular/flex-layout";
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -71,7 +72,9 @@ import {FlexLayoutModule} from "@angular/flex-layout";
       {path: '', pathMatch: 'full', redirectTo: 'login'},
       {path: 'login', component: LoginComponent},
       {path: 'register', component: RegisterComponent},
-      {path: 'welcome', component: WelcomeComponent},
+      {
+        path: 'welcome', component: WelcomeComponent
+        },
       {path: 'add-product', component: ProductFormComponent},
       {path: 'products', component: ProductListComponent},
       {
