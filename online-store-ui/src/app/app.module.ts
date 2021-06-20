@@ -18,7 +18,7 @@ import {HttpClientJsonpModule, HttpClientModule} from "@angular/common/http";
 import { OrderLinesComponent } from './orders/order-lines/order-lines.component';
 import { NewOrderComponent } from './orders/new-order/new-order.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import {CommonModule} from "@angular/common";
+import {CommonModule, DatePipe} from "@angular/common";
 import { StorageComponent } from './storage/storage.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {AppRoutingModule} from "./app-routing.module";
@@ -107,6 +107,7 @@ import {FlexLayoutModule} from "@angular/flex-layout";
     FlexLayoutModule
   ],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [DatePipe]
 })
 export class AppModule { }
