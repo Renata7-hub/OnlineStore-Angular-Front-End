@@ -1,46 +1,57 @@
 <div class="card my-5">
   <div class="card-body">
+    <mat-card-header>
+      <mat-card-title>Register</mat-card-title>
+    </mat-card-header>
     <form>
       <div class="form-group">
         <label for="firstName">First name</label>
         <input type="text"               class="form-control"
                id="firstName"
-               placeholder="First name ">
+               placeholder="First name "
+                name="firstName" [(ngModel)] = 'data.firstName'>
+
       </div>
       <div class="form-group">
         <label for="surname">Surname</label>
         <input type="text"               class="form-control"
                id="surname"
-               placeholder="Surname">
+               placeholder="Surname"
+               name="lastName" [(ngModel)] = 'data.lastName'>
       </div>
       <div class="form-group">
-        <label for="date">Date of birth</label>
-        <input type="date"               class="form-control"
-               id="date"
-               placeholder="date">
+        <label for="number">Age</label>
+        <input type="number"               class="form-control"
+               id="number"
+               placeholder="number"
+               name="age" [(ngModel)] = 'data.age'>
       </div>
       <div class="form-group">
         <label for="email">Email</label>
         <input type="email"               class="form-control"
                id="email"
-               placeholder="Email">
+               placeholder="Email"
+               name="email" [(ngModel)] = 'data.email'>
       </div>
       <div class="form-group">
         <label for="userName">User name</label>
         <input type="text"               class="form-control"
                id="userName"
-               placeholder="User Name">
+               placeholder="User Name"
+               name="userName" [(ngModel)] = 'data.userName'
+        >
       </div>
       <div class="form-group">
         <label for="password">Password</label>
         <input type="password"
                class="form-control"
                id="password"
-               placeholder="Password">
+               placeholder="Password"
+               name="password" [(ngModel)] = 'data.password'>
         <div>
           <br>
         </div>
-        <button type="submit" class="btn btn-info" (click)="onNoClick()">Register</button>
+        <button type="submit" class="btn btn-info" (click)="onNoClick(data)">Register</button>
 <!--                [disabled]="!registerUserForm.form.valid"-->
 
       </div>

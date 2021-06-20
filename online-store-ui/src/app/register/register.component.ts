@@ -1,6 +1,7 @@
 import {Component, Inject} from "@angular/core";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {RegisterInterface} from "./register.interface";
+import {LoginService} from "../login/login.service";
 
 
 @Component({
@@ -11,11 +12,15 @@ import {RegisterInterface} from "./register.interface";
 
 export class RegisterComponent {
 
+  nothing: any;
+
   constructor(
     public dialogRef: MatDialogRef<RegisterComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: RegisterInterface) {}
+    @Inject(MAT_DIALOG_DATA) public data: RegisterInterface,
+    private loginService: LoginService) {}
 
-  onNoClick(): void {
+  onNoClick(newUser: RegisterInterface): void {
+    this.loginService.register(newUser).subscribe(result => this.nothing);
     this.dialogRef.close();
   }
 

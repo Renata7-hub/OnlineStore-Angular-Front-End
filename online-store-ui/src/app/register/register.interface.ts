@@ -4,4 +4,5 @@ export interface RegisterInterface {
   age: number;
   email: string;
   userName: string;
+  password: string;
 }

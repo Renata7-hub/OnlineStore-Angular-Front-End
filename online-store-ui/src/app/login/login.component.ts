@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   age!: number;
   email!: string;
   userName!: string;
+  password!: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -39,6 +40,7 @@ export class LoginComponent implements OnInit {
     const dialogRef = this.dialog.open(RegisterComponent, {
       width: '400px',
       data: { userName: this.userName,
+              password: this.password,
               firstName: this.firstName,
               lastName: this.lastName,
               email: this.email,
