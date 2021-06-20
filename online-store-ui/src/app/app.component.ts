@@ -1,19 +1,22 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {CartService} from "./cart/cart.service";
+import {Cart} from "./cart/cart";
+import {LoginComponent} from "./login/login.component";
+import {Subscription} from "rxjs";
+import {LoginService} from "./login/login.service";
 
 @Component({
   selector: 'app-root',
   template:`
-    <style>.flexWrap { display: flex; }</style>
-  <nav class="navbar navbar-expand navbar-light bg-light" >
+  <nav class="navbar navbar-expand navbar-light bg-light" *ngIf="isLogged">
     <a class="navbar-brand">{{title}}</a>
-    <ul class="nav nav-pills">
-      <li><a class="nav-link" routerLink="/welcome">HOME</a></li>
-      <li><a class="nav-link" routerLink="/products">PRODUCT LIST</a></li>
-      <li><a class="nav-link" routerLink="/cart">CART</a></li>
-      <li><a class="nav-link" routerLink="/orders">ORDERS</a></li>
-      <li><a class="nav-link" routerLink="/add-product">ADD PRODUCT</a></li>
-      <li><a class="nav-link" routerLink="/storage">STORAGE</a></li>
-    </ul>
+      <a class="nav-link" routerLink="/welcome">HOME</a>
+      <a class="nav-link" routerLink="/products">PRODUCT LIST</a>
+      <a class="nav-link" [matBadge]="this.carts.length" matBadgePosition="below" routerLink="/cart">CART</a>
+      <a class="nav-link" routerLink="/orders">ORDERS</a>
+      <a class="nav-link" routerLink="/add-product">ADD PRODUCT</a>
+      <a class="nav-link" routerLink="/storage">STORAGE</a>
+      <a class="nav-link" routerLink="/#" >LOGOUT</a>
   </nav>
   <div class="container">
     <router-outlet></router-outlet>
@@ -21,13 +24,28 @@ import {Component, OnInit} from '@angular/core';
 
   `
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'Digital sales outlet';
-  isLogged: boolean = true;
+  carts: Cart[] = [];
+  isLogged: boolean | undefined;
+  subscription!: Subscription;
 
-    constructor() {
+  constructor(private cartService: CartService,
+              private loginService: LoginService) {
   }
 
+
   ngOnInit(): void {
-    }
+    this.cartService.getCart().subscribe(data => {
+      this.carts = data;
+    });
+    this.subscription = this.loginService.currentMessage.subscribe(message => this.isLogged = message)
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
 }
+
+

@@ -1,57 +1,57 @@
 <div class="card my-5">
   <div class="card-body">
     <form (ngSubmit)="onSubmit()" #userForm="ngForm">
-      <div class="form-group">
-        <label for="imageUrl">Product image path</label>
-        <input type="text" [(ngModel)]="products.imageUrl"
-               class="form-control"
+      <mat-form-field appearance="fill">
+        <mat-label>Image Url</mat-label>
+        <input matInput [(ngModel)]="products.imageUrl"
                id="imageUrl"
                name="imageUrl"
                placeholder="Enter image url"
                required #imageUrl="ngModel">
-      </div>
-      <div class="form-group">
-        <label for="title">Product title</label>
-        <input type="text" [(ngModel)]="products.title"
-               class="form-control"
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="fill">
+        <mat-label>Product name</mat-label>
+        <input matInput [(ngModel)]="products.title"
                id="title"
                name="title"
                placeholder="Enter title"
                required #title="ngModel">
-      </div>
-      <div class="form-group">
-        <label for="price">Price</label>
-        <input type="number" [(ngModel)]="products.price"
-               class="form-control"
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="fill">
+        <mat-label>Price</mat-label>
+        <input matInput type="number" class="example-right-align" placeholder="0"
+               [(ngModel)]="products.price"
                id="price"
                name="price"
                placeholder="Enter price"
                required #description="ngModel">
-      </div>
-      <div class="form-group">
-        <label for="type">Product type</label>
-        <select name="type" [(ngModel)]="products.type"
-               class="form-control"
+<!--        <span matPrefix>€&nbsp;</span>-->
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="fill">
+        <mat-label>Select type</mat-label>
+        <mat-select name="type" [(ngModel)]="products.type"
                id="type"
                 placeholder="Select type"
                 required #type="ngModel">
-          <option *ngFor="let types of productTypes" [ngValue]="types.id">{{types.title}}</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="description">Description</label>
-        <input type="text" [(ngModel)]="products.description"
-               class="form-control"
+          <mat-option *ngFor="let types of productTypes" value="types.id">{{types.title}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="fill">
+        <mat-label>Textarea</mat-label>
+        <textarea matInput [(ngModel)]="products.description"
                id="description"
                name="description"
                placeholder="Enter description"
-               required #description="ngModel">
-      <div>
-        <br>
-      </div>
+                  required #description="ngModel"> </textarea>
+      </mat-form-field>
+      <br>
       <button type="submit" [disabled]="!userForm.form.valid"
               class="btn btn-info">Save</button>
-      </div>
     </form>
   </div>
 </div>
+

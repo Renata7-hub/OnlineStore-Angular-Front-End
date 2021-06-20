@@ -1,10 +1,11 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from "@angular/core";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import { Subscription } from "rxjs";
 import {IProduct} from "./product";
 import {ProductService} from "./product.service";
 import {Products} from "./products";
 import {CartService} from "../cart/cart.service";
-import {MbscFormOptions, mobiscroll} from "@mobiscroll/angular";
+import {mobiscroll} from "@mobiscroll/angular";
+
 
 @Component({
   templateUrl: './product-list.component.html',
@@ -28,11 +29,6 @@ export class ProductListComponent implements OnInit, OnDestroy{
     this.filteredProducts = this.performFilter(value);
   }
 
-  formSettings: MbscFormOptions = {
-    theme: 'ios',
-    themeVariant: 'light'
-  };
-
   showAddedToCart() {
     mobiscroll.toast({
       message: 'Product added to cart!'
@@ -45,8 +41,6 @@ export class ProductListComponent implements OnInit, OnDestroy{
     });
   }
 
-
-
   filteredProducts: IProduct[] = [];
   products: IProduct[] = [];
 
@@ -54,11 +48,6 @@ export class ProductListComponent implements OnInit, OnDestroy{
               private cartService: CartService
   ) {
   }
-
-  // onChangePage(pageOfItems: Array<any>) {
-  //   // update current page of items
-  //   this.pageOfItems = pageOfItems;
-  // }
 
   performFilter(filterBy: string): IProduct[] {
     filterBy = filterBy.toLocaleLowerCase();

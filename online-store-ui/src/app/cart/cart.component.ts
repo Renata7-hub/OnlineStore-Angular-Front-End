@@ -62,6 +62,7 @@ export class CartComponent implements OnInit {
         },
         error: err => this.errorMessage = err
       });
+
   }
 
   onAdd(cart: Cart){

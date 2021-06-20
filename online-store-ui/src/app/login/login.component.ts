@@ -1,7 +1,8 @@
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, EventEmitter, OnInit, Output} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {LoginService} from "./login.service";
 
 
 @Component({
@@ -14,21 +15,18 @@ export class LoginComponent implements OnInit {
 
   model: any = {};
   loading: any;
-  isLogged: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private loginService: LoginService
   ) { }
 
   ngOnInit() {
     sessionStorage.setItem('token', '');
   }
 
-  onChange(): void {
-    this.isLogged = !this.isLogged;
-  }
 
   login() {
     let url = 'http://localhost:8080/login';
@@ -41,6 +39,7 @@ export class LoginComponent implements OnInit {
           'token',
           btoa(this.model.username + ':' + this.model.password)
         );
+        this.loginService.changeMessage();
         this.router.navigate(['/welcome']);
 
       } else {
