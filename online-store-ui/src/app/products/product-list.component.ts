@@ -1,10 +1,13 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import { Subscription } from "rxjs";
 import {IProduct} from "./product";
 import {ProductService} from "./product.service";
 import {Products} from "./products";
 import {CartService} from "../cart/cart.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
+import {MatButtonModule} from '@angular/material/button';
 
 
 @Component({
@@ -19,6 +22,7 @@ export class ProductListComponent implements OnInit, OnDestroy{
   private _listFilter: string = '';
   sub: Subscription | undefined;
   p: number = 1;
+  @ViewChild(MatSort) sort!: MatSort;
 
   get listFilter(): string {
     return this._listFilter;
@@ -32,11 +36,15 @@ export class ProductListComponent implements OnInit, OnDestroy{
   filteredProducts: IProduct[] = [];
   products: IProduct[] = [];
 
+
+  displayedColumns: string[] = ['imageUrl', 'title', 'id', 'price', 'add','delete'];
+
   constructor(private productService: ProductService,
               private cartService: CartService,
               private _snackBar: MatSnackBar
   ) {
   }
+
   openSnackBarOnAdd() {
     this._snackBar.open('Product added to cart', 'Dismiss', {
       panelClass: ["custom-style"]
@@ -97,3 +105,4 @@ export class ProductListComponent implements OnInit, OnDestroy{
   }
 
 }
+
