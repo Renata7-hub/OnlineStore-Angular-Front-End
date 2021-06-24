@@ -47,11 +47,6 @@ export class LoginComponent implements OnInit {
               age: this.age
       }
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.firstName = result;
-    });
   }
 
 

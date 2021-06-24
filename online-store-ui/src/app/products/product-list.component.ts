@@ -5,9 +5,8 @@ import {ProductService} from "./product.service";
 import {Products} from "./products";
 import {CartService} from "../cart/cart.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
-import {MatButtonModule} from '@angular/material/button';
+import {MatTable} from "@angular/material/table";
 
 
 @Component({
@@ -37,7 +36,9 @@ export class ProductListComponent implements OnInit, OnDestroy{
   products: IProduct[] = [];
 
 
-  displayedColumns: string[] = ['imageUrl', 'title', 'id', 'price', 'add','delete'];
+  displayedColumns: string[] = ['imageUrl', 'title', 'id', 'price', 'add','delete', 'update'];
+
+  @ViewChild(MatTable,{static:true}) table!: MatTable<any>;
 
   constructor(private productService: ProductService,
               private cartService: CartService,

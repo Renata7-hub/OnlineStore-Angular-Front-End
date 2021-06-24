@@ -1,7 +1,7 @@
-import {Component, Inject} from "@angular/core";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {RegisterInterface} from "./register.interface";
+import {Component,  OnInit} from "@angular/core";
+import {MatDialogRef} from "@angular/material/dialog";
 import {LoginService} from "../login/login.service";
+import {FormBuilder,FormGroup, Validators} from "@angular/forms";
 
 
 @Component({
@@ -10,18 +10,44 @@ import {LoginService} from "../login/login.service";
   styleUrls: ['./register.component.css']
 })
 
-export class RegisterComponent {
+export class RegisterComponent implements OnInit{
 
   nothing: any;
+  hide = true;
+  registerForm!: FormGroup;
+
+  reactiveForm() {
+    this.registerForm = this.fb.group({
+      firstName: ['', { validators: [Validators.required]}],
+      lastName: ['', { validators: [Validators.required]}],
+      age: ['', { validators: [Validators.required]}],
+      email: ['',{validators: [Validators.required, Validators.email],}],
+      userName: ['',{validators: [Validators.required]}],
+      password: ['', { validators: [Validators.required]}],
+    })
+  }
+
 
   constructor(
     public dialogRef: MatDialogRef<RegisterComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: RegisterInterface,
-    private loginService: LoginService) {}
+    private loginService: LoginService,
+    private fb: FormBuilder) {
 
-  onNoClick(newUser: RegisterInterface): void {
-    this.loginService.register(newUser).subscribe(result => this.nothing);
+  }
+
+  onNoClick(): void {
+    this.loginService.register(this.registerForm.value).subscribe(result => this.nothing);
     this.dialogRef.close();
   }
+
+  onClose(): void {
+    this.dialogRef.close();
+  }
+
+  ngOnInit(): void {
+    this.reactiveForm();
+  }
+
+
 
 }
