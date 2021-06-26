@@ -3,13 +3,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ProductService} from "../product.service";
 import {Products} from "../products";
 import {productType} from "./productType";
-
-class ImageSnippet {
-  pending: boolean = false;
-  status: string = 'init';
-
-  constructor(public src: string, public file: File) {}
-}
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-product-form',
@@ -19,23 +14,22 @@ class ImageSnippet {
 export class ProductFormComponent implements OnInit {
 
   products: Products;
-  retrievedImage: any;
-  base64Data: any;
-  retrieveResponse: any;
-  message: string | undefined;
+  selectedFile!: File;
+  retrievedImage!: any;
+  base64Data!: any;
+  retrieveResponse!: any;
+  message!: string;
+  imageName!: any;
 
 
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private productService: ProductService) {
+              private productService: ProductService,
+              public fb: FormBuilder,
+              private httpClient: HttpClient) {
               this.products = new class extends Products {};
   }
-
-  // public onFileChanged(event) {
-  //   this.products.image = event.target.files[0];
-  // }
-
 
 
   productTypes: productType[] = [
@@ -54,5 +48,37 @@ export class ProductFormComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  public onFileChanged(event: any) {
+
+    this.selectedFile = event.target.files[0];
+
+  }
+
+  onUpload() {
+    console.log(this.selectedFile);
+    const uploadImageData = new FormData();
+    uploadImageData.append('imageFile', this.selectedFile, this.selectedFile.name);
+    this.httpClient.post('http://localhost:8080/product/image/upload', uploadImageData, { observe: 'response' })
+      .subscribe((response) => {
+        if (response.status === 200) {
+          this.message = 'Image uploaded successfully';
+        } else {
+          this.message = 'Image not uploaded successfully';
+        }
+      }
+  );
+  }
+  getImage() {
+    this.httpClient.get('http://localhost:8080/product/image/get/' + this.imageName)
+      .subscribe(
+    res => {
+      this.retrieveResponse = res;
+      this.base64Data = this.retrieveResponse.picByte;
+      this.retrievedImage = 'data:image/jpeg;base64,' + this.base64Data;
+    }
+  );
+  }
+
 
 }

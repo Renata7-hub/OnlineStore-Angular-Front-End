@@ -1,6 +1,44 @@
-<div class="card my-5">
-  <div class="card-body">
+<div class="container row">
+  <div class="col-md-12">
+<!--    <h1>Upload Image</h1>-->
+<!--  </div>-->
+<!--</div>-->
+<!--<div class="container row">-->
+<!--  <div class="col-md-6">-->
+<!--    <input type="file" (change)="onFileChanged($event)">-->
+<!--  </div>-->
+<!--  <div class="col-md-6">-->
+<!--    <input type="button" (click)="onUpload()" value="upload">-->
+<!--  </div>-->
+<!--</div>-->
+<!--<hr />-->
+<!--<div class="container row">-->
+<!--  <div class="col-md-12">-->
+<!--    <div *ngIf=message>{{message}}</div>-->
+<!--  </div>-->
+<!--</div>-->
+<!--<div class="container row">-->
+<!--  <div class="col-md-6">-->
+<!--    <input type="text" class="form-control" id="name" placeholder="image name" [(ngModel)]="imageName"-->
+<!--   name="name" />-->
+<!--  </div>-->
+<!--  <div class="col-md-6">-->
+<!--    <input type="button" (click)="getImage()" value="Get Image">-->
+<!--  </div>-->
+<!--</div>-->
+<!--<div class="container row">-->
+<!--  <div class="col-md-12">-->
+<!--    <div *ngIf=retrievedImage>-->
+<!--      <img [src]="retrievedImage">-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+
+
+
     <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+
       <mat-form-field appearance="fill">
         <mat-label>Image Url</mat-label>
         <input matInput [(ngModel)]="products.imageUrl"
@@ -27,7 +65,6 @@
                name="price"
                placeholder="Enter price"
                required #description="ngModel">
-<!--        <span matPrefix>€&nbsp;</span>-->
       </mat-form-field>
       <br>
       <mat-form-field appearance="fill">

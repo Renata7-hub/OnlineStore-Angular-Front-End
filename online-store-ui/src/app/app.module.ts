@@ -30,6 +30,7 @@ import {NgxPaginationModule} from "ngx-pagination";
 import {RegisterComponent} from "./register/register.component";
 import {AngularMaterialModule} from "./shared/angular-material.module";
 import {FlexLayoutModule} from "@angular/flex-layout";
+import {ProductEditingComponent} from "./products/product-editing.component";
 
 
 
@@ -47,7 +48,8 @@ import {FlexLayoutModule} from "@angular/flex-layout";
     ProductFormComponent,
     NewOrderComponent,
     StorageComponent,
-    RegisterComponent
+    RegisterComponent,
+    ProductEditingComponent
 
   ],
   imports: [
