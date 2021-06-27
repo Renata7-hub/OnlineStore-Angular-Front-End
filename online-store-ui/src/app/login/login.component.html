@@ -18,7 +18,7 @@
   <div [ngClass]="{ 'has-error': f.submitted && !username.valid }">
     <input matInput placeholder="Username"
       type="text"
-           name="username" [(ngModel)]="model.username"
+           name="username" [(ngModel)]="model.userName"
            #username="ngModel" required />
     <span>
     <div *ngIf="f.submitted
@@ -45,3 +45,4 @@
       Not registered ? <button mat-raised-button (click)="openDialog()">Register</button>
     </mat-card>
 </div>
+

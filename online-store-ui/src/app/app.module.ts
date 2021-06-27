@@ -25,7 +25,7 @@ import {AppRoutingModule} from "./app-routing.module";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
-import {MatButton, MatButtonModule} from "@angular/material/button";
+import { MatButtonModule} from "@angular/material/button";
 import {NgxPaginationModule} from "ngx-pagination";
 import {RegisterComponent} from "./register/register.component";
 import {AngularMaterialModule} from "./shared/angular-material.module";
