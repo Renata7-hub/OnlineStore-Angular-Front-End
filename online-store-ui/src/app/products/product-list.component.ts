@@ -23,7 +23,6 @@ export class ProductListComponent implements OnInit, OnDestroy{
   private _listFilter: string = '';
   sub: Subscription | undefined;
   p: number = 1;
-  @ViewChild(MatSort) sort!: MatSort;
 
   get listFilter(): string {
     return this._listFilter;

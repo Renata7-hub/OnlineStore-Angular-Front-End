@@ -12,13 +12,12 @@ import {map} from "rxjs/operators";
   <nav class="navbar navbar-expand navbar-light bg-light" *ngIf="isLogged == true">
 <!--   *ngIf="isLogged == true"   -->
 
-    <a class="navbar-brand">{{title}}</a>
-      <a class="nav-link" routerLink="/welcome">HOME</a>
+    <a class="navbar-brand" routerLink="/welcome">{{title}}</a>
       <a class="nav-link" routerLink="/products">PRODUCT LIST</a>
       <a class="nav-link" [matBadge]="cartSize" matBadgePosition="below" routerLink="/cart">CART</a>
       <a class="nav-link" routerLink="/orders">ORDERS</a>
-      <a class="nav-link" routerLink="/add-product">ADD PRODUCT</a>
-      <a class="nav-link" routerLink="/storage">STORAGE</a>
+      <a class="nav-link" routerLink="/add-product" *ngIf="!isLogged">ADD PRODUCT</a>
+      <a class="nav-link" routerLink="/storage" *ngIf="!isLogged">STORAGE</a>
       <a class="nav-link" (click)="onClickChangeLoginStatus()" routerLink="/login" >LOGOUT</a>
   </nav>
   <div class="container">
