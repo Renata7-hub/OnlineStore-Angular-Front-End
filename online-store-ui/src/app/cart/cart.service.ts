@@ -28,9 +28,9 @@ export class CartService {
     );
   }
 
-  addProductToCart(product: IProduct) {
+  addProductToCart(product: IProduct | undefined) {
     var newProduct = {
-      productId: product.id,
+      productId: product!.id,
       quantity: 1
     }
     // window.location.reload();

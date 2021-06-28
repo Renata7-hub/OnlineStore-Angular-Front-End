@@ -19,7 +19,8 @@ export class NewOrderComponent implements OnInit {
               private orderService: OrdersService,
               private datePipe: DatePipe) {
     this.order = new class extends Order {};
-    this.datePipe.transform(this.date, 'yyyy-MM-dd');
+    // @ts-ignore
+    this.date = this.datePipe.transform(this.date, 'yyyy-MM-dd');
   }
 
   onSubmit() {

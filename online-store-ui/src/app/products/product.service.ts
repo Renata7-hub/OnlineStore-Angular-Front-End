@@ -12,6 +12,7 @@ export class ProductService {
   private getProductUrl = "http://localhost:8080/product/get-all";
   private createProductUrl = "http://localhost:8080/product";
   private deleteProductUrl = "http://localhost:8080/product/delete/";
+  private updateProductUrl = "http://localhost:8080/product/";
   constructor(private http: HttpClient) {
   }
 
@@ -25,12 +26,27 @@ export class ProductService {
   public uploadImage(image: File): Observable<any> {
     const formData = new FormData();
     formData.append('image', image);
-    return this.http.post('/api/v1/image-upload', formData);
+    return this.http.post(this.createProductUrl, formData);
   }
 
   public save(product: Products) {
     console.log(product)
     return this.http.post<Products>(this.createProductUrl, product).pipe(
+      tap(data => console.log("All", JSON.stringify(data))),
+      catchError(ProductService.handleError)
+    );
+  }
+
+  public updateProduct(product: Products) {
+    console.log(product)
+    let newProduct = {
+      imageUrl: product.imageUrl,
+      title:product.title,
+      price: product.price,
+      type: product.type,
+      description: product.description
+    }
+    return this.http.put<IProduct>(this.updateProductUrl + product.id ,newProduct).pipe(
       tap(data => console.log("All", JSON.stringify(data))),
       catchError(ProductService.handleError)
     );

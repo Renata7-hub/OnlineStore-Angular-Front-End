@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {IProduct} from "./product";
 import {ProductService} from "./product.service";
+import {Products} from "./products";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {CartService} from "../cart/cart.service";
 
 @Component({
   templateUrl: './product-detail.component.html',
@@ -14,7 +17,9 @@ export class ProductDetailComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private productService: ProductService) {
+              private productService: ProductService,
+              private _snackBar: MatSnackBar,
+              private cartService: CartService) {
   }
 
   ngOnInit(): void {
@@ -36,7 +41,18 @@ export class ProductDetailComponent implements OnInit {
     this.router.navigate(['/products']);
   }
 
-  onAddToCart(): void {
+  openSnackBarOnAdd() {
+    this._snackBar.open('Product added to cart', 'Dismiss', {
+      panelClass: ["custom-style"]
+    });
+  }
 
+  addToCartProduct(product: IProduct | undefined): void {
+    this.openSnackBarOnAdd();
+    this.cartService.addProductToCart(product).subscribe({
+      next: message => {
+      },
+      error: err => this.errorMessage = err
+    });
   }
 }

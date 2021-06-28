@@ -9,16 +9,15 @@ import {map} from "rxjs/operators";
 @Component({
   selector: 'app-root',
   template:`
-  <nav class="navbar navbar-expand navbar-light bg-light" >
-<!--   *ngIf="isLogged"    -->
+  <nav class="navbar navbar-expand navbar-light bg-light" *ngIf="isLogged == true">
+<!--   *ngIf="isLogged == true"   -->
 
-    <a class="navbar-brand">{{title}}</a>
-      <a class="nav-link" routerLink="/welcome">HOME</a>
+    <a class="navbar-brand" routerLink="/welcome">{{title}}</a>
       <a class="nav-link" routerLink="/products">PRODUCT LIST</a>
-      <a class="nav-link" [matBadge]="this.carts.length" matBadgePosition="below" routerLink="/cart">CART</a>
+      <a class="nav-link" [matBadge]="cartSize" matBadgePosition="below" routerLink="/cart">CART</a>
       <a class="nav-link" routerLink="/orders">ORDERS</a>
-      <a class="nav-link" routerLink="/add-product">ADD PRODUCT</a>
-      <a class="nav-link" routerLink="/storage">STORAGE</a>
+      <a class="nav-link" routerLink="/add-product" *ngIf="!isLogged">ADD PRODUCT</a>
+      <a class="nav-link" routerLink="/storage" *ngIf="!isLogged">STORAGE</a>
       <a class="nav-link" (click)="onClickChangeLoginStatus()" routerLink="/login" >LOGOUT</a>
   </nav>
   <div class="container">
@@ -32,7 +31,7 @@ export class AppComponent implements OnInit, OnDestroy {
   carts: Cart[] = [];
   isLogged: boolean | undefined;
   subscription!: Subscription;
-
+  cartSize!: number;
 
 
   constructor(private cartService: CartService,
@@ -43,23 +42,24 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.cartService.getCart().subscribe(data => {
       this.carts = data;
+      this.cartSize = data.length ;
     });
-    // this.subscription = this.loginService.currentMessage.subscribe(message => this.isLogged = message)
+    this.subscription = this.loginService.currentMessage.subscribe(message => this.isLogged = message)
   }
 
-  // public getProduct(quantity: number): Observable<Cart | undefined> {
-  //   return this.cartService.getCart()
-  //     .pipe(
-  //       map((cart: Cart[]) => this.carts.find(p => p.quantity === quantity))
-  //     );
-  // }
+  public getProduct(quantity: number): Observable<Cart | undefined> {
+    return this.cartService.getCart()
+      .pipe(
+        map((cart: Cart[]) => this.carts.find(p => p.quantity === quantity))
+      );
+  }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
   onClickChangeLoginStatus(){
-    // this.isLogged = !this.isLogged;
+    this.loginService.changeLoginToFalse()
   }
 
 }

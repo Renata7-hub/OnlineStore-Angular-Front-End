@@ -25,11 +25,12 @@ import {AppRoutingModule} from "./app-routing.module";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
-import {MatButtonModule} from "@angular/material/button";
+import { MatButtonModule} from "@angular/material/button";
 import {NgxPaginationModule} from "ngx-pagination";
 import {RegisterComponent} from "./register/register.component";
 import {AngularMaterialModule} from "./shared/angular-material.module";
 import {FlexLayoutModule} from "@angular/flex-layout";
+import {ProductEditingComponent} from "./products/product-editing.component";
 
 
 
@@ -47,7 +48,8 @@ import {FlexLayoutModule} from "@angular/flex-layout";
     ProductFormComponent,
     NewOrderComponent,
     StorageComponent,
-    RegisterComponent
+    RegisterComponent,
+    ProductEditingComponent
 
   ],
   imports: [
@@ -104,7 +106,8 @@ import {FlexLayoutModule} from "@angular/flex-layout";
     BrowserAnimationsModule,
     HttpClientModule,
     HttpClientJsonpModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatButtonModule
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

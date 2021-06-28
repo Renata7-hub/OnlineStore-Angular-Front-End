@@ -1,10 +1,14 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import { Subscription } from "rxjs";
 import {IProduct} from "./product";
 import {ProductService} from "./product.service";
 import {Products} from "./products";
 import {CartService} from "../cart/cart.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatSort} from "@angular/material/sort";
+import {MatTable} from "@angular/material/table";
+import {ProductEditingComponent} from "./product-editing.component";
+import {MatDialog} from "@angular/material/dialog";
 
 
 @Component({
@@ -32,11 +36,18 @@ export class ProductListComponent implements OnInit, OnDestroy{
   filteredProducts: IProduct[] = [];
   products: IProduct[] = [];
 
+
+  displayedColumns: string[] = ['imageUrl', 'title', 'id', 'price', 'add','delete', 'update'];
+
+  @ViewChild(MatTable,{static:true}) table!: MatTable<any>;
+
   constructor(private productService: ProductService,
               private cartService: CartService,
-              private _snackBar: MatSnackBar
+              private _snackBar: MatSnackBar,
+              private dialog: MatDialog
   ) {
   }
+
   openSnackBarOnAdd() {
     this._snackBar.open('Product added to cart', 'Dismiss', {
       panelClass: ["custom-style"]
@@ -46,6 +57,33 @@ export class ProductListComponent implements OnInit, OnDestroy{
   openSnackBarOnDelete() {
     this._snackBar.open('Product removed from product list', 'Dismiss', {
       panelClass: ["custom-style"]
+    });
+  }
+
+  openDialog(product: Products) {
+    const dialogRef = this.dialog.open(ProductEditingComponent, {
+      width: '500px',
+      data: product
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+        this.updateRowData(result.data);
+    });
+  }
+
+  updateRowData(row_obj: Products){
+    this.productService.updateProduct(row_obj).subscribe({
+      next: message => {
+      },
+      error: err => this.errorMessage = err
+    });
+    this.filteredProducts = this.filteredProducts.filter((value,key)=>{
+      if(value.id == row_obj.id){
+        value.title = row_obj.title;
+        value.price = row_obj.price;
+        value.description = row_obj.description;
+      }
+      return true;
     });
   }
 
@@ -97,3 +135,4 @@ export class ProductListComponent implements OnInit, OnDestroy{
   }
 
 }
+

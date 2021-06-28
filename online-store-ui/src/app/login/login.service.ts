@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject, throwError} from 'rxjs';
-import {Products} from "../products/products";
-import {catchError, tap} from "rxjs/operators";
+import {catchError, map, tap} from "rxjs/operators";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {RegisterInterface} from "../register/register.interface";
 
@@ -17,8 +16,13 @@ export class LoginService {
 
   constructor(private http: HttpClient) { }
 
-  changeLoginStatus() {
+
+  changeLoginToTrue() {
     this.isLoggedSource.next(true);
+  }
+
+  changeLoginToFalse() {
+    this.isLoggedSource.next(false);
   }
 
   public register(newUser: RegisterInterface) {
@@ -33,7 +37,7 @@ export class LoginService {
     if (err.error instanceof ErrorEvent) {
       errorMessage = `An error occurred: ${err.error.message}`;
     } else {
-      errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
+      errorMessage = `Server returned code: ${err.status}, error mesage is: ${err.message}`;
     }
     console.error(errorMessage);
     return throwError(errorMessage)

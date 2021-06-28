@@ -1,6 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {LoginService} from "./login.service";
 import {MatDialog} from "@angular/material/dialog";
@@ -23,6 +23,11 @@ export class LoginComponent implements OnInit {
   email!: string;
   userName!: string;
   password!: string;
+
+  errorMessage = 'Invalid Credentials';
+  successMessage!: string;
+  invalidLogin = false;
+  loginSuccess = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -47,26 +52,23 @@ export class LoginComponent implements OnInit {
               age: this.age
       }
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.firstName = result;
-    });
   }
 
 
   login() {
     let url = 'http://localhost:8080/login';
-    this.http.post<Observable<boolean>>(url, {
-      userName: this.model.username,
+    let loginUser = {
+      userName: this.model.userName,
       password: this.model.password
-    }).subscribe(isValid => {
+    }
+    const headers = new HttpHeaders({Authorization: "Basic" + btoa(this.model.username + ':' + this.model.password)})
+    this.http.post(url, loginUser).subscribe(isValid => {
       if (isValid) {
         sessionStorage.setItem(
           'token',
           btoa(this.model.username + ':' + this.model.password)
         );
-        this.loginService.changeLoginStatus();
+        this.loginService.changeLoginToTrue();
         this.router.navigate(['/welcome']);
 
       } else {
@@ -74,4 +76,5 @@ export class LoginComponent implements OnInit {
       }
     });
   }
+
 }
