@@ -30,8 +30,10 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private loginService: LoginService
   ) { }
+
 
   ngOnInit() {
     sessionStorage.setItem('token', '');
@@ -64,6 +66,7 @@ export class LoginComponent implements OnInit {
           'token',
           btoa(this.model.username + ':' + this.model.password)
         );
+        this.loginService.changeLoginStatusToTrue();
         this.router.navigate(['/welcome']);
 
       } else {
@@ -71,5 +74,7 @@ export class LoginComponent implements OnInit {
       }
     });
   }
+
+
 
 }

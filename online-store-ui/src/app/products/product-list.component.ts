@@ -23,6 +23,7 @@ export class ProductListComponent implements OnInit, OnDestroy{
   private _listFilter: string = '';
   sub: Subscription | undefined;
   p: number = 1;
+  role = sessionStorage.getItem('role');
 
   get listFilter(): string {
     return this._listFilter;
@@ -36,16 +37,21 @@ export class ProductListComponent implements OnInit, OnDestroy{
   filteredProducts: IProduct[] = [];
   products: IProduct[] = [];
 
-
   displayedColumns: string[] = ['imageUrl', 'title', 'id', 'price', 'add','delete', 'update'];
-
-  @ViewChild(MatTable,{static:true}) table!: MatTable<any>;
 
   constructor(private productService: ProductService,
               private cartService: CartService,
               private _snackBar: MatSnackBar,
               private dialog: MatDialog
   ) {
+  }
+
+  updateDisplayedColumns(): string[] {
+    if (this.role == "USER") {
+      return this.displayedColumns = ['imageUrl', 'title', 'id', 'price', 'add'];
+    } else {
+      return this.displayedColumns = ['imageUrl', 'title', 'id', 'price', 'add','delete', 'update'];
+    }
   }
 
   openSnackBarOnAdd() {

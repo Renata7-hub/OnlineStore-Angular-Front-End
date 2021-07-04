@@ -1,6 +1,6 @@
-import {EventEmitter, Injectable, Input, Output} from '@angular/core';
+import { Injectable} from '@angular/core';
 import {BehaviorSubject, throwError} from 'rxjs';
-import {catchError, map, tap} from "rxjs/operators";
+import {catchError, tap} from "rxjs/operators";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {RegisterInterface} from "../register/register.interface";
 
@@ -12,7 +12,23 @@ export class LoginService {
   private registerNewUserUrl = "http://localhost:8080/register-user";
   private registerNewAdminUrl = "http://localhost:8080/register-admin"
 
-  constructor(private http: HttpClient) { }
+  private isLoggedSource = new BehaviorSubject('false');
+  currentLoggedStatus = this.isLoggedSource.asObservable();
+
+  constructor(private http: HttpClient) {
+  }
+
+  changeLoginStatusToTrue() {
+    this.isLoggedSource.next('true');
+    sessionStorage.removeItem('isLogged')
+    sessionStorage.setItem('isLogged', 'true');
+  }
+
+  changeLoginStatusToFalse() {
+    this.isLoggedSource.next('false');
+    sessionStorage.removeItem('isLogged')
+    sessionStorage.setItem('isLogged', 'false');
+  }
 
   public registerUser(newUser: RegisterInterface) {
     console.log(newUser)
