@@ -23,12 +23,6 @@ export class ProductService {
     );
   }
 
-  public uploadImage(image: File): Observable<any> {
-    const formData = new FormData();
-    formData.append('image', image);
-    return this.http.post(this.createProductUrl, formData);
-  }
-
   public save(product: Products) {
     console.log(product)
     return this.http.post<Products>(this.createProductUrl, product).pipe(

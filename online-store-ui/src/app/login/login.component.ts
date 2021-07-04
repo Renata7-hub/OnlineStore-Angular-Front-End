@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {LoginService} from "./login.service";
 import {MatDialog} from "@angular/material/dialog";
 import {RegisterComponent} from "../register/register.component";
@@ -25,15 +25,11 @@ export class LoginComponent implements OnInit {
   password!: string;
 
   errorMessage = 'Invalid Credentials';
-  successMessage!: string;
-  invalidLogin = false;
-  loginSuccess = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
-    private loginService: LoginService,
     public dialog: MatDialog
   ) { }
 
@@ -68,7 +64,6 @@ export class LoginComponent implements OnInit {
           'token',
           btoa(this.model.username + ':' + this.model.password)
         );
-        this.loginService.changeLoginToTrue();
         this.router.navigate(['/welcome']);
 
       } else {

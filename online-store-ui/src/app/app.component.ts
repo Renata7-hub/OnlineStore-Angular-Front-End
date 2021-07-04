@@ -1,10 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {CartService} from "./cart/cart.service";
 import {Cart} from "./cart/cart";
-import {Observable, Subscription} from "rxjs";
+import { Subscription} from "rxjs";
 import {LoginService} from "./login/login.service";
-import {IProduct} from "./products/product";
-import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-root',
@@ -16,9 +14,9 @@ import {map} from "rxjs/operators";
       <a class="nav-link" routerLink="/products">PRODUCT LIST</a>
       <a class="nav-link" [matBadge]="cartSize" matBadgePosition="below" routerLink="/cart">CART</a>
       <a class="nav-link" routerLink="/orders">ORDERS</a>
-      <a class="nav-link" routerLink="/add-product" *ngIf="!isLogged">ADD PRODUCT</a>
-      <a class="nav-link" routerLink="/storage" *ngIf="!isLogged">STORAGE</a>
-      <a class="nav-link" (click)="onClickChangeLoginStatus()" routerLink="/login" >LOGOUT</a>
+      <a class="nav-link" routerLink="/add-product" *ngIf="this.role == 'ADMIN' ">ADD PRODUCT</a>
+      <a class="nav-link" routerLink="/storage" *ngIf="this.role == 'ADMIN'">STORAGE</a>
+      <a class="nav-link" routerLink="/login" >LOGOUT</a>
   </nav>
   <div class="container">
     <br>
@@ -29,7 +27,8 @@ import {map} from "rxjs/operators";
 export class AppComponent implements OnInit, OnDestroy {
   title = 'Digital sales outlet';
   carts: Cart[] = [];
-  isLogged: boolean | undefined;
+  isLogged = true;
+  role!: any;
   subscription!: Subscription;
   cartSize!: number;
 
@@ -44,22 +43,17 @@ export class AppComponent implements OnInit, OnDestroy {
       this.carts = data;
       this.cartSize = data.length ;
     });
-    this.subscription = this.loginService.currentMessage.subscribe(message => this.isLogged = message)
+    this.subscription = this.role.currentMessage.subscribe((role: any) => this.role = role)
   }
 
-  public getProduct(quantity: number): Observable<Cart | undefined> {
-    return this.cartService.getCart()
-      .pipe(
-        map((cart: Cart[]) => this.carts.find(p => p.quantity === quantity))
-      );
+
+  loginStatus(event: any) {
+    console.log(event);
+    this.isLogged = event;
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-  }
-
-  onClickChangeLoginStatus(){
-    this.loginService.changeLoginToFalse()
   }
 
 }

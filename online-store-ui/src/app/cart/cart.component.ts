@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Output} from '@angular/core';
 import { CartService } from "./cart.service";
 import { Router } from "@angular/router";
 import {Cart} from "./cart";
@@ -34,6 +34,7 @@ export class CartComponent implements OnInit {
        this.totalPrice = data;
      });
   }
+
   openSnackBarOnDelete() {
     this._snackBar.open('Product removed from cart', 'Dismiss', {
       panelClass: ["custom-style"]
