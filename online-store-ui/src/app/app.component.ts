@@ -46,7 +46,6 @@ export class AppComponent implements OnInit, OnDestroy{
     });
     this.subscription = this.loginService.currentLoggedStatus.subscribe(statusLogged => this.isLogged = statusLogged);
     this.isLogged = sessionStorage.getItem('isLogged')
-    sessionStorage.setItem('role', 'ADMIN');
   }
 
   ngOnDestroy(): void {

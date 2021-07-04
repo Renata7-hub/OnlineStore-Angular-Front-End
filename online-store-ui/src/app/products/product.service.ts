@@ -2,7 +2,7 @@ import {IProduct} from "./product";
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {Observable, throwError} from "rxjs";
-import {catchError, map, tap} from "rxjs/operators";
+import {catchError, map, shareReplay, tap} from "rxjs/operators";
 import {Products} from "./products";
 
 @Injectable({
@@ -19,6 +19,7 @@ export class ProductService {
   public getProducts(): Observable<IProduct[]> {
     return this.http.get<IProduct[]>(this.getProductUrl).pipe(
       tap(data => console.log("All", JSON.stringify(data))),
+      shareReplay(1),
       catchError(ProductService.handleError)
     );
   }

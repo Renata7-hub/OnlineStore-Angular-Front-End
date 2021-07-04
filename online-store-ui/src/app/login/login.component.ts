@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
   email!: string;
   userName!: string;
   password!: string;
+  role!: string;
 
   errorMessage = 'Invalid Credentials';
 
@@ -66,6 +67,8 @@ export class LoginComponent implements OnInit {
           'token',
           btoa(this.model.username + ':' + this.model.password)
         );
+        this.getRoleAfterLogin();
+         sessionStorage.setItem('role', this.role);
         this.loginService.changeLoginStatusToTrue();
         this.router.navigate(['/welcome']);
 
@@ -75,6 +78,9 @@ export class LoginComponent implements OnInit {
     });
   }
 
-
+  getRoleAfterLogin() {
+    this.loginService.getRole(this.model.userName).subscribe(
+      data => this.role = data.userName);
+  }
 
 }
