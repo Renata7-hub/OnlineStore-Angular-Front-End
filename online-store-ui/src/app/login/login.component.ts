@@ -77,6 +77,7 @@ export class LoginComponent implements OnInit {
           btoa(this.model.userName + ':' + this.model.password)
         );
         this.getRoleAfterLogin(this.model.userName);
+        sessionStorage.setItem('userName', this.model.userName)
         this.loginService.changeLoginStatusToTrue();
         this.router.navigate(['/welcome']);
 

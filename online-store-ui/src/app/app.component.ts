@@ -11,10 +11,7 @@ import {LoginService} from "./login/login.service";
 @Component({
   selector: 'app-root',
   template:`
-    <mat-toolbar>
-      <button mat-icon-button class="example-icon">
-        <mat-icon>menu</mat-icon>
-      </button>
+    <mat-toolbar *ngIf="isLogged === 'true'">
       <button mat-button style="font-size: 30px" routerLink="/welcome">
       <span>{{title}}</span>
       </button>
@@ -29,9 +26,10 @@ import {LoginService} from "./login/login.service";
         <span>Orders</span>
       </button>
       <span style="flex: 30 15 auto"></span>
+        <span>Currently logged in: {{currentUser}}</span>
       <button mat-button class="example-icon" routerLink="/orders" style="font-size: large; font-weight: bold"
               routerLink="/login" (click)="loginService.changeLoginStatusToFalse()">
-        <span>Log out</span>
+        <span>Log Out</span>
       </button>
       <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="role == 'ADMIN'" style="flex: 1 1 auto">
         <mat-icon>more_vert</mat-icon>
@@ -47,28 +45,6 @@ import {LoginService} from "./login/login.service";
         </button>
       </mat-menu>
     </mat-toolbar>
-<!--    <nav class="navbar navbar-expand navbar-light bg-light" *ngIf="isLogged === 'true'">-->
-<!--    <a class="navbar-brand" routerLink="/welcome">{{title}}</a>-->
-<!--      <a class="nav-link" routerLink="/products">PRODUCT LIST</a>-->
-<!--      <a class="nav-link" [matBadge]="cartSize" matBadgePosition="below" routerLink="/cart">CART</a>-->
-<!--      <a class="nav-link" routerLink="/orders">ORDERS</a>-->
-<!--&lt;!&ndash;      <a class="nav-link" routerLink="/add-product" *ngIf="role == 'ADMIN'">ADD PRODUCT</a>&ndash;&gt;-->
-<!--&lt;!&ndash;      <a class="nav-link" routerLink="/storage" *ngIf="role == 'ADMIN'">STORAGE</a>&ndash;&gt;-->
-<!--      <a class="nav-link" routerLink="/login" (click)="loginService.changeLoginStatusToFalse()">LOGOUT</a>-->
-<!--    <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="role == 'ADMIN'" style="flex: 1 1 auto">-->
-<!--      <mat-icon>more_vert</mat-icon>-->
-<!--    </button>-->
-<!--    <mat-menu #menu="matMenu">-->
-<!--      <button mat-menu-item routerLink="/storage">-->
-<!--        <mat-icon>dialpad</mat-icon>-->
-<!--        <span>Storage</span>-->
-<!--      </button>-->
-<!--      <button mat-menu-item routerLink="/add-product">-->
-<!--        <mat-icon>dialpad</mat-icon>-->
-<!--        <span>Add product</span>-->
-<!--      </button>-->
-<!--    </mat-menu>-->
-<!--      </nav>-->
   <div class="container">
     <br>
     <router-outlet></router-outlet>
@@ -78,10 +54,11 @@ import {LoginService} from "./login/login.service";
 export class AppComponent implements OnInit, OnDestroy{
   title = 'Digital sales outlet';
   carts: Cart[] = [];
-  role = sessionStorage.getItem('role');
+  role!: string | null;
   isLogged: string | null = 'false';
   cartSize!: number;
   subscription!: Subscription;
+  currentUser!: string | null;
 
   constructor(private cartService: CartService,
               public loginService: LoginService) {
@@ -95,6 +72,8 @@ export class AppComponent implements OnInit, OnDestroy{
     });
     this.subscription = this.loginService.currentLoggedStatus.subscribe(statusLogged => this.isLogged = statusLogged);
     this.isLogged = sessionStorage.getItem('isLogged')
+    this.role = sessionStorage.getItem('role')
+    this.currentUser = sessionStorage.getItem('userName')
   }
 
   ngOnDestroy(): void {
