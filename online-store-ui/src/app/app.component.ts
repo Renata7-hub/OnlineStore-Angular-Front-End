@@ -1,24 +1,24 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import {CartService} from "./cart/cart.service";
 import {Cart} from "./cart/cart";
-import {Observable, Subscription} from "rxjs";
+import { Subscription} from "rxjs";
 import {LoginService} from "./login/login.service";
-import {IProduct} from "./products/product";
-import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-root',
   template:`
-  <nav class="navbar navbar-expand navbar-light bg-light" *ngIf="isLogged == true">
-<!--   *ngIf="isLogged == true"   -->
-
+  <nav class="navbar navbar-expand navbar-light bg-light" *ngIf="isLogged === 'true'">
     <a class="navbar-brand" routerLink="/welcome">{{title}}</a>
       <a class="nav-link" routerLink="/products">PRODUCT LIST</a>
       <a class="nav-link" [matBadge]="cartSize" matBadgePosition="below" routerLink="/cart">CART</a>
       <a class="nav-link" routerLink="/orders">ORDERS</a>
-      <a class="nav-link" routerLink="/add-product" *ngIf="!isLogged">ADD PRODUCT</a>
-      <a class="nav-link" routerLink="/storage" *ngIf="!isLogged">STORAGE</a>
-      <a class="nav-link" (click)="onClickChangeLoginStatus()" routerLink="/login" >LOGOUT</a>
+      <a class="nav-link" routerLink="/add-product" *ngIf="role == 'ADMIN'">ADD PRODUCT</a>
+      <a class="nav-link" routerLink="/storage" *ngIf="role == 'ADMIN'">STORAGE</a>
+      <a class="nav-link" routerLink="/login" (click)="loginService.changeLoginStatusToFalse()">LOGOUT</a>
   </nav>
   <div class="container">
     <br>
@@ -26,16 +26,16 @@ import {map} from "rxjs/operators";
   </div>
   `
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit, OnDestroy{
   title = 'Digital sales outlet';
   carts: Cart[] = [];
-  isLogged: boolean | undefined;
-  subscription!: Subscription;
+  role = sessionStorage.getItem('role');
+  isLogged: string | null = 'false';
   cartSize!: number;
-
+  subscription!: Subscription;
 
   constructor(private cartService: CartService,
-              private loginService: LoginService) {
+              public loginService: LoginService) {
   }
 
 
@@ -44,22 +44,12 @@ export class AppComponent implements OnInit, OnDestroy {
       this.carts = data;
       this.cartSize = data.length ;
     });
-    this.subscription = this.loginService.currentMessage.subscribe(message => this.isLogged = message)
-  }
-
-  public getProduct(quantity: number): Observable<Cart | undefined> {
-    return this.cartService.getCart()
-      .pipe(
-        map((cart: Cart[]) => this.carts.find(p => p.quantity === quantity))
-      );
+    this.subscription = this.loginService.currentLoggedStatus.subscribe(statusLogged => this.isLogged = statusLogged);
+    this.isLogged = sessionStorage.getItem('isLogged')
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-  }
-
-  onClickChangeLoginStatus(){
-    this.loginService.changeLoginToFalse()
   }
 
 }

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {LoginService} from "./login.service";
 import {MatDialog} from "@angular/material/dialog";
 import {RegisterComponent} from "../register/register.component";
@@ -23,19 +23,18 @@ export class LoginComponent implements OnInit {
   email!: string;
   userName!: string;
   password!: string;
+  role!: string;
 
   errorMessage = 'Invalid Credentials';
-  successMessage!: string;
-  invalidLogin = false;
-  loginSuccess = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
-    private loginService: LoginService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private loginService: LoginService
   ) { }
+
 
   ngOnInit() {
     sessionStorage.setItem('token', '');
@@ -68,13 +67,20 @@ export class LoginComponent implements OnInit {
           'token',
           btoa(this.model.username + ':' + this.model.password)
         );
-        this.loginService.changeLoginToTrue();
+        this.getRoleAfterLogin();
+         sessionStorage.setItem('role', this.role);
+        this.loginService.changeLoginStatusToTrue();
         this.router.navigate(['/welcome']);
 
       } else {
         alert("Authentication failed.")
       }
     });
+  }
+
+  getRoleAfterLogin() {
+    this.loginService.getRole(this.model.userName).subscribe(
+      data => this.role = data.userName);
   }
 
 }

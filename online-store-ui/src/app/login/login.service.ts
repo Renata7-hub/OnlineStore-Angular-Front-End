@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import {BehaviorSubject, throwError} from 'rxjs';
-import {catchError, map, tap} from "rxjs/operators";
+import { Injectable} from '@angular/core';
+import {BehaviorSubject, Observable, throwError} from 'rxjs';
+import {catchError, tap} from "rxjs/operators";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {RegisterInterface} from "../register/register.interface";
 
@@ -9,23 +9,43 @@ import {RegisterInterface} from "../register/register.interface";
 })
 export class LoginService {
 
-  private registerNewUserUrl = "http://localhost:8080/register"
+  private registerNewUserUrl = "http://localhost:8080/register-user";
+  private registerNewAdminUrl = "http://localhost:8080/register-admin";
+  private getLoggedPersonInRoleUrl = "http://localhost:8080/get-role/";
 
-  private isLoggedSource = new BehaviorSubject(false);
-  currentMessage = this.isLoggedSource.asObservable();
+  private isLoggedSource = new BehaviorSubject('false');
+  currentLoggedStatus = this.isLoggedSource.asObservable();
 
-  constructor(private http: HttpClient) { }
-
-
-  changeLoginToTrue() {
-    this.isLoggedSource.next(true);
+  constructor(private http: HttpClient) {
   }
 
-  changeLoginToFalse() {
-    this.isLoggedSource.next(false);
+  changeLoginStatusToTrue() {
+    this.isLoggedSource.next('true');
+    sessionStorage.removeItem('isLogged')
+    sessionStorage.setItem('isLogged', 'true');
   }
 
-  public register(newUser: RegisterInterface) {
+  changeLoginStatusToFalse() {
+    this.isLoggedSource.next('false');
+    sessionStorage.removeItem('isLogged')
+    sessionStorage.removeItem('role')
+    sessionStorage.setItem('isLogged', 'false');
+  }
+
+  public getRole(userName: any): Observable<RegisterInterface> {
+    sessionStorage.removeItem('role')
+    return this.http.get<RegisterInterface>(this.getLoggedPersonInRoleUrl + userName)
+  }
+
+  public registerUser(newUser: RegisterInterface) {
+    console.log(newUser)
+    return this.http.post<RegisterInterface>(this.registerNewUserUrl, newUser).pipe(
+      tap(data => console.log("All", JSON.stringify(data))),
+      catchError(LoginService.handleError)
+    );
+  }
+
+  public registerAdmin(newUser: RegisterInterface) {
     console.log(newUser)
     return this.http.post<RegisterInterface>(this.registerNewUserUrl, newUser).pipe(
       tap(data => console.log("All", JSON.stringify(data))),

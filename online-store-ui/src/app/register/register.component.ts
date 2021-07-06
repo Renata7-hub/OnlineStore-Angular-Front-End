@@ -36,11 +36,7 @@ export class RegisterComponent implements OnInit{
   }
 
   onNoClick(): void {
-    this.loginService.register(this.registerForm.value).subscribe(result => this.nothing);
-    this.dialogRef.close();
-  }
-
-  onClose(): void {
+    this.loginService.registerUser(this.registerForm.value).subscribe(result => this.nothing);
     this.dialogRef.close();
   }
 
