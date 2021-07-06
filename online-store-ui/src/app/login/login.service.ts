@@ -30,6 +30,7 @@ export class LoginService {
     this.isLoggedSource.next('false');
     sessionStorage.removeItem('isLogged')
     sessionStorage.removeItem('role')
+    sessionStorage.removeItem('user_id')
     sessionStorage.setItem('isLogged', 'false');
   }
 

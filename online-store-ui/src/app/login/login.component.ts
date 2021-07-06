@@ -95,6 +95,7 @@ export class LoginComponent implements OnInit {
             return;
           } else {
             sessionStorage.setItem('role', 'USER');
+            sessionStorage.setItem('user_id', String(users.id))
             return;
           }
         }

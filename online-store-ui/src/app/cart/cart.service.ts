@@ -10,11 +10,12 @@ import {CartModelToCart} from "./cart.model-to-cart";
   providedIn: 'root'
 })
 export class CartService {
-  private getAllProductsUrl = 'http://localhost:8080/cart';
+  private getAllProductsUrl = 'http://localhost:8080/cart/';
   private getTotalPriceUrl = 'http://localhost:8080/cart/getTotalPrice';
-  private addToCartUrl = 'http://localhost:8080/cart';
+  private addToCartUrl = 'http://localhost:8080/cart/';
   private removeFromCartProductUrl = 'http://localhost:8080/cart/';
   private changeProductQuantityInCartUrl = 'http://localhost:8080/cart';
+  private userId = sessionStorage.getItem('user_id');
 
   constructor(private http: HttpClient) { }
 
@@ -23,7 +24,7 @@ export class CartService {
   }
 
   getCart(): Observable<Cart[]> {
-    return this.http.get<Cart[]>(this.getAllProductsUrl).pipe(
+    return this.http.get<Cart[]>(this.getAllProductsUrl + this.userId).pipe(
       tap(data => console.log("All", JSON.stringify(data)))
     );
   }
@@ -33,8 +34,7 @@ export class CartService {
       productId: product!.id,
       quantity: 1
     }
-    // window.location.reload();
-      return this.http.post<CartModelToCart>(this.addToCartUrl, newProduct).pipe(
+      return this.http.post<CartModelToCart>(this.addToCartUrl + this.userId, newProduct).pipe(
         tap(data => console.log("All", JSON.stringify(data)))
       );
   }

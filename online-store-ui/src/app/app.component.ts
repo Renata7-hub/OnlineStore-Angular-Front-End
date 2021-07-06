@@ -59,6 +59,7 @@ export class AppComponent implements OnInit, OnDestroy{
   cartSize!: number;
   subscription!: Subscription;
   currentUser!: string | null;
+  errorMessage = "";
 
   constructor(private cartService: CartService,
               public loginService: LoginService) {
@@ -66,9 +67,12 @@ export class AppComponent implements OnInit, OnDestroy{
 
 
   ngOnInit(): void {
-    this.cartService.getCart().subscribe(data => {
-      this.carts = data;
-      this.cartSize = data.length ;
+    this.cartService.getCart().subscribe( {
+     next: data => {
+       this.carts = data,
+      this.cartSize = data.length
+     },
+      error: err => this.errorMessage = err
     });
     this.subscription = this.loginService.currentLoggedStatus.subscribe(statusLogged => this.isLogged = statusLogged);
     this.isLogged = sessionStorage.getItem('isLogged')

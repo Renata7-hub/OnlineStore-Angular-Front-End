@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import {Cart} from "./cart";
 import {ProductService} from "../products/product.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {error} from "@angular/compiler/src/util";
 
 
 @Component({
@@ -27,11 +28,13 @@ export class CartComponent implements OnInit {
     ) {}
 
   ngOnInit(): void {
-    this.cartService.getCart().subscribe(data => {
-      this.carts = data;
+    this.cartService.getCart().subscribe({
+      next: data => this.carts = data,
+      error: err => this.errorMessage = err
     });
-     this.cartService.getTotalPrice().subscribe(data => {
-       this.totalPrice = data;
+     this.cartService.getTotalPrice().subscribe({
+       next: data => this.totalPrice = data,
+       error: err => this.errorMessage = err
      });
   }
 
