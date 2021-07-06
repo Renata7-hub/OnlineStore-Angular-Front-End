@@ -3,6 +3,7 @@ import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {catchError, tap} from "rxjs/operators";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {RegisterInterface} from "../register/register.interface";
+import {UserInterface} from "./user.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class LoginService {
 
   private registerNewUserUrl = "http://localhost:8080/register-user";
   private registerNewAdminUrl = "http://localhost:8080/register-admin";
-  private getLoggedPersonInRoleUrl = "http://localhost:8080/get-role/";
+  private getLoggedPersonInRoleUrl = "http://localhost:8080/find-all-users";
 
   private isLoggedSource = new BehaviorSubject('false');
   currentLoggedStatus = this.isLoggedSource.asObservable();
@@ -32,9 +33,9 @@ export class LoginService {
     sessionStorage.setItem('isLogged', 'false');
   }
 
-  public getRole(userName: any): Observable<RegisterInterface> {
+  public getRole(): Observable<UserInterface[]> {
     sessionStorage.removeItem('role')
-    return this.http.get<RegisterInterface>(this.getLoggedPersonInRoleUrl + userName)
+    return this.http.get<UserInterface[]>(this.getLoggedPersonInRoleUrl)
   }
 
   public registerUser(newUser: RegisterInterface) {

@@ -5,6 +5,7 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {LoginService} from "./login.service";
 import {MatDialog} from "@angular/material/dialog";
 import {RegisterComponent} from "../register/register.component";
+import {UserInterface} from "./user.interface";
 
 
 @Component({
@@ -24,6 +25,8 @@ export class LoginComponent implements OnInit {
   userName!: string;
   password!: string;
   role!: string;
+  users: UserInterface[] = [];
+
 
   errorMessage = 'Invalid Credentials';
 
@@ -38,6 +41,12 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     sessionStorage.setItem('token', '');
+    this.loginService.getRole().subscribe({
+      next: users => {
+        this.users = users;
+      },
+      error: err => this.errorMessage = err
+    });
   }
 
   openDialog(): void {
@@ -65,10 +74,9 @@ export class LoginComponent implements OnInit {
       if (isValid) {
         sessionStorage.setItem(
           'token',
-          btoa(this.model.username + ':' + this.model.password)
+          btoa(this.model.userName + ':' + this.model.password)
         );
-        this.getRoleAfterLogin();
-         sessionStorage.setItem('role', this.role);
+        this.getRoleAfterLogin(this.model.userName);
         this.loginService.changeLoginStatusToTrue();
         this.router.navigate(['/welcome']);
 
@@ -78,9 +86,17 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  getRoleAfterLogin() {
-    this.loginService.getRole(this.model.userName).subscribe(
-      data => this.role = data.userName);
+    getRoleAfterLogin(userName: string): void {
+      this.users.map(users => {
+        if (users.userName == userName) {
+          if (users.role == 'ADMIN') {
+            sessionStorage.setItem('role', 'ADMIN');
+            return;
+          } else {
+            sessionStorage.setItem('role', 'USER');
+            return;
+          }
+        }
+      });
   }
-
 }

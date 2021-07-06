@@ -19,7 +19,7 @@ import {LoginService} from "./login/login.service";
       <a class="nav-link" routerLink="/add-product" *ngIf="role == 'ADMIN'">ADD PRODUCT</a>
       <a class="nav-link" routerLink="/storage" *ngIf="role == 'ADMIN'">STORAGE</a>
       <a class="nav-link" routerLink="/login" (click)="loginService.changeLoginStatusToFalse()">LOGOUT</a>
-  </nav>
+      </nav>
   <div class="container">
     <br>
     <router-outlet></router-outlet>
