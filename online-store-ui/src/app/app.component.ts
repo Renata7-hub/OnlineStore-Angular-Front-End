@@ -33,8 +33,8 @@ import {LoginService} from "./login/login.service";
         <span>Currently logged in: {{currentUser}}</span>
       </button>
       <mat-menu #menuForEveryone="matMenu">
-        <button mat-menu-item routerLink="A">
-          <mat-icon>dialpad</mat-icon>
+        <button mat-menu-item [routerLink]="['/profile/'+ userId]">
+          <mat-icon>how_to_reg</mat-icon>
           <span>Profile</span>
         </button>
       </mat-menu>
@@ -48,15 +48,15 @@ import {LoginService} from "./login/login.service";
       </button>
       <mat-menu #menuForAdmin="matMenu">
         <button mat-menu-item routerLink="/storage">
-          <mat-icon>dialpad</mat-icon>
+          <mat-icon>storage</mat-icon>
           <span>Storage</span>
         </button>
         <button mat-menu-item routerLink="/add-product">
-          <mat-icon>dialpad</mat-icon>
+          <mat-icon> add_comment</mat-icon>
           <span>Add product</span>
         </button>
         <button mat-menu-item routerLink="/users">
-          <mat-icon>dialpad</mat-icon>
+          <mat-icon>supervised_user_circle</mat-icon>
           <span>Users</span>
         </button>
       </mat-menu>
@@ -75,7 +75,7 @@ export class AppComponent implements OnInit, OnDestroy{
   cartSize!: number;
   currentUser!: string | null;
   subscription!: Subscription;
-  private userId!: string | null;
+  userId!: string | null;
   errorMessage = "";
   constructor(private cartService: CartService,
               public loginService: LoginService) {

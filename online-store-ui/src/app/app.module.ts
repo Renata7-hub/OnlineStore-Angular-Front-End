@@ -34,6 +34,7 @@ import {ProductEditingComponent} from "./products/product-editing.component";
 import {UsersComponent} from "./users/users.component";
 import { RegisterAdminComponent } from './register-admin/register-admin.component';
 import {UsersGuardGuard} from "./users/users-guard.guard";
+import { ProfileComponent } from './profile/profile.component';
 
 
 
@@ -54,7 +55,8 @@ import {UsersGuardGuard} from "./users/users-guard.guard";
     RegisterComponent,
     ProductEditingComponent,
     UsersComponent,
-    RegisterAdminComponent
+    RegisterAdminComponent,
+    ProfileComponent
 
   ],
   imports: [
@@ -114,6 +116,9 @@ import {UsersGuardGuard} from "./users/users-guard.guard";
       {
         path: 'register-admins', component: RegisterAdminComponent,
         canActivate: [UsersGuardGuard]
+      },
+      {
+        path:'profile/:id', component: ProfileComponent
       },
       {path: '', redirectTo: 'welcome', pathMatch: 'full'},
       {path: '**', redirectTo: 'welcome', pathMatch: 'full'}
