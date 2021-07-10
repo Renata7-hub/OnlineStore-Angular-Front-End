@@ -32,6 +32,8 @@ import {AngularMaterialModule} from "./shared/angular-material.module";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {ProductEditingComponent} from "./products/product-editing.component";
 import {UsersComponent} from "./users/users.component";
+import { RegisterAdminComponent } from './register-admin/register-admin.component';
+import {UsersGuardGuard} from "./users/users-guard.guard";
 
 
 
@@ -51,7 +53,8 @@ import {UsersComponent} from "./users/users.component";
     StorageComponent,
     RegisterComponent,
     ProductEditingComponent,
-    UsersComponent
+    UsersComponent,
+    RegisterAdminComponent
 
   ],
   imports: [
@@ -79,7 +82,8 @@ import {UsersComponent} from "./users/users.component";
       {
         path: 'welcome', component: WelcomeComponent
         },
-      {path: 'add-product', component: ProductFormComponent},
+      {path: 'add-product', component: ProductFormComponent,
+        canActivate: [UsersGuardGuard]},
       {path: 'products', component: ProductListComponent},
       {
         path: 'products/:id',
@@ -100,10 +104,16 @@ import {UsersComponent} from "./users/users.component";
         path: 'orders/new', component: NewOrderComponent
       },
       {
-        path: 'storage', component: StorageComponent
+        path: 'storage', component: StorageComponent,
+        canActivate: [UsersGuardGuard]
       },
       {
-        path: 'users', component: UsersComponent
+        path: 'users', component: UsersComponent,
+        canActivate: [UsersGuardGuard]
+      },
+      {
+        path: 'register-admins', component: RegisterAdminComponent,
+        canActivate: [UsersGuardGuard]
       },
       {path: '', redirectTo: 'welcome', pathMatch: 'full'},
       {path: '**', redirectTo: 'welcome', pathMatch: 'full'}

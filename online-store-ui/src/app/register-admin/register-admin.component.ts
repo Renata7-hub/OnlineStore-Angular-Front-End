@@ -1,21 +1,19 @@
-import {Component,  OnInit} from "@angular/core";
+import { Component, OnInit } from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatDialogRef} from "@angular/material/dialog";
 import {LoginService} from "../login/login.service";
-import {FormBuilder,FormGroup, Validators} from "@angular/forms";
-
+import {RegisterComponent} from "../register/register.component";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: 'register.component.html',
-  styleUrls: ['./register.component.css']
+  selector: 'app-register-admin',
+  templateUrl: './register-admin.component.html',
+  styleUrls: ['./register-admin.component.css']
 })
-
-export class RegisterComponent implements OnInit{
-
+export class RegisterAdminComponent implements OnInit {
   nothing: any;
   hide = true;
   registerForm!: FormGroup;
-
+  roles = ['ADMIN', 'USER'];
 
   reactiveForm() {
     this.registerForm = this.fb.group({
@@ -25,6 +23,7 @@ export class RegisterComponent implements OnInit{
       email: ['',{validators: [Validators.required, Validators.email],}],
       userName: ['',{validators: [Validators.required]}],
       password: ['', { validators: [Validators.required]}],
+      role:['', {validators: [Validators.required]}],
     })
   }
 
@@ -37,9 +36,10 @@ export class RegisterComponent implements OnInit{
   }
 
   onNoClick(): void {
-    this.loginService.registerUser(this.registerForm.value).subscribe(result => this.nothing);
+    this.loginService.registerAdmin(this.registerForm.value).subscribe(result => this.nothing);
     this.dialogRef.close();
   }
+
   onClose(): void {
     this.dialogRef.close();
   }
@@ -47,7 +47,5 @@ export class RegisterComponent implements OnInit{
   ngOnInit(): void {
     this.reactiveForm();
   }
-
-
 
 }

@@ -58,7 +58,6 @@ export class LoginService {
   }
 
   public getAllUsers(): Observable<UserInterface[]> {
-    sessionStorage.removeItem('role')
     return this.http.get<UserInterface[]>(this.getLoggedPersonInRoleUrl)
   }
 
@@ -72,7 +71,7 @@ export class LoginService {
 
   public registerAdmin(newUser: RegisterInterface) {
     console.log(newUser)
-    return this.http.post<RegisterInterface>(this.registerNewUserUrl, newUser).pipe(
+    return this.http.post<RegisterInterface>(this.registerNewAdminUrl, newUser).pipe(
       tap(data => console.log("All", JSON.stringify(data))),
       catchError(LoginService.handleError)
     );
