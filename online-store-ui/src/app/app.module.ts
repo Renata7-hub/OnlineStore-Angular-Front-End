@@ -31,6 +31,7 @@ import {RegisterComponent} from "./register/register.component";
 import {AngularMaterialModule} from "./shared/angular-material.module";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {ProductEditingComponent} from "./products/product-editing.component";
+import {UsersComponent} from "./users/users.component";
 
 
 
@@ -49,7 +50,8 @@ import {ProductEditingComponent} from "./products/product-editing.component";
     NewOrderComponent,
     StorageComponent,
     RegisterComponent,
-    ProductEditingComponent
+    ProductEditingComponent,
+    UsersComponent
 
   ],
   imports: [
@@ -99,6 +101,9 @@ import {ProductEditingComponent} from "./products/product-editing.component";
       },
       {
         path: 'storage', component: StorageComponent
+      },
+      {
+        path: 'users', component: UsersComponent
       },
       {path: '', redirectTo: 'welcome', pathMatch: 'full'},
       {path: '**', redirectTo: 'welcome', pathMatch: 'full'}

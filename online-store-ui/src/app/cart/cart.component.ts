@@ -23,6 +23,7 @@ export class CartComponent implements OnInit {
   quantity = 0;
   private userId!: string | null;
   private subscription!: Subscription;
+  productAmountInCart!: number;
 
   constructor(
     private cartService: CartService,
@@ -37,7 +38,9 @@ export class CartComponent implements OnInit {
     console.log(this.userId);
     this.userId = sessionStorage.getItem('userId');
     this.cartService.getCart(this.userId).subscribe({
-      next: data => this.carts = data,
+      next: data => {
+        this.carts = data
+      },
       error: err => this.errorMessage = err
     });
      this.cartService.getTotalPrice(this.userId).subscribe({

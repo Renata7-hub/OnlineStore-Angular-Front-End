@@ -5,8 +5,6 @@ import {ProductService} from "./product.service";
 import {Products} from "./products";
 import {CartService} from "../cart/cart.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {MatSort} from "@angular/material/sort";
-import {MatTable} from "@angular/material/table";
 import {ProductEditingComponent} from "./product-editing.component";
 import {MatDialog} from "@angular/material/dialog";
 import {LoginService} from "../login/login.service";

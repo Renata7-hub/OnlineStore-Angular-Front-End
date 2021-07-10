@@ -45,6 +45,10 @@ import {LoginService} from "./login/login.service";
           <mat-icon>dialpad</mat-icon>
           <span>Add product</span>
         </button>
+        <button mat-menu-item routerLink="/users">
+          <mat-icon>dialpad</mat-icon>
+          <span>Users</span>
+        </button>
       </mat-menu>
     </mat-toolbar>
   <div class="container">
@@ -71,6 +75,13 @@ export class AppComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
     this.subscription = this.loginService.currentUserIdStatus.subscribe(setId => this.userId = setId)
     this.userId = sessionStorage.getItem('userId');
+    this.subscription = this.loginService.currentLoggedStatus.subscribe(statusLogged => this.isLogged = statusLogged);
+    this.isLogged = sessionStorage.getItem('isLogged');
+    this.subscription = this.loginService.currentUserStatus.subscribe(currentUser => this.role = currentUser);
+    this.role = sessionStorage.getItem('role');
+    this.subscription = this.loginService.currentUserNameStatus.subscribe(currentUserName => this.currentUser = currentUserName);
+    this.currentUser = sessionStorage.getItem('userName');
+
     this.cartService.getCart(this.userId).subscribe( {
      next: data => {
        this.carts = data,
@@ -78,12 +89,7 @@ export class AppComponent implements OnInit, OnDestroy{
      },
       error: err => this.errorMessage = err
     });
-    this.subscription = this.loginService.currentLoggedStatus.subscribe(statusLogged => this.isLogged = statusLogged);
-    this.isLogged = sessionStorage.getItem('isLogged');
-    this.subscription = this.loginService.currentUserStatus.subscribe(currentUser => this.role = currentUser);
-    this.role = sessionStorage.getItem('role');
-    this.subscription = this.loginService.currentUserNameStatus.subscribe(currentUserName => this.currentUser = currentUserName);
-    this.currentUser = sessionStorage.getItem('userName');
+
   }
 
   ngOnDestroy(): void {
