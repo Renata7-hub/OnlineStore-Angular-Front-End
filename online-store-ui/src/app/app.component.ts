@@ -22,7 +22,7 @@ import {LoginService} from "./login/login.service";
               [matBadge]="cartSize" matBadgePosition="below">
         <mat-icon>shopping_cart</mat-icon>
       </button>
-      <button mat-button class="example-icon" routerLink="/orders" style="font-size: large; font-weight: bold">
+      <button mat-button  *ngIf="role != 'ADMIN'"  class="example-icon" routerLink="/orders" style="font-size: large; font-weight: bold">
         <span>Orders</span>
       </button>
       <span style="flex: 30 15 auto"></span>
@@ -56,14 +56,13 @@ import {LoginService} from "./login/login.service";
 export class AppComponent implements OnInit, OnDestroy{
   title = 'Digital sales outlet';
   carts: Cart[] = [];
-  role = sessionStorage.getItem('role');
+  role!: string | null;
   isLogged: string | null = 'false';
   cartSize!: number;
-  subscription!: Subscription;
   currentUser!: string | null;
-  errorMessage = "";
+  subscription!: Subscription;
   private userId!: string | null;
-
+  errorMessage = "";
   constructor(private cartService: CartService,
               public loginService: LoginService) {
   }
@@ -71,7 +70,6 @@ export class AppComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     this.subscription = this.loginService.currentUserIdStatus.subscribe(setId => this.userId = setId)
-    console.log(this.userId);
     this.userId = sessionStorage.getItem('userId');
     this.cartService.getCart(this.userId).subscribe( {
      next: data => {
@@ -83,6 +81,7 @@ export class AppComponent implements OnInit, OnDestroy{
     this.subscription = this.loginService.currentLoggedStatus.subscribe(statusLogged => this.isLogged = statusLogged);
     this.isLogged = sessionStorage.getItem('isLogged');
     this.subscription = this.loginService.currentUserStatus.subscribe(currentUser => this.role = currentUser);
+    this.role = sessionStorage.getItem('role');
     this.subscription = this.loginService.currentUserNameStatus.subscribe(currentUserName => this.currentUser = currentUserName);
     this.currentUser = sessionStorage.getItem('userName');
   }

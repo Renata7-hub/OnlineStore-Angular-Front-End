@@ -34,13 +34,13 @@ export class CartService{
     );
   }
 
-  addProductToCart(product: IProduct | undefined) {
+  addProductToCart(product: IProduct | undefined, userId: string | null) {
     var newProduct = {
       productId: product!.id,
       quantity: 1
     }
     //fix so that the number '2' would be field of userId
-      return this.http.post<CartModelToCart>(this.addToCartUrl + '2', newProduct).pipe(
+      return this.http.post<CartModelToCart>(this.addToCartUrl + userId, newProduct).pipe(
         tap(data => console.log("All", JSON.stringify(data)))
       );
   }

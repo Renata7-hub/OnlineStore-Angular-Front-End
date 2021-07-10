@@ -5,6 +5,8 @@ import {ProductService} from "./product.service";
 import {Products} from "./products";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {CartService} from "../cart/cart.service";
+import {Subscription} from "rxjs";
+import {LoginService} from "../login/login.service";
 
 @Component({
   templateUrl: './product-detail.component.html',
@@ -14,15 +16,20 @@ export class ProductDetailComponent implements OnInit {
   pageTitle = 'Product Detail';
   errorMessage = '';
   product: IProduct | undefined;
+  subscription!: Subscription;
+  private userId!: string | null;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private productService: ProductService,
               private _snackBar: MatSnackBar,
-              private cartService: CartService) {
+              private cartService: CartService,
+              private loginService: LoginService) {
   }
 
   ngOnInit(): void {
+    this.subscription = this.loginService.currentUserIdStatus.subscribe(setId => this.userId = setId)
+    this.userId = sessionStorage.getItem('userId');
     const param = this.route.snapshot.paramMap.get('id');
     if (param) {
       const id = +param;
@@ -43,13 +50,14 @@ export class ProductDetailComponent implements OnInit {
 
   openSnackBarOnAdd() {
     this._snackBar.open('Product added to cart', 'Dismiss', {
+      duration: 1000,
       panelClass: ["custom-style"]
     });
   }
 
   addToCartProduct(product: IProduct | undefined): void {
     this.openSnackBarOnAdd();
-    this.cartService.addProductToCart(product).subscribe({
+    this.cartService.addProductToCart(product, this.userId).subscribe({
       next: message => {
       },
       error: err => this.errorMessage = err

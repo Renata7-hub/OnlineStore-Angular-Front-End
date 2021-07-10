@@ -9,6 +9,7 @@ import {MatSort} from "@angular/material/sort";
 import {MatTable} from "@angular/material/table";
 import {ProductEditingComponent} from "./product-editing.component";
 import {MatDialog} from "@angular/material/dialog";
+import {LoginService} from "../login/login.service";
 
 
 @Component({
@@ -24,6 +25,8 @@ export class ProductListComponent implements OnInit, OnDestroy{
   sub: Subscription | undefined;
   p: number = 1;
   role = sessionStorage.getItem('role');
+  subscription!: Subscription;
+  private userId!: string | null;
 
 
   get listFilter(): string {
@@ -43,7 +46,8 @@ export class ProductListComponent implements OnInit, OnDestroy{
   constructor(private productService: ProductService,
               private cartService: CartService,
               private _snackBar: MatSnackBar,
-              private dialog: MatDialog
+              private dialog: MatDialog,
+              private loginService: LoginService
   ) {
   }
 
@@ -57,12 +61,14 @@ export class ProductListComponent implements OnInit, OnDestroy{
 
   openSnackBarOnAdd() {
     this._snackBar.open('Product added to cart', 'Dismiss', {
+      duration: 1000,
       panelClass: ["custom-style"]
     });
   }
 
   openSnackBarOnDelete() {
     this._snackBar.open('Product removed from product list', 'Dismiss', {
+      duration: 1000,
       panelClass: ["custom-style"]
     });
   }
@@ -118,7 +124,7 @@ export class ProductListComponent implements OnInit, OnDestroy{
 
   addToCartProduct(product: Products): void {
     this.openSnackBarOnAdd();
-    this.cartService.addProductToCart(product).subscribe({
+    this.cartService.addProductToCart(product, this.userId).subscribe({
       next: message => {
       },
       error: err => this.errorMessage = err
@@ -135,6 +141,8 @@ export class ProductListComponent implements OnInit, OnDestroy{
       error: err => this.errorMessage = err
     });
     this.listFilter = "";
+    this.subscription = this.loginService.currentUserIdStatus.subscribe(setId => this.userId = setId)
+    this.userId = sessionStorage.getItem('userId');
   }
 
   ngOnDestroy() {
