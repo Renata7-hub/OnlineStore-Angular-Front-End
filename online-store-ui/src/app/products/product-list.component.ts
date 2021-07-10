@@ -25,6 +25,7 @@ export class ProductListComponent implements OnInit, OnDestroy{
   p: number = 1;
   role = sessionStorage.getItem('role');
 
+
   get listFilter(): string {
     return this._listFilter;
 }

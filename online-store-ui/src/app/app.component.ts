@@ -62,6 +62,7 @@ export class AppComponent implements OnInit, OnDestroy{
   subscription!: Subscription;
   currentUser!: string | null;
   errorMessage = "";
+  private userId!: string | null;
 
   constructor(private cartService: CartService,
               public loginService: LoginService) {
@@ -69,7 +70,10 @@ export class AppComponent implements OnInit, OnDestroy{
 
 
   ngOnInit(): void {
-    this.cartService.getCart().subscribe( {
+    this.subscription = this.loginService.currentUserIdStatus.subscribe(setId => this.userId = setId)
+    console.log(this.userId);
+    this.userId = sessionStorage.getItem('userId');
+    this.cartService.getCart(this.userId).subscribe( {
      next: data => {
        this.carts = data,
       this.cartSize = data.length

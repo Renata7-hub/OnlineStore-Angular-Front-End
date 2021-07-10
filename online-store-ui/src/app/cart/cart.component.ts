@@ -5,6 +5,8 @@ import {Cart} from "./cart";
 import {ProductService} from "../products/product.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {error} from "@angular/compiler/src/util";
+import {LoginService} from "../login/login.service";
+import {Subscription} from "rxjs";
 
 
 @Component({
@@ -19,20 +21,26 @@ export class CartComponent implements OnInit {
   totalPrice = 0;
   errorMessage = "";
   quantity = 0;
+  private userId!: string | null;
+  private subscription!: Subscription;
 
   constructor(
     private cartService: CartService,
     private router: Router,
     private productService: ProductService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private loginService: LoginService
     ) {}
 
   ngOnInit(): void {
-    this.cartService.getCart().subscribe({
+    this.subscription = this.loginService.currentUserIdStatus.subscribe(setId => this.userId = setId)
+    console.log(this.userId);
+    this.userId = sessionStorage.getItem('userId');
+    this.cartService.getCart(this.userId).subscribe({
       next: data => this.carts = data,
       error: err => this.errorMessage = err
     });
-     this.cartService.getTotalPrice().subscribe({
+     this.cartService.getTotalPrice(this.userId).subscribe({
        next: data => this.totalPrice = data,
        error: err => this.errorMessage = err
      });

@@ -23,7 +23,16 @@ export class LoginService {
   private currentUserName = new BehaviorSubject('');
   currentUserNameStatus = this.currentUserName.asObservable();
 
+  private currentUserId = new BehaviorSubject('');
+  currentUserIdStatus = this.currentUserId.asObservable();
+
   constructor(private http: HttpClient) {
+  }
+
+  setToCurrentUserId(id: string) {
+    console.log(id);
+    this.currentUserId.next(id);
+    sessionStorage.setItem("userId", id);
   }
 
   changeToCurrentUserRole(role: string, userName: string) {
@@ -42,11 +51,12 @@ export class LoginService {
     this.currentUser.next("GUEST")
     sessionStorage.removeItem('isLogged')
     sessionStorage.removeItem('role')
-    sessionStorage.removeItem('user_id')
+    sessionStorage.removeItem('userId')
+    sessionStorage.removeItem('userName')
     sessionStorage.setItem('isLogged', 'false');
   }
 
-  public getRole(): Observable<UserInterface[]> {
+  public getAllUsers(): Observable<UserInterface[]> {
     sessionStorage.removeItem('role')
     return this.http.get<UserInterface[]>(this.getLoggedPersonInRoleUrl)
   }

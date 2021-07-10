@@ -1,30 +1,35 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {Observable} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {Cart} from "./cart";
 import {IProduct} from "../products/product";
 import { tap} from "rxjs/operators";
 import {CartModelToCart} from "./cart.model-to-cart";
+import {LoginService} from "../login/login.service";
+import set = Reflect.set;
 
 @Injectable({
   providedIn: 'root'
 })
-export class CartService {
+export class CartService{
   private getAllProductsUrl = 'http://localhost:8080/cart/';
   private getTotalPriceUrl = 'http://localhost:8080/cart/getTotalPrice/';
   private addToCartUrl = 'http://localhost:8080/cart/';
   private removeFromCartProductUrl = 'http://localhost:8080/cart/';
   private changeProductQuantityInCartUrl = 'http://localhost:8080/cart';
-  private userId = sessionStorage.getItem('user_id');
 
-  constructor(private http: HttpClient) { }
+
+  constructor(private http: HttpClient) {
+
+  }
 
   public deleteCartEntryById(id: number) {
     return this.http.delete(this.removeFromCartProductUrl + id)
   }
 
-  getCart(): Observable<Cart[]> {
-    return this.http.get<Cart[]>(this.getAllProductsUrl + this.userId).pipe(
+  getCart(userId: string | null): Observable<Cart[]> {
+    console.log(userId);
+    return this.http.get<Cart[]>(this.getAllProductsUrl + userId).pipe(
       tap(data => console.log("All", JSON.stringify(data)))
     );
   }
@@ -34,7 +39,8 @@ export class CartService {
       productId: product!.id,
       quantity: 1
     }
-      return this.http.post<CartModelToCart>(this.addToCartUrl + this.userId, newProduct).pipe(
+    //fix so that the number '2' would be field of userId
+      return this.http.post<CartModelToCart>(this.addToCartUrl + '2', newProduct).pipe(
         tap(data => console.log("All", JSON.stringify(data)))
       );
   }
@@ -64,7 +70,9 @@ export class CartService {
     );
   }
 
-  getTotalPrice(): Observable<number> {
-    return this.http.get<number>(this.getTotalPriceUrl + this.userId);
+  getTotalPrice(userId: string | null): Observable<number> {
+    return this.http.get<number>(this.getTotalPriceUrl + userId);
   }
+
+
 }

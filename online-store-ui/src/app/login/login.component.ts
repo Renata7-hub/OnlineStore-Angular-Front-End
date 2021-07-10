@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     sessionStorage.setItem('token', '');
-    this.loginService.getRole().subscribe({
+    this.loginService.getAllUsers().subscribe({
       next: users => {
         this.users = users;
       },
@@ -92,15 +92,16 @@ export class LoginComponent implements OnInit {
       this.users.map(users => {
         if (users.userName == userName) {
           if (users.role == 'ADMIN') {
+            this.loginService.setToCurrentUserId(users.id.toString());
             this.loginService.changeToCurrentUserRole('ADMIN', userName)
             sessionStorage.setItem('userName', userName)
             sessionStorage.setItem('role', 'ADMIN');
             return;
           } else {
             this.loginService.changeToCurrentUserRole('USER', userName)
+            this.loginService.setToCurrentUserId(String(users.id))
             sessionStorage.setItem('userName', userName)
             sessionStorage.setItem('role', 'USER');
-            sessionStorage.setItem('user_id', String(users.id))
             return;
           }
         }
