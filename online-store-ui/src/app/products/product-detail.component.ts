@@ -18,6 +18,7 @@ export class ProductDetailComponent implements OnInit {
   product: IProduct | undefined;
   subscription!: Subscription;
   private userId!: string | null;
+  role!: string | null;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -30,6 +31,8 @@ export class ProductDetailComponent implements OnInit {
   ngOnInit(): void {
     this.subscription = this.loginService.currentUserIdStatus.subscribe(setId => this.userId = setId)
     this.userId = sessionStorage.getItem('userId');
+    this.subscription = this.loginService.currentUserRoleStatus.subscribe(setRole => this.role = setRole)
+    this.role = sessionStorage.getItem('role');
     const param = this.route.snapshot.paramMap.get('id');
     if (param) {
       const id = +param;

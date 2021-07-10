@@ -1,12 +1,10 @@
-import {Injectable, OnInit} from '@angular/core';
+import {Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {Observable, Subscription} from "rxjs";
+import {Observable} from "rxjs";
 import {Cart} from "./cart";
 import {IProduct} from "../products/product";
 import { tap} from "rxjs/operators";
 import {CartModelToCart} from "./cart.model-to-cart";
-import {LoginService} from "../login/login.service";
-import set = Reflect.set;
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +37,6 @@ export class CartService{
       productId: product!.id,
       quantity: 1
     }
-    //fix so that the number '2' would be field of userId
       return this.http.post<CartModelToCart>(this.addToCartUrl + userId, newProduct).pipe(
         tap(data => console.log("All", JSON.stringify(data)))
       );

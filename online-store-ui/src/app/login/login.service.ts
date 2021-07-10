@@ -17,8 +17,8 @@ export class LoginService {
   private isLoggedSource = new BehaviorSubject('false');
   currentLoggedStatus = this.isLoggedSource.asObservable();
 
-  private currentUser = new BehaviorSubject('');
-  currentUserStatus = this.currentUser.asObservable();
+  private currentUserRole = new BehaviorSubject('');
+  currentUserRoleStatus = this.currentUserRole.asObservable();
 
   private currentUserName = new BehaviorSubject('');
   currentUserNameStatus = this.currentUserName.asObservable();
@@ -30,14 +30,15 @@ export class LoginService {
   }
 
   setToCurrentUserId(id: string) {
-    console.log(id);
     this.currentUserId.next(id);
     sessionStorage.setItem("userId", id);
   }
 
   changeToCurrentUserRole(role: string, userName: string) {
     this.currentUserName.next(userName);
-    this.currentUser.next(role);
+    this.currentUserRole.next(role);
+    sessionStorage.setItem('role', role)
+    sessionStorage.setItem('userName', userName)
   }
 
   changeLoginStatusToTrue() {
@@ -48,7 +49,7 @@ export class LoginService {
 
   changeLoginStatusToFalse() {
     this.isLoggedSource.next('false');
-    this.currentUser.next("GUEST")
+    this.currentUserRole.next("GUEST")
     sessionStorage.removeItem('isLogged')
     sessionStorage.removeItem('role')
     sessionStorage.removeItem('userId')

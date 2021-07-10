@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {LoginService} from "../login/login.service";
 import {UserInterface} from "../login/user.interface";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-users',
@@ -8,6 +9,7 @@ import {UserInterface} from "../login/user.interface";
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
+
   pageTitle = 'Users';
   displayedColumns: string[] = ['userId', 'userName', 'password', 'first-name', 'last-name','age', 'email', 'role'];
   users: UserInterface[] = [];

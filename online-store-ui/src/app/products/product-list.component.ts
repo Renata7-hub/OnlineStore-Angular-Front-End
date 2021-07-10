@@ -51,7 +51,7 @@ export class ProductListComponent implements OnInit, OnDestroy{
 
   updateDisplayedColumns(): string[] {
     if (this.role == "ADMIN") {
-      return this.displayedColumns = ['imageUrl', 'title', 'id', 'price', 'add','delete', 'update'];
+      return this.displayedColumns = ['imageUrl', 'title', 'id', 'price', 'delete', 'update'];
     } else {
       return this.displayedColumns = ['imageUrl', 'title', 'id', 'price', 'add'];
     }

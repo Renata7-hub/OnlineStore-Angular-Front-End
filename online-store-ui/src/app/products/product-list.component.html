@@ -13,7 +13,7 @@
 <table mat-table [dataSource]="filteredProducts | paginate: {itemsPerPage: 10, currentPage: p}" matSort
        class="mat-elevation-z8">
 
-  <ng-container matColumnDef="imageUrl">
+  <ng-container  matColumnDef="imageUrl">
     <th mat-header-cell *matHeaderCellDef class="card-header"> Image </th>
     <td mat-cell *matCellDef="let element"> <img [src]="element.imageUrl"
                                                  [title]='element.title'
@@ -33,12 +33,12 @@
     <td mat-cell *matCellDef="let element"> {{element.id}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="price">
+  <ng-containe matColumnDef="price">
     <th mat-header-cell *matHeaderCellDef class="card-header"> Price </th>
     <td mat-cell *matCellDef="let element"> {{element.price | currency: 'EUR' }} </td>
-  </ng-container>
+  </ng-containe>
 
-  <ng-container matColumnDef="add">
+  <ng-container  *ngIf="role != 'ADMIN' " matColumnDef="add">
     <th mat-header-cell  *matHeaderCellDef class="card-header"></th>
     <td mat-cell *matCellDef="let element" >
       <button class="btn"
@@ -51,7 +51,7 @@
     <th mat-header-cell  *matHeaderCellDef class="card-header"></th>
     <td mat-cell *matCellDef="let element" >
       <button class="btn"
-              title="Add one product to cart"
+              title="Remove product from 'Product List'"
               (click)="onDelete(element.id)"><mat-icon>remove</mat-icon></button>
     </td>
   </ng-container>
@@ -60,7 +60,7 @@
     <th mat-header-cell  *matHeaderCellDef class="card-header" ></th>
     <td mat-cell *matCellDef="let element" >
       <button class="btn"
-              title="Add one product to cart"
+              title="Update product"
               (click)="openDialog(element)">
         <mat-icon>apps</mat-icon></button>
     </td>
