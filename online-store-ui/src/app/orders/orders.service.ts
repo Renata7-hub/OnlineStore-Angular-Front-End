@@ -4,8 +4,6 @@ import {Order} from "./interfaces/order.model";
 import {Observable, throwError} from "rxjs";
 import {catchError, map, tap} from "rxjs/operators";
 import {IOrder} from "./interfaces/order-interface.model";
-import {IProduct} from "../products/product";
-import {Products} from "../products/products";
 import {DatePipe} from "@angular/common";
 
 @Injectable({
@@ -13,16 +11,17 @@ import {DatePipe} from "@angular/common";
 })
 export class OrdersService {
 
-  private getOrdersUrl = "http://localhost:8080/purchase/order";
+  private getOrdersUrl = "http://localhost:8080/purchase/order/";
   private createOrderUrl = "http://localhost:8080/purchase/order";
   private cartOrderLineUrl = 'http://localhost:8080/purchase/order/';
   private cartTotalCostUrl = 'http://localhost:8080/purchase/order/totals';
+  private userId = sessionStorage.getItem('userId');
   constructor(private http: HttpClient,
               public datePipe: DatePipe) {
   }
 
   public getOrders(): Observable<IOrder[]> {
-    return this.http.get<IOrder[]>(this.getOrdersUrl).pipe(
+    return this.http.get<IOrder[]>(this.getOrdersUrl + this.userId).pipe(
       tap(/*data => console.log("All", JSON.stringify(data))*/),
       catchError(OrdersService.handleError)
     );

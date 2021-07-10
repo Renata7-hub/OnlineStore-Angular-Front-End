@@ -26,7 +26,9 @@ import {LoginService} from "./login/login.service";
         <span>Orders</span>
       </button>
       <span style="flex: 30 15 auto"></span>
+      <button mat-button class="example-icon">
         <span>Currently logged in: {{currentUser}}</span>
+      </button>
       <button mat-button class="example-icon" routerLink="/orders" style="font-size: large; font-weight: bold"
               routerLink="/login" (click)="loginService.changeLoginStatusToFalse()">
         <span>Log Out</span>
@@ -54,7 +56,7 @@ import {LoginService} from "./login/login.service";
 export class AppComponent implements OnInit, OnDestroy{
   title = 'Digital sales outlet';
   carts: Cart[] = [];
-  role!: string | null;
+  role = sessionStorage.getItem('role');
   isLogged: string | null = 'false';
   cartSize!: number;
   subscription!: Subscription;
@@ -75,9 +77,10 @@ export class AppComponent implements OnInit, OnDestroy{
       error: err => this.errorMessage = err
     });
     this.subscription = this.loginService.currentLoggedStatus.subscribe(statusLogged => this.isLogged = statusLogged);
-    this.isLogged = sessionStorage.getItem('isLogged')
-    this.role = sessionStorage.getItem('role')
-    this.currentUser = sessionStorage.getItem('userName')
+    this.isLogged = sessionStorage.getItem('isLogged');
+    this.subscription = this.loginService.currentUserStatus.subscribe(currentUser => this.role = currentUser);
+    this.subscription = this.loginService.currentUserNameStatus.subscribe(currentUserName => this.currentUser = currentUserName);
+    this.currentUser = sessionStorage.getItem('userName');
   }
 
   ngOnDestroy(): void {

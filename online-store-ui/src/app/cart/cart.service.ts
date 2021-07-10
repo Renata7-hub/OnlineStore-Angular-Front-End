@@ -11,7 +11,7 @@ import {CartModelToCart} from "./cart.model-to-cart";
 })
 export class CartService {
   private getAllProductsUrl = 'http://localhost:8080/cart/';
-  private getTotalPriceUrl = 'http://localhost:8080/cart/getTotalPrice';
+  private getTotalPriceUrl = 'http://localhost:8080/cart/getTotalPrice/';
   private addToCartUrl = 'http://localhost:8080/cart/';
   private removeFromCartProductUrl = 'http://localhost:8080/cart/';
   private changeProductQuantityInCartUrl = 'http://localhost:8080/cart';
@@ -65,6 +65,6 @@ export class CartService {
   }
 
   getTotalPrice(): Observable<number> {
-    return this.http.get<number>(this.getTotalPriceUrl);
+    return this.http.get<number>(this.getTotalPriceUrl + this.userId);
   }
 }

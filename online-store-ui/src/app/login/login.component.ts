@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit {
   users: UserInterface[] = [];
 
 
+
   errorMessage = 'Invalid Credentials';
 
   constructor(
@@ -91,9 +92,13 @@ export class LoginComponent implements OnInit {
       this.users.map(users => {
         if (users.userName == userName) {
           if (users.role == 'ADMIN') {
+            this.loginService.changeToCurrentUserRole('ADMIN', userName)
+            sessionStorage.setItem('userName', userName)
             sessionStorage.setItem('role', 'ADMIN');
             return;
           } else {
+            this.loginService.changeToCurrentUserRole('USER', userName)
+            sessionStorage.setItem('userName', userName)
             sessionStorage.setItem('role', 'USER');
             sessionStorage.setItem('user_id', String(users.id))
             return;

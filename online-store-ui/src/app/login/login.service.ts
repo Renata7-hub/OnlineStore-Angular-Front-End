@@ -17,7 +17,18 @@ export class LoginService {
   private isLoggedSource = new BehaviorSubject('false');
   currentLoggedStatus = this.isLoggedSource.asObservable();
 
+  private currentUser = new BehaviorSubject('');
+  currentUserStatus = this.currentUser.asObservable();
+
+  private currentUserName = new BehaviorSubject('');
+  currentUserNameStatus = this.currentUserName.asObservable();
+
   constructor(private http: HttpClient) {
+  }
+
+  changeToCurrentUserRole(role: string, userName: string) {
+    this.currentUserName.next(userName);
+    this.currentUser.next(role);
   }
 
   changeLoginStatusToTrue() {
@@ -28,6 +39,7 @@ export class LoginService {
 
   changeLoginStatusToFalse() {
     this.isLoggedSource.next('false');
+    this.currentUser.next("GUEST")
     sessionStorage.removeItem('isLogged')
     sessionStorage.removeItem('role')
     sessionStorage.removeItem('user_id')
