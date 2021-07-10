@@ -1,10 +1,13 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import { Subscription } from "rxjs";
 import {IProduct} from "./product";
 import {ProductService} from "./product.service";
 import {Products} from "./products";
 import {CartService} from "../cart/cart.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {ProductEditingComponent} from "./product-editing.component";
+import {MatDialog} from "@angular/material/dialog";
+import {LoginService} from "../login/login.service";
 
 
 @Component({
@@ -19,6 +22,10 @@ export class ProductListComponent implements OnInit, OnDestroy{
   private _listFilter: string = '';
   sub: Subscription | undefined;
   p: number = 1;
+  role = sessionStorage.getItem('role');
+  subscription!: Subscription;
+  private userId!: string | null;
+
 
   get listFilter(): string {
     return this._listFilter;
@@ -32,20 +39,62 @@ export class ProductListComponent implements OnInit, OnDestroy{
   filteredProducts: IProduct[] = [];
   products: IProduct[] = [];
 
+  displayedColumns: string[] = ['imageUrl', 'title', 'id', 'price', 'add','delete', 'update'];
+
   constructor(private productService: ProductService,
               private cartService: CartService,
-              private _snackBar: MatSnackBar
+              private _snackBar: MatSnackBar,
+              private dialog: MatDialog,
+              private loginService: LoginService
   ) {
   }
+
+  updateDisplayedColumns(): string[] {
+    if (this.role == "ADMIN") {
+      return this.displayedColumns = ['imageUrl', 'title', 'id', 'price', 'delete', 'update'];
+    } else {
+      return this.displayedColumns = ['imageUrl', 'title', 'id', 'price', 'add'];
+    }
+  }
+
   openSnackBarOnAdd() {
     this._snackBar.open('Product added to cart', 'Dismiss', {
+      duration: 1000,
       panelClass: ["custom-style"]
     });
   }
 
   openSnackBarOnDelete() {
     this._snackBar.open('Product removed from product list', 'Dismiss', {
+      duration: 1000,
       panelClass: ["custom-style"]
+    });
+  }
+
+  openDialog(product: Products) {
+    const dialogRef = this.dialog.open(ProductEditingComponent, {
+      width: '500px',
+      data: product
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+        this.updateRowData(result.data);
+    });
+  }
+
+  updateRowData(row_obj: Products){
+    this.productService.updateProduct(row_obj).subscribe({
+      next: message => {
+      },
+      error: err => this.errorMessage = err
+    });
+    this.filteredProducts = this.filteredProducts.filter((value,key)=>{
+      if(value.id == row_obj.id){
+        value.title = row_obj.title;
+        value.price = row_obj.price;
+        value.description = row_obj.description;
+      }
+      return true;
     });
   }
 
@@ -73,7 +122,7 @@ export class ProductListComponent implements OnInit, OnDestroy{
 
   addToCartProduct(product: Products): void {
     this.openSnackBarOnAdd();
-    this.cartService.addProductToCart(product).subscribe({
+    this.cartService.addProductToCart(product, this.userId).subscribe({
       next: message => {
       },
       error: err => this.errorMessage = err
@@ -90,6 +139,8 @@ export class ProductListComponent implements OnInit, OnDestroy{
       error: err => this.errorMessage = err
     });
     this.listFilter = "";
+    this.subscription = this.loginService.currentUserIdStatus.subscribe(setId => this.userId = setId)
+    this.userId = sessionStorage.getItem('userId');
   }
 
   ngOnDestroy() {
@@ -97,3 +148,4 @@ export class ProductListComponent implements OnInit, OnDestroy{
   }
 
 }
+

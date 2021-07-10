@@ -1,10 +1,11 @@
 import {Component, EventEmitter, OnInit, Output} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {BehaviorSubject, Observable} from "rxjs";
 import {LoginService} from "./login.service";
 import {MatDialog} from "@angular/material/dialog";
 import {RegisterComponent} from "../register/register.component";
+import {UserInterface} from "./user.interface";
 
 
 @Component({
@@ -23,17 +24,30 @@ export class LoginComponent implements OnInit {
   email!: string;
   userName!: string;
   password!: string;
+  role!: string;
+  users: UserInterface[] = [];
+
+
+
+  errorMessage = 'Invalid Credentials';
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
-    private loginService: LoginService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private loginService: LoginService
   ) { }
+
 
   ngOnInit() {
     sessionStorage.setItem('token', '');
+    this.loginService.getAllUsers().subscribe({
+      next: users => {
+        this.users = users;
+      },
+      error: err => this.errorMessage = err
+    });
   }
 
   openDialog(): void {
@@ -47,31 +61,50 @@ export class LoginComponent implements OnInit {
               age: this.age
       }
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.firstName = result;
-    });
   }
 
 
   login() {
     let url = 'http://localhost:8080/login';
-    this.http.post<Observable<boolean>>(url, {
-      userName: this.model.username,
+    let loginUser = {
+      userName: this.model.userName,
       password: this.model.password
-    }).subscribe(isValid => {
+    }
+    const headers = new HttpHeaders({Authorization: "Basic" + btoa(this.model.username + ':' + this.model.password)})
+    this.http.post(url, loginUser).subscribe(isValid => {
       if (isValid) {
         sessionStorage.setItem(
           'token',
-          btoa(this.model.username + ':' + this.model.password)
+          btoa(this.model.userName + ':' + this.model.password)
         );
-        this.loginService.changeLoginStatus();
+        this.getRoleAfterLogin(this.model.userName);
+        sessionStorage.setItem('userName', this.model.userName)
+        this.loginService.changeLoginStatusToTrue();
         this.router.navigate(['/welcome']);
 
       } else {
         alert("Authentication failed.")
       }
     });
+  }
+
+    getRoleAfterLogin(userName: string): void {
+      this.users.map(users => {
+        if (users.userName == userName) {
+          if (users.role == 'ADMIN') {
+            this.loginService.setToCurrentUserId(users.id.toString());
+            this.loginService.changeToCurrentUserRole('ADMIN', userName)
+            sessionStorage.setItem('userName', userName)
+            sessionStorage.setItem('role', 'ADMIN');
+            return;
+          } else {
+            this.loginService.changeToCurrentUserRole('USER', userName)
+            this.loginService.setToCurrentUserId(String(users.id))
+            sessionStorage.setItem('userName', userName)
+            sessionStorage.setItem('role', 'USER');
+            return;
+          }
+        }
+      });
   }
 }

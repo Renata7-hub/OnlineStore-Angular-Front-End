@@ -1,9 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Output} from '@angular/core';
 import { CartService } from "./cart.service";
 import { Router } from "@angular/router";
 import {Cart} from "./cart";
 import {ProductService} from "../products/product.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {error} from "@angular/compiler/src/util";
+import {LoginService} from "../login/login.service";
+import {Subscription} from "rxjs";
 
 
 @Component({
@@ -18,22 +21,34 @@ export class CartComponent implements OnInit {
   totalPrice = 0;
   errorMessage = "";
   quantity = 0;
+  private userId!: string | null;
+  private subscription!: Subscription;
+  productAmountInCart!: number;
 
   constructor(
     private cartService: CartService,
     private router: Router,
     private productService: ProductService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private loginService: LoginService
     ) {}
 
   ngOnInit(): void {
-    this.cartService.getCart().subscribe(data => {
-      this.carts = data;
+    this.subscription = this.loginService.currentUserIdStatus.subscribe(setId => this.userId = setId)
+    console.log(this.userId);
+    this.userId = sessionStorage.getItem('userId');
+    this.cartService.getCart(this.userId).subscribe({
+      next: data => {
+        this.carts = data
+      },
+      error: err => this.errorMessage = err
     });
-     this.cartService.getTotalPrice().subscribe(data => {
-       this.totalPrice = data;
+     this.cartService.getTotalPrice(this.userId).subscribe({
+       next: data => this.totalPrice = data,
+       error: err => this.errorMessage = err
      });
   }
+
   openSnackBarOnDelete() {
     this._snackBar.open('Product removed from cart', 'Dismiss', {
       panelClass: ["custom-style"]
