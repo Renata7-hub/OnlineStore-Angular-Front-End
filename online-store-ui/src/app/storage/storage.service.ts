@@ -3,6 +3,7 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {catchError, tap} from "rxjs/operators";
 import {Observable, throwError} from "rxjs";
 import {Storage} from "./storage";
+import {IStorage} from "./storage.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +21,8 @@ export class StorageService {
     return this.http.get(this.getQuantityByDateUrl + "?date="+date.toString())
   }
 
-  public getAllProductQuantity(): Observable<Storage[]> {
-    return this.http.get<Storage[]>(this.getProductQuantityUrl);
+  public getAllProductQuantity(): Observable<IStorage[]> {
+    return this.http.get<IStorage[]>(this.getProductQuantityUrl);
   }
 
   public getQuantityByProductIdOnDate(date: Date, id: number){

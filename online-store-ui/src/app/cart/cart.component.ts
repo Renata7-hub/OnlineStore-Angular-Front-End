@@ -9,6 +9,7 @@ import {LoginService} from "../login/login.service";
 import {Subscription} from "rxjs";
 import {Storage} from "../storage/storage";
 import {StorageService} from "../storage/storage.service";
+import {IStorage} from "../storage/storage.interface";
 
 
 @Component({
@@ -28,7 +29,7 @@ export class CartComponent implements OnInit {
   productAmountInCart!: number;
 
   carts: Cart[] = [] ;
-  storage: Storage[] = [];
+  storage: IStorage[] = [];
 
   constructor(
     private cartService: CartService,
@@ -89,7 +90,7 @@ export class CartComponent implements OnInit {
   }
 
   onAdd(cart: Cart){
-    this.checkIfAmountOfProductsIsInStorage(cart);
+    // this.checkIfAmountOfProductsIsInStorage(cart);
     this.cartService.updateProductOnAdd(cart)
     this.onAddUpdateTotalPrice(cart);
     this.cartService.addQuantityToProduct(cart)
@@ -121,13 +122,15 @@ export class CartComponent implements OnInit {
     this.router.navigate(['orders/new']);
   }
 
-  checkIfAmountOfProductsIsInStorage(cart: Cart) {
+  checkIfAmountOfProductsIsInStorage(cart: Cart): boolean {
     for (let i = 0; i < this.storage.length; i++) {
-      if (this.storage[i].productId === cart.product.id ) {
-        if (this.storage[i].quantity < cart.quantity || this.storage[i].quantity === cart.quantity) {
-          console.log('Not enough products in storage!')
+      if (cart.product.id == this.storage[i].product.id) {
+        if (this.storage[i].quantity == cart.quantity || this.storage[i].quantity > cart.quantity) {
+          console.log(this.storage[i].quantity)
+          return true;
         }
       }
     }
+    return false;
   }
 }
