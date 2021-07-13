@@ -7,6 +7,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {error} from "@angular/compiler/src/util";
 import {LoginService} from "../login/login.service";
 import {Subscription} from "rxjs";
+import {Storage} from "../storage/storage";
+import {StorageService} from "../storage/storage.service";
 
 
 @Component({
@@ -16,7 +18,7 @@ import {Subscription} from "rxjs";
 })
 export class CartComponent implements OnInit {
   pageTitle = "Cart";
-  carts: Cart[] = [] ;
+
   @Input() isNewOrder: boolean = false;
   totalPrice = 0;
   errorMessage = "";
@@ -25,15 +27,20 @@ export class CartComponent implements OnInit {
   private subscription!: Subscription;
   productAmountInCart!: number;
 
+  carts: Cart[] = [] ;
+  storage: Storage[] = [];
+
   constructor(
     private cartService: CartService,
     private router: Router,
     private productService: ProductService,
     private _snackBar: MatSnackBar,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private storageService: StorageService
     ) {}
 
   ngOnInit(): void {
+    this.storageService.getAllProductQuantity().subscribe(storage => this.storage = storage);
     this.subscription = this.loginService.currentUserIdStatus.subscribe(setId => this.userId = setId)
     console.log(this.userId);
     this.userId = sessionStorage.getItem('userId');
@@ -82,6 +89,7 @@ export class CartComponent implements OnInit {
   }
 
   onAdd(cart: Cart){
+    this.checkIfAmountOfProductsIsInStorage(cart);
     this.cartService.updateProductOnAdd(cart)
     this.onAddUpdateTotalPrice(cart);
     this.cartService.addQuantityToProduct(cart)
@@ -113,5 +121,13 @@ export class CartComponent implements OnInit {
     this.router.navigate(['orders/new']);
   }
 
-
+  checkIfAmountOfProductsIsInStorage(cart: Cart) {
+    for (let i = 0; i < this.storage.length; i++) {
+      if (this.storage[i].productId === cart.product.id ) {
+        if (this.storage[i].quantity < cart.quantity || this.storage[i].quantity === cart.quantity) {
+          console.log('Not enough products in storage!')
+        }
+      }
+    }
+  }
 }

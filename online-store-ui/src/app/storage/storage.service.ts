@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {catchError, tap} from "rxjs/operators";
-import {throwError} from "rxjs";
+import {Observable, throwError} from "rxjs";
 import {Storage} from "./storage";
 
 @Injectable({
@@ -11,12 +11,17 @@ export class StorageService {
 
   private getQuantityByDateUrl = "http://localhost:8080/product/get-all/quantity";
   private getQuantityByIdAndDateUrl = "http://localhost:8080/product/{id}/quantity";
+  private postProductQuantityUrl = "http://localhost:8080/product/quantity";
   private getProductQuantityUrl = "http://localhost:8080/product/quantity";
 
   constructor(private http: HttpClient) { }
 
   public getAllProductQuantityOnDate(date: Date){
     return this.http.get(this.getQuantityByDateUrl + "?date="+date.toString())
+  }
+
+  public getAllProductQuantity(): Observable<Storage[]> {
+    return this.http.get<Storage[]>(this.getProductQuantityUrl);
   }
 
   public getQuantityByProductIdOnDate(date: Date, id: number){
@@ -27,7 +32,7 @@ export class StorageService {
   }
 
   public postProductQuantity(storage: Storage){
-    return this.http.post(this.getProductQuantityUrl, storage).pipe(
+    return this.http.post(this.postProductQuantityUrl, storage).pipe(
       tap(data => console.log("All", JSON.stringify(data))),
       catchError(StorageService.handleError)
     );

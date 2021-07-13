@@ -3,6 +3,7 @@ import { OrdersService} from "./orders.service";
 import {IOrder} from "./interfaces/order-interface.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs";
+import {LoginService} from "../login/login.service";
 
 @Component({
   templateUrl: './orders.component.html',
@@ -12,16 +13,18 @@ export class OrdersComponent implements OnInit, OnDestroy {
   pageTitle = "Orders";
   order: IOrder[] = [];
   errorMessage = "Somethings Wrong"
-  sub: Subscription | undefined;
+  subscription!: Subscription;
+  userId!: string | null;
   orderTotals: any;
 
   constructor(private orderService: OrdersService,
-              private route: ActivatedRoute,
-              private router: Router) { }
+              private loginService: LoginService) { }
 
   ngOnInit(): void {
-
-    this.orderService.getOrdersTotalCost().subscribe(data => {
+    this.subscription = this.loginService.currentUserIdStatus.subscribe(setId => this.userId = setId)
+    console.log(this.userId);
+    this.userId = sessionStorage.getItem('userId');
+    this.orderService.getOrdersTotalCost(this.userId).subscribe(data => {
       this.orderTotals = data;
       console.log(this.orderTotals)
     });
@@ -29,7 +32,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.sub?.unsubscribe();
+    this.subscription?.unsubscribe();
   }
 
 }

@@ -14,14 +14,13 @@ export class OrdersService {
   private getOrdersUrl = "http://localhost:8080/purchase/order/";
   private createOrderUrl = "http://localhost:8080/purchase/order";
   private cartOrderLineUrl = 'http://localhost:8080/purchase/order/';
-  private cartTotalCostUrl = 'http://localhost:8080/purchase/order/totals';
-  private userId = sessionStorage.getItem('userId');
+  private cartTotalCostUrl = 'http://localhost:8080/purchase/order/totals/';
   constructor(private http: HttpClient,
               public datePipe: DatePipe) {
   }
 
   public getOrders(): Observable<IOrder[]> {
-    return this.http.get<IOrder[]>(this.getOrdersUrl + this.userId).pipe(
+    return this.http.get<IOrder[]>(this.getOrdersUrl).pipe(
       tap(/*data => console.log("All", JSON.stringify(data))*/),
       catchError(OrdersService.handleError)
     );
@@ -46,8 +45,8 @@ export class OrdersService {
     return this.http.get(this.cartOrderLineUrl + id + '/lines');
   }
 
-  getOrdersTotalCost(){
-    return this.http.get(this.cartTotalCostUrl);
+  getOrdersTotalCost(userId: string | null){
+    return this.http.get(this.cartTotalCostUrl + userId);
   }
 
   getOrderTotalCost(id: number): Observable<number> {

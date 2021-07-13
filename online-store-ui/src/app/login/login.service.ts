@@ -62,7 +62,7 @@ export class LoginService {
   }
 
   public registerUser(newUser: RegisterInterface) {
-    console.log(newUser)
+    window.location.reload();
     return this.http.post<RegisterInterface>(this.registerNewUserUrl, newUser).pipe(
       tap(data => console.log("All", JSON.stringify(data))),
       catchError(LoginService.handleError)
@@ -70,7 +70,6 @@ export class LoginService {
   }
 
   public registerAdmin(newUser: RegisterInterface) {
-    console.log(newUser)
     return this.http.post<RegisterInterface>(this.registerNewAdminUrl, newUser).pipe(
       tap(data => console.log("All", JSON.stringify(data))),
       catchError(LoginService.handleError)
